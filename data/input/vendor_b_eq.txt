@@ -1,0 +1,32 @@
+cusip|isin|common_number|symbol|country|security_category|exchange|sector|group|subgroup
+03783310|US0378331005|009718834|AAPL|US|Common|XNGS|Tech.|Computers|Computers
+59491810|US5949181045|009702997|MSFT|US|Common|XNGS|Tech.|Software| Applications Software
+45920010|US4592001014|009703799|IBM|US|Common|NYSE|Tech.|Computers|Computers
+08467010|US0846701086|009987827|BRKA|US|Series|NYSE|Financial|Insurance|Reinsurance
+08467070|US0846707026|048044743|BRKB|US|Series|NYSE|Financial|Insurance|Reinsurance
+68389X10|US68389X1054|009716173|ORCL|US|Common|XNGS|Tech.|Software| Enterprise Software/Serv
+45814010|US4581401001|009702920|INTC|US|Common|XNGS|Tech.|Semiconductors|Electronic Compo-Semicon
+46625H10|US46625H1005|012271654|JPM|US|Common|NYSE|Financial|Diversified Finan Serv|Finance-Invest Bnkr/Brkr
+46625H10|US46625H1005|012271654|JPM|US|Common|NYSE|Financial|Banks|Diversified Banking Inst
+80305420|US8030542042|010397901|SAP|US|Common|NYSE|Tech.|Software| Enterprise Software/Serv
+05946030|US0594603039|018910268|BBD|US|Common|NYSE|Financial|Banks|Commer Banks Non-US
+06050510|US0605051046|009873597|BAC|US|Common|NYSE|Financial|Banks|Diversified Banking Inst
+06050510|US0605051046|009873597|BAC|US|Common|NYSE|Financial|Banks|Super-Regional Banks-US
+13800630|US1380063099|011447694|CAJ|US|Common|NYSE|Tech.|Office/Business Equip|Office Automation&Equip
+26864810|US2686481027|009720308|EMC|US|Common|NYSE|Tech.|Computers|Computers-Memory Devices
+H8923133|CH0024899483|025989457|UBS|US|Common|NYSE|Financial|Banks|Diversified Banking Inst
+H8923133|CH0024899483|025989457|UBS|US|Common|NYSE|Financial|Diversified Finan Serv|Finance-Invest Bnkr/Brkr
+73755L10|CA73755L1076|003493512|POT|CA|Common|TSE|Basic Materials|Chemicals|Agricultural Chemicals
+97651M10|US97651M1099|012147384|WIT|US|Common|NYSE|Tech.|Software| Applications Software
+11132010|US1113201073|009965793|BRCM|US|Common|XNGS|Tech.|Semiconductors|Electronic Compo-Semicon
+N0705918|USN070591862|032321968|ASML|US|Common|XNGS|Tech.|Semiconductors|Semiconductor Equipment
+03822210|US0382221051|009735046|AMAT|US|Common|XNGS|Tech.|Semiconductors|Semiconductor Equipment
+G5876H10|BMG5876H1051|011383912|MRVL|US|Common|XNGS|Tech.|Semiconductors|Semicon Compo-Intg Circu
+67066G10|US67066G1040|009808337|NVDA|US|Common|XNGS|Tech.|Semiconductors|Electronic Compo-Semicon 
+57772K10|US57772K1016|009715584|MXIM|US|Common|XNGS|Tech.|Semiconductors|Semicon Compo-Intg Circu
+G7945M10|IE00B58JVZ52|052580676|STX|US|Common|XNGS|Tech.|Computers|Computers-Memory Devices
+59501710|US5950171042|009814272|MCHP|US|Common|XNGS|Tech.|Semiconductors|Electronic Compo-Semicon
+86101210|US8610121027|010113431|STM|US|Common|NYSE|Tech.|Semiconductors|Electronic Compo-Semicon
+39945C10|CA39945C1095|010628253|GIB|US|Common|NYSE|Tech.|Computers|Computers-Integrated Sys
+04951310|US0495131049|010069491|ATML|US|Common|XNGS|Tech.|Semiconductors|Semicon Compo-Intg Circu
+01381720|US0138172004|014515747|AAp|US|Pfd|NYSE|||

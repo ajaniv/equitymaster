@@ -1,0 +1,159 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>equity_master.bootstrap &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for equity_master.bootstrap</h1><div class="highlight"><pre>
+<span class="c">#/usr/bin/env python</span>
+<span class="c"># -#- coding: utf-8 -#-</span>
+
+<span class="c">#</span>
+<span class="c"># router/calc.py - router journey calculator</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-12</span>
+<span class="c"># Author: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: router/bootstrap</span>
+<span class="sd">   :synopsis: router package bootstrap</span>
+
+<span class="sd">Handle package initialization tasks including retrieving</span>
+<span class="sd">required data, ensuring that dependent packages/applications</span>
+<span class="sd">have a valid run time  environment</span>
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__revision__</span> <span class="o">=</span> <span class="s">&#39;$Id: $&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.0.1&#39;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">_log_dir</span><span class="o">=</span><span class="s">&#39;./logs&#39;</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;create_workflow&#39;</span><span class="p">,</span> <span class="s">&#39;log_dir&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="create_workflow"><a class="viewcode-back" href="../../reference.html#equity_master.bootstrap.create_workflow">[docs]</a><span class="k">def</span> <span class="nf">create_workflow</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span>
+                    <span class="n">wf_dir</span><span class="p">,</span>
+                    <span class="n">log_dir</span><span class="p">,</span>
+                    <span class="n">data_dir</span><span class="p">,</span> 
+                    <span class="o">*</span><span class="n">data_files</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create directory structure required to support</span>
+<span class="sd">    the workflow</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">create_dir</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">global</span> <span class="n">_log_dir</span>
+    <span class="n">create_dir</span><span class="p">(</span><span class="n">root_dir</span><span class="p">)</span>
+    <span class="n">create_dir</span><span class="p">(</span><span class="n">root_dir</span> <span class="o">+</span> <span class="n">wf_dir</span><span class="p">)</span>
+    <span class="n">_log_dir</span> <span class="o">=</span> <span class="n">root_dir</span><span class="o">+</span><span class="n">log_dir</span>
+    <span class="n">create_dir</span><span class="p">(</span><span class="n">_log_dir</span><span class="p">)</span>
+    
+    <span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">config</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">log_init</span><span class="p">(</span><span class="n">_log_dir</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">builder</span>
+    
+    <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_workflow</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">wf_dir</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="o">*</span><span class="n">data_files</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="log_dir"><a class="viewcode-back" href="../../reference.html#equity_master.bootstrap.log_dir">[docs]</a><span class="k">def</span> <span class="nf">log_dir</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;provide support to other modules with logging configuration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_log_dir</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

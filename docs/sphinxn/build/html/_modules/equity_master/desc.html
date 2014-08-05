@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>equity_master.desc &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for equity_master.desc</h1><div class="highlight"><pre>
+<span class="c">#/usr/bin/env python</span>
+<span class="c"># -#- coding: utf-8 -#-</span>
+
+<span class="c">#</span>
+<span class="c"># equity_master/desc.py - describes file layout</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: equity_master/desc</span>
+<span class="sd">   :synopsis: file composition, format description </span>
+
+
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__revision__</span> <span class="o">=</span> <span class="s">&#39;$Id: $&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.0.1&#39;</span>
+
+
+
+
+<span class="kn">from</span> <span class="nn">equity_master</span>  <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">common</span>
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">regexp</span>
+<div class="viewcode-block" id="FieldDescriptor"><a class="viewcode-back" href="../../reference.html#equity_master.desc.FieldDescriptor">[docs]</a><span class="k">class</span> <span class="nc">FieldDescriptor</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">BusinessObject</span><span class="p">):</span> 
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for field description</span>
+<span class="sd">    This is an area that would require extenstion</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">name</span><span class="p">,</span>
+                 <span class="n">min_length</span><span class="p">,</span> 
+                 <span class="n">max_length</span><span class="p">,</span>
+                 <span class="n">regex</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                 <span class="nb">cmp</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                 <span class="n">val</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">mapper</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_length</span> <span class="o">=</span> <span class="n">min_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_length</span> <span class="o">=</span> <span class="n">max_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regex</span> <span class="o">=</span> <span class="n">regex</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comparator</span> <span class="o">=</span> <span class="nb">cmp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validator</span> <span class="o">=</span> <span class="n">val</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span> <span class="o">=</span> <span class="n">mapper</span>
+
+         </div>
+<div class="viewcode-block" id="FileDescriptor"><a class="viewcode-back" href="../../reference.html#equity_master.desc.FileDescriptor">[docs]</a><span class="k">class</span> <span class="nc">FileDescriptor</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">BusinessObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Describes file laoyt</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">firm</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> 
+                 <span class="n">fields</span><span class="p">,</span> 
+                 <span class="n">field_sep</span><span class="p">,</span> 
+                 <span class="n">alt_names</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">header_lines</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">firm</span> <span class="o">=</span> <span class="n">firm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="n">file_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">field_sep</span> <span class="o">=</span> <span class="n">field_sep</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trimmer</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_TRIM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alt_names</span> <span class="o">=</span> <span class="n">alt_names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header_lines</span> <span class="o">=</span> <span class="n">header_lines</span>
+        
+        </div>
+<div class="viewcode-block" id="CusipFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.CusipFd">[docs]</a><span class="k">class</span> <span class="nc">CusipFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; CUSIP is a 9 character identifier used in North America</span>
+<span class="sd">    It consists of 8 characters plus a checksum digit (http://en.wikipedia.org/wiki/Cusip) </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CusipFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> 
+                             <span class="n">CusipFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> 
+                             <span class="n">CusipFd</span><span class="o">.</span><span class="n">max_length</span><span class="p">,</span>
+                             <span class="n">regex</span> <span class="o">=</span> <span class="n">regexp</span><span class="o">.</span><span class="n">CusipRegExp</span><span class="p">())</span>
+        </div>
+<div class="viewcode-block" id="IsinFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.IsinFd">[docs]</a><span class="k">class</span> <span class="nc">IsinFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ISIN is a 12 character identifier used throughout the world.  </span>
+<span class="sd">    It consists of 11 characters plus an additional checksum digit</span>
+<span class="sd">    (http://en.wikipedia.org/wiki/International_Securities_Identifying_Number)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="mi">12</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="mi">12</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IsinFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> 
+                             <span class="n">IsinFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> 
+                             <span class="n">IsinFd</span><span class="o">.</span><span class="n">max_length</span><span class="p">,</span>
+                             <span class="n">regex</span> <span class="o">=</span> <span class="n">regexp</span><span class="o">.</span><span class="n">IsinRegExp</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="SedolFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.SedolFd">[docs]</a><span class="k">class</span> <span class="nc">SedolFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;SEDOL is a 7 character identifier issued by the London Stock exchange</span>
+<span class="sd">    It is seven characters in length - the last character is a checksum</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">#(http://en.wikipedia.org/wiki/SEDOL)</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SedolFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> 
+                             <span class="n">SedolFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> 
+                             <span class="n">SedolFd</span><span class="o">.</span><span class="n">max_length</span><span class="p">,</span>
+                             <span class="n">regex</span> <span class="o">=</span> <span class="n">regexp</span><span class="o">.</span><span class="n">SedolRegExp</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="TickerFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.TickerFd">[docs]</a><span class="k">class</span> <span class="nc">TickerFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Stock symbol</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TickerFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">TickerFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> <span class="n">TickerFd</span><span class="o">.</span><span class="n">max_length</span> <span class="p">)</span>
+        </div>
+<span class="n">SymbolFd</span> <span class="o">=</span> <span class="n">TickerFd</span>
+
+<div class="viewcode-block" id="CommonNumberFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.CommonNumberFd">[docs]</a><span class="k">class</span> <span class="nc">CommonNumberFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Common number is a 9-digit identifier</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CommonNumberFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">CommonNumberFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> <span class="n">CommonNumberFd</span><span class="o">.</span><span class="n">max_length</span> <span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="PrimaryExchangeFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.PrimaryExchangeFd">[docs]</a><span class="k">class</span> <span class="nc">PrimaryExchangeFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Primary listing exchanges generally follow an ISO standard </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">#(http://wikifr.wordpress.com/2007/11/10/iso-10383-codes-for-exchanges-and-market-identification-mic/</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PrimaryExchangeFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">PrimaryExchangeFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> <span class="n">PrimaryExchangeFd</span><span class="o">.</span><span class="n">max_length</span> <span class="p">)</span>
+        </div>
+<span class="n">ExchangeFd</span> <span class="o">=</span> <span class="n">PrimaryExchangeFd</span>
+
+  
+
+<div class="viewcode-block" id="CategoryFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.CategoryFd">[docs]</a><span class="k">class</span> <span class="nc">CategoryFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Security categorization</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_CAT_MIN</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_CAT_MAX</span>  
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CategoryFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">CategoryFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> <span class="n">CategoryFd</span><span class="o">.</span><span class="n">max_length</span> <span class="p">)</span>
+</div>
+<span class="n">SecurityCategoryFd</span> <span class="o">=</span> <span class="n">CategoryFd</span>
+
+<div class="viewcode-block" id="IndustrySectorFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.IndustrySectorFd">[docs]</a><span class="k">class</span> <span class="nc">IndustrySectorFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Industry sector classification</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_CAT_MIN</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_CAT_MAX</span>  
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IndustrySectorFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">IndustrySectorFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> <span class="n">IndustrySectorFd</span><span class="o">.</span><span class="n">max_length</span> <span class="p">)</span></div>
+<span class="n">SectorFd</span> <span class="o">=</span> <span class="n">IndustrySectorFd</span>
+        
+<div class="viewcode-block" id="IndustryGroupFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.IndustryGroupFd">[docs]</a><span class="k">class</span> <span class="nc">IndustryGroupFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_CAT_MIN</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_CAT_MAX</span>   
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IndustryGroupFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">IndustryGroupFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> <span class="n">IndustryGroupFd</span><span class="o">.</span><span class="n">max_length</span> <span class="p">)</span></div>
+<span class="n">GroupFd</span> <span class="o">=</span> <span class="n">IndustryGroupFd</span>
+
+<div class="viewcode-block" id="IndustrySubGroupFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.IndustrySubGroupFd">[docs]</a><span class="k">class</span> <span class="nc">IndustrySubGroupFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_CAT_MIN</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_CAT_MAX</span>  
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IndustrySubGroupFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">IndustrySubGroupFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> <span class="n">IndustrySubGroupFd</span><span class="o">.</span><span class="n">max_length</span> <span class="p">)</span></div>
+<span class="n">SubGroupFd</span> <span class="o">=</span> <span class="n">IndustrySubGroupFd</span>
+
+<div class="viewcode-block" id="CountryCodeFd"><a class="viewcode-back" href="../../reference.html#equity_master.desc.CountryCodeFd">[docs]</a><span class="k">class</span> <span class="nc">CountryCodeFd</span><span class="p">(</span><span class="n">FieldDescriptor</span><span class="p">):</span> 
+    <span class="sd">&quot;&quot;&quot;Country codes generally follow an ISO standard (http://en.wikipedia.org/wiki/ISO_3166-1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">min_length</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">max_length</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CountryCodeFd</span><span class="p">,</span> 
+              <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span>
+                            <span class="n">CountryCodeFd</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span>
+                            <span class="n">CountryCodeFd</span><span class="o">.</span><span class="n">max_length</span> <span class="p">)</span>
+    
+
+        
+        </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

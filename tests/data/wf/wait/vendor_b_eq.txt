@@ -1,0 +1,4 @@
+cusip|isin|common_number|symbol|country|security_category|exchange|sector|group|subgroup
+03783310|US0378331005|009718834|AAPL|US|Common|XNGS|Tech.|Computers|Computers
+59491810|US5949181045|009702997|MSFT|US|Common|XNGS|Tech.|Software| Applications Software
+45920010|US4592001014|009703799|IBM|US|Common|NYSE|Tech.|Computers|Computers

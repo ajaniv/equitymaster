@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Equity Master Feed Processing &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="#" />
+    <link rel="next" title="Reference Documentation" href="reference.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reference.html" title="Reference Documentation"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">Equity Master alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="equity-master-feed-processing">
+<h1>Equity Master  Feed Processing<a class="headerlink" href="#equity-master-feed-processing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="objectives">
+<h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Implement the required functionality</li>
+<li>Make it easy to review the design and implementation.</li>
+<li>Facilitate the distribution and documentation by using standard
+Python utilities</li>
+<li>Assemble a skeleton of component whose collaboration can help
+support data feed file validation and transformation</li>
+<li>Show appreciation for the complexity inherant in feed file processing</li>
+</ul>
+</div>
+<div class="section" id="clarifications">
+<h2>Clarifications<a class="headerlink" href="#clarifications" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>A set of cooperating processes using the underlying threading
+model move files between various stages of the workflow.</li>
+<li>As a file moves from state to state, different directories</li>
+</ul>
+<blockquote>
+<div>are used to store the file contents.  One of the primary
+objectives was to make it easier to see the file progressing
+through the pipeline</div></blockquote>
+<p>Design considerations</p>
+<ul class="simple">
+<li>No single point of failure.  Multiple processes will be
+waiting for file arrival and other workflow stages.</li>
+<li>Capturing of statistics, including messages processed
+in error, capturing invalid records and writing them
+to error files.</li>
+<li>Ability to resart a process at any state</li>
+<li>No assuming that the entire file can be held in memory
+and leveraging heap related sorting and merging
+techniques</li>
+<li>Not limiting the merging to two files, but extending
+it to N files.</li>
+<li>A facility of describing a file, its fields, using regular
+expression, set of allowed values, min/max width, validation
+against a reference source (i.e. database table), ability to
+leverage yesterday&#8217;s data if new data has not arrived.</li>
+</ul>
+<ul class="simple">
+<li></li>
+</ul>
+</div>
+<div class="section" id="known-issues">
+<h2>Known issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Unit testing development is not complete.</li>
+<li>Did not get a chance to develop the file
+descriptors and regular expressions for the
+time series files.</li>
+<li>Did not complete the implementation of all
+the regular expressions.</li>
+<li>Did not implement field mapping capability</li>
+</ul>
+</div>
+<div class="section" id="environment-used">
+<h2>Environment used<a class="headerlink" href="#environment-used" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>IDE: Eclipse 3.6 (Helios) with PyDev Python support</li>
+<li>Python 2.7.2</li>
+<li>Microsoft Visio</li>
+</ul>
+</div>
+<div class="section" id="oo-design">
+<h2>OO Design<a class="headerlink" href="#oo-design" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Field Descriptor. Key concept for describing file contents
+and layout.  In order to desctibe a file, one uses a set
+of generic and specialized field descriptors</li>
+<li>File Descriptor.  A collection of field descriptors.</li>
+<li>Process.  An abstraction used to manage the movement
+of files through the work flow.  Each process has
+an input and an output queue.  There are specialized
+processes for sorting, merging, etc</li>
+</ul>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#equity-master">Equity Master</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-equity_master.common">equity_master.common</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-equity_master.desc">equity_master.desc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-equity_master.process">equity_master.process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-equity_master.regexp">equity_master.regexp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-equity_master.model">equity_master.model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-equity_master.file_sort">equity_master.file_sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-equity_master.util">equity_master.util</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-equity_master.bootstrap">equity_master.bootstrap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-equity_master.builder">equity_master.builder</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#equity-master-tests">Equity Master Tests</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-tests.common">tests.common</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-tests.process_tests">tests.process_tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#id1">tests.process_tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-tests.regexp_tests">tests.regexp_tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-equity_master_tests">tests.equity_master_tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-tests.run_tests">tests.run_tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#id2">tests.common</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="reference.html#scripts">Scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference.html#module-samples">Samples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Equity Master  Feed Processing</a><ul>
+<li><a class="reference internal" href="#objectives">Objectives</a></li>
+<li><a class="reference internal" href="#clarifications">Clarifications</a></li>
+<li><a class="reference internal" href="#known-issues">Known issues</a></li>
+<li><a class="reference internal" href="#environment-used">Environment used</a></li>
+<li><a class="reference internal" href="#oo-design">OO Design</a></li>
+<li><a class="reference internal" href="#contents">Contents</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reference.html"
+                        title="next chapter">Reference Documentation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reference.html" title="Reference Documentation"
+             >next</a> |</li>
+        <li><a href="#">Equity Master alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

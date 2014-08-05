@@ -1,0 +1,969 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>equity_master.process &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for equity_master.process</h1><div class="highlight"><pre>
+<span class="c">#/usr/bin/env python</span>
+<span class="c"># -#- coding: utf-8 -#-</span>
+
+<span class="c">#</span>
+<span class="c"># equity_master/file_sort - merge and sort</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: equity_master/process</span>
+<span class="sd">   :synopsis: process functionality including scheduling, queuing of messages</span>
+
+
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__revision__</span> <span class="o">=</span> <span class="s">&#39;$Id: $&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.0.1&#39;</span>
+
+
+
+
+
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">common</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">model</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span>  <span class="n">file_sort</span>
+
+
+<span class="n">_m_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ProcessResults"><a class="viewcode-back" href="../../reference.html#equity_master.process.ProcessResults">[docs]</a><span class="k">class</span> <span class="nc">ProcessResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to capture process execution results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                  <span class="n">priority</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                  <span class="n">request</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                  <span class="n">response</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                  <span class="n">error</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">priority</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="n">response</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">error</span>
+</div>
+<div class="viewcode-block" id="FileMixin"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin">[docs]</a><span class="k">class</span> <span class="nc">FileMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Process related file operations</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="FileMixin.files_open"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.files_open">[docs]</a>    <span class="k">def</span> <span class="nf">files_open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="o">*</span><span class="n">names</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open a set of files for read, write, or append</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">file_open</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="FileMixin.file_open"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.file_open">[docs]</a>    <span class="k">def</span> <span class="nf">file_open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open a single file.  Intention is to provde detailed</span>
+<span class="sd">        file state information, loggined</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">open</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="FileMixin.files_close"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.files_close">[docs]</a>    <span class="k">def</span> <span class="nf">files_close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">files</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cloase a set of files</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">[</span><span class="nb">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span>
+    
+                </div>
+<div class="viewcode-block" id="FileMixin.file_read_n_split"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.file_read_n_split">[docs]</a>    <span class="k">def</span> <span class="nf">file_read_n_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">record_sep</span><span class="p">,</span> <span class="n">trim_tmpl</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read a record, trim it, and split, return also record read</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">#validation: check existence of header record</span>
+      
+        <span class="n">record</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">record</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_n_trim</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> 
+                                     <span class="n">record_sep</span><span class="p">,</span> 
+                                     <span class="n">trim_tmpl</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+           
+    </div>
+<div class="viewcode-block" id="FileMixin.split_n_trim"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.split_n_trim">[docs]</a>    <span class="k">def</span> <span class="nf">split_n_trim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">,</span> <span class="n">record_sep</span><span class="p">,</span> <span class="n">trim_tmpl</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split and trim a record</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">#validation: strip white space from beginning and end</span>
+        <span class="n">data_fields</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">record_sep</span><span class="p">)</span>
+        <span class="n">data_fields</span> <span class="o">=</span> <span class="p">[</span><span class="n">field_value</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">trim_tmpl</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">field_value</span> <span class="ow">in</span> <span class="n">data_fields</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">data_fields</span><span class="p">,</span> <span class="n">record</span>
+    </div>
+<div class="viewcode-block" id="FileMixin.validate_state"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.validate_state">[docs]</a>    <span class="k">def</span> <span class="nf">validate_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate a process state related to a file vs what is</span>
+<span class="sd">        expected</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="o">!=</span> <span class="n">expected_state</span><span class="p">:</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">log_raise</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">EquityMasterError</span><span class="p">,</span> 
+                       <span class="n">_m_logger</span><span class="p">,</span>
+                       <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span>
+                       <span class="s">&#39;Invalid file {:s} process state: {:d} expected {:d}&#39;</span><span class="p">,</span> 
+                       <span class="n">file_name</span><span class="p">,</span> 
+                       <span class="n">state</span><span class="p">,</span> 
+                       <span class="n">expected_state</span><span class="p">)</span>
+            </div>
+<div class="viewcode-block" id="FileMixin.validate_header"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.validate_header">[docs]</a>    <span class="k">def</span> <span class="nf">validate_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">file_desc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate a header record</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="c">#validation: existence  of header record</span>
+        <span class="n">header</span><span class="p">,</span> <span class="n">record</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_read_n_split</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="c">#@UnusedVariable</span>
+                                  <span class="n">file_desc</span><span class="o">.</span><span class="n">field_sep</span><span class="p">,</span> 
+                                  <span class="n">file_desc</span><span class="o">.</span><span class="n">trimmer</span><span class="p">)</span>
+        <span class="c">#</span>
+        <span class="c"># Note: the validation below is more detailed</span>
+        <span class="c"># than absolutely required, list comparison would work up-front</span>
+        <span class="c"># Hooks are in place for detailed error reporting</span>
+        <span class="c">#</span>
+        <span class="k">if</span> <span class="n">header</span><span class="p">:</span>
+            <span class="n">header_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+            <span class="n">desc_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_desc</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span>
+            <span class="c">#validation: compare size of header record</span>
+            <span class="k">if</span> <span class="n">header_len</span> <span class="o">==</span> <span class="n">desc_len</span><span class="p">:</span>
+                <span class="c">#validation: compare naming of each field and field order</span>
+                <span class="n">field_desc_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">fd</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">fd</span>  <span class="ow">in</span> <span class="n">file_desc</span><span class="o">.</span><span class="n">fields</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">field_desc_names</span> <span class="o">==</span> <span class="n">header</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="p">(</span><span class="n">_m_logger</span><span class="p">,</span> <span class="s">&#39;header validation for ({:s}) passed&#39;</span><span class="p">,</span> <span class="nb">file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">header</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">tmpl</span> <span class="o">=</span> <span class="s">&#39;header record mismatch expected({:s}) received({:s})&#39;</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="n">tmpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">field_desc_names</span><span class="p">),</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">header</span><span class="p">))</span>
+                 
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tmpl</span> <span class="o">=</span> <span class="s">&#39;field mismatch, expected ({:d})  received ({:d)}&#39;</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="n">tmpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">desc_len</span><span class="p">,</span> <span class="n">header_len</span><span class="p">,</span> <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;cannot read header record&#39;</span>
+        
+        <span class="n">util</span><span class="o">.</span><span class="n">log_raise</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">EquityMasterError</span><span class="p">,</span>
+                            <span class="n">_m_logger</span><span class="p">,</span>
+                            <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span>
+                            <span class="s">&#39;invalid file header: {:s} {:s}&#39;</span><span class="p">,</span>
+                            <span class="nb">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> 
+                            <span class="n">msg</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="FileMixin.write_raw"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.write_raw">[docs]</a>    <span class="k">def</span> <span class="nf">write_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Encapsulate law level file operation - my be required</span>
+<span class="sd">        for detailed logging, exception handling</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        </div>
+    <span class="k">def</span> <span class="nf">read_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        
+        <span class="k">return</span> <span class="nb">file</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    
+<div class="viewcode-block" id="FileMixin.write_error"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.write_error">[docs]</a>    <span class="k">def</span> <span class="nf">write_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write an error record</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span> <span class="n">file_name</span><span class="p">,</span> <span class="s">&#39;a&#39;</span> <span class="p">)</span> <span class="k">as</span> <span class="n">err_file</span> <span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write_raw</span><span class="p">(</span><span class="n">err_file</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">EquityMasterError</span><span class="p">,</span>
+                            <span class="n">_m_logger</span><span class="p">,</span>
+                            <span class="s">&#39;invalid record write to error file {:s} failed&#39;</span><span class="p">,</span>
+                            <span class="n">file_name</span>
+                            <span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="FileMixin.write_header"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.write_header">[docs]</a>    <span class="k">def</span> <span class="nf">write_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">file_desc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write a header record</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">field_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">fd</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">fd</span> <span class="ow">in</span> <span class="n">file_desc</span><span class="o">.</span><span class="n">fields</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_record</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">file_desc</span><span class="p">,</span> <span class="n">field_names</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="FileMixin.write_mapped_record"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.write_mapped_record">[docs]</a>    <span class="k">def</span> <span class="nf">write_mapped_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                            <span class="nb">file</span><span class="p">,</span> 
+                            <span class="n">output_file_desc</span><span class="p">,</span> 
+                            <span class="n">data_fields</span><span class="p">,</span>
+                            <span class="n">input_file_desc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Map input record format with target record format</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">#step 1: extract input file headers</span>
+        <span class="n">header_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">fd</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">fd</span> <span class="ow">in</span> <span class="n">input_file_desc</span><span class="o">.</span><span class="n">fields</span><span class="p">]</span>
+        
+        <span class="c">#step 2: map input file headers to target file headers</span>
+        <span class="n">header_2</span> <span class="o">=</span> <span class="p">[</span> <span class="n">input_file_desc</span><span class="o">.</span><span class="n">alt_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">header_1</span><span class="p">]</span>
+        
+        <span class="c">#step 3: create dictionary of  output data with output file headers</span>
+        <span class="n">out_1</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">header_2</span><span class="p">,</span> <span class="n">data_fields</span><span class="p">))</span>
+        
+        <span class="c">#step 4: create output record with filler </span>
+        <span class="n">out_2</span> <span class="o">=</span> <span class="p">[</span><span class="n">out_1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fd</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_FILLER</span><span class="p">)</span> <span class="k">for</span> <span class="n">fd</span> <span class="ow">in</span> <span class="n">output_file_desc</span><span class="o">.</span><span class="n">fields</span><span class="p">]</span>
+         
+        <span class="c">#step 5: write formatted output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_record</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">output_file_desc</span><span class="p">,</span> <span class="n">out_2</span><span class="p">)</span>
+        
+       </div>
+<div class="viewcode-block" id="FileMixin.write_record"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMixin.write_record">[docs]</a>    <span class="k">def</span> <span class="nf">write_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">file_desc</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write formatted output&quot;&quot;&quot;</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="n">file_desc</span><span class="o">.</span><span class="n">field_sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_raw</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+      
+   
+
+            </div></div>
+<span class="k">class</span> <span class="nc">BaseProcess</span><span class="p">(</span><span class="n">FileMixin</span><span class="p">,</span> 
+                  <span class="n">common</span><span class="o">.</span><span class="n">ErrorMixin</span><span class="p">,</span> 
+                  <span class="n">common</span><span class="o">.</span><span class="n">LoggingMixin</span><span class="p">,</span> 
+                  <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">input_queue</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                 <span class="n">output_queue</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">group</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                 <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+                 <span class="n">state_id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">kwargs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">None</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Base class abstraction for file related processes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseProcess</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span>  <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                  <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+        
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">input_queue</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;input_queue&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span> <span class="o">=</span> <span class="n">input_queue</span>
+            
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">output_queue</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_queue</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;output_queue&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_queue</span> <span class="o">=</span> <span class="n">output_queue</span>    
+            
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">state_id</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_id</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;state_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_id</span> <span class="o">=</span> <span class="n">state_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">should_exit</span> <span class="o">=</span> <span class="bp">False</span>
+    
+    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">FileRequest</span><span class="o">.</span><span class="n">default_priority</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send a request to a process for file processing, shutdown, etc</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prioritized_req</span> <span class="o">=</span> <span class="p">(</span><span class="n">priority</span><span class="p">,</span><span class="n">request</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">prioritized_req</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Receive a message from process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">ProcessResults</span><span class="p">()</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">response</span><span class="p">,</span>  <span class="n">res</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">res</span>
+       
+    <span class="k">def</span> <span class="nf">begin_work</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Utilitiy for process management</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">_m_logger</span><span class="p">,</span> <span class="s">&#39;Process begin&#39;</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">end_work</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Utilitiy for process management</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">_m_logger</span><span class="p">,</span> <span class="s">&#39;Process end&#39;</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">log_begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Utilitiy for process management</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                   <span class="n">_m_logger</span><span class="p">,</span> 
+                  <span class="s">&#39;Request details input({:s}) output({:s}) error({:s}) state({:s})&#39;</span><span class="p">,</span>
+                  <span class="n">request</span><span class="o">.</span><span class="n">input_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">request</span><span class="o">.</span><span class="n">output_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">request</span><span class="o">.</span><span class="n">error_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">model</span><span class="o">.</span><span class="n">process_state</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">input_file_state</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+                  <span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">log_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="k">def</span> <span class="nf">report_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_file_name</span><span class="p">,</span> <span class="n">out_file_name</span><span class="p">,</span> <span class="n">valid</span><span class="p">,</span> <span class="n">invalid</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Report exection statistics</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tmpl</span> <span class="o">=</span> <span class="s">&#39;file validation for in ({:s}) out ({:s}) valid({:d}) invalid({:d}) &#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="n">severity</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span>
+            <span class="n">tmpl</span> <span class="o">+=</span> <span class="s">&#39; failed&#39;</span>
+        <span class="k">elif</span> <span class="n">invalid</span><span class="p">:</span>
+            <span class="n">severity</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span>
+            <span class="n">tmpl</span> <span class="o">+=</span> <span class="s">&#39; completed with errors&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">severity</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+            <span class="n">tmpl</span> <span class="o">+=</span> <span class="s">&#39; completed&#39;</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">_m_logger</span><span class="p">,</span>
+                 <span class="n">severity</span><span class="p">,</span>
+                 <span class="n">tmpl</span><span class="p">,</span>
+                 <span class="n">in_file_name</span><span class="p">,</span>
+                 <span class="n">out_file_name</span><span class="p">,</span>
+                 <span class="n">valid</span><span class="p">,</span>
+                 <span class="n">invalid</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stop the process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
+                  <span class="n">model</span><span class="o">.</span><span class="n">SystemRequest</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">SystemRequest</span><span class="o">.</span><span class="n">RequestType</span><span class="o">.</span><span class="n">SHUTDOWN</span> <span class="p">),</span>
+                  <span class="n">model</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">Priority</span><span class="o">.</span><span class="n">LOW</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Main driver for process execution</span>
+<span class="sd">        Handles exceptions, their logging, dispatching of requests</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">begin_work</span><span class="p">()</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_exit</span><span class="p">:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="p">()</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">priority</span><span class="p">,</span> <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="c">#@UnusedVariable</span>
+                <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">is_system</span><span class="p">():</span>
+                    <span class="k">break</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">validate_request</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log_begin</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log_end</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">Priority</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">common</span><span class="o">.</span><span class="n">EquityMasterError</span> <span class="k">as</span> <span class="n">error_app</span><span class="p">:</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">Priority</span><span class="o">.</span><span class="n">HIGH</span><span class="p">,</span> 
+                           <span class="n">request</span><span class="p">,</span> 
+                           <span class="bp">None</span><span class="p">,</span> 
+                           <span class="n">error_app</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="n">_m_logger</span><span class="p">,</span> 
+                               <span class="s">&#39;application error {:s} &#39;</span><span class="p">,</span> 
+                               <span class="n">error_app</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span>  <span class="n">error_system</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span><span class="n">_m_logger</span><span class="p">,</span> 
+                               <span class="s">&#39;system error {:s} &#39;</span><span class="p">,</span> 
+                               <span class="n">error_system</span><span class="p">)</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">Priority</span><span class="o">.</span><span class="n">HIGH</span><span class="p">,</span>
+                            <span class="n">request</span><span class="p">,</span>
+                            <span class="bp">None</span><span class="p">,</span>
+                            <span class="n">error_system</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_work</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process specific entry point</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="ne">NotImplementedError</span><span class="p">,</span>
+                   <span class="n">_m_logger</span><span class="p">,</span>
+                   <span class="s">&#39;Exception details ({:s})&#39;</span><span class="p">,</span>
+                   <span class="n">util</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">_getframe</span><span class="p">())</span>
+                   <span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">required_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process expected state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_id</span>
+
+    
+    <span class="k">def</span> <span class="nf">validate_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify that the process is in the right state</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">in_state</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">input_file_state</span>
+        <span class="n">required_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">required_state</span><span class="p">()</span>
+        <span class="k">if</span>  <span class="n">required_state</span> <span class="o">!=</span> <span class="n">in_state</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">EquityMasterError</span><span class="p">,</span> 
+                       <span class="n">_m_logger</span><span class="p">,</span>
+                       <span class="s">&#39;Invalid file {:s} process state: {:s} expected {:s}&#39;</span><span class="p">,</span> 
+                       <span class="n">request</span><span class="o">.</span><span class="n">input_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> 
+                       <span class="n">model</span><span class="o">.</span><span class="n">process_state</span><span class="p">(</span><span class="n">in_state</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> 
+                       <span class="n">model</span><span class="o">.</span><span class="n">process_state</span><span class="p">(</span><span class="n">required_state</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> 
+                       <span class="p">)</span>
+            
+    <span class="k">def</span> <span class="nf">validate_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        High level validaiton function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate_state</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+             
+<div class="viewcode-block" id="FileDetection"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileDetection">[docs]</a><span class="k">class</span> <span class="nc">FileDetection</span><span class="p">(</span><span class="n">BaseProcess</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class that detects availability of feed files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    
+<div class="viewcode-block" id="FileDetection.handle"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileDetection.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Detect required files, initialize per-file process</span>
+<span class="sd">        Typical process would include:</span>
+<span class="sd">            </span>
+<span class="sd">            - Verify that file exists and can be opened</span>
+<span class="sd">             </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">input_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">input_file_desc</span><span class="p">,</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">input_file_state</span><span class="p">,</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">output_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">output_file_desc</span><span class="p">,</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">error_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        </div>
+<div class="viewcode-block" id="FileDetection.detect"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileDetection.detect">[docs]</a>    <span class="k">def</span> <span class="nf">detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+               <span class="n">input_file_name</span><span class="p">,</span> 
+               <span class="n">input_file_desc</span><span class="p">,</span>
+               <span class="n">input_file_state</span><span class="p">,</span> 
+               <span class="n">output_file_name</span><span class="p">,</span>
+               <span class="n">output_file_desc</span><span class="p">,</span>
+               <span class="n">error_file_name</span>
+               <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Main function for detecting file arrival</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">in_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_open</span><span class="p">(</span><span class="n">input_file_name</span><span class="p">,</span> <span class="s">&#39;r&#39;</span> <span class="p">)</span> 
+            <span class="n">out_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_open</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="p">(</span><span class="n">_m_logger</span><span class="p">,</span> <span class="s">&#39;file detection for ({:s}) passed&#39;</span><span class="p">,</span> <span class="n">input_file_name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">FileResponse</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span> 
+                                  <span class="n">config</span><span class="o">.</span><span class="n">ARRIVED</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">EquityMasterError</span><span class="p">,</span>
+                            <span class="n">_m_logger</span><span class="p">,</span>
+                            <span class="s">&#39;file processing error: {:s} {:s}&#39;</span><span class="p">,</span>
+                            <span class="n">input_file_name</span><span class="p">,</span> 
+                            <span class="n">output_file_name</span><span class="p">,</span>
+                            <span class="n">error_file_name</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">files_close</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span>
+           
+        
+</div></div>
+<div class="viewcode-block" id="FileValidation"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileValidation">[docs]</a><span class="k">class</span> <span class="nc">FileValidation</span><span class="p">(</span><span class="n">BaseProcess</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class that validates feed files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    
+    
+<div class="viewcode-block" id="FileValidation.handle"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileValidation.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Validate file</span>
+<span class="sd">        Typical process would include:</span>
+<span class="sd">        </span>
+<span class="sd">            - Abort if:</span>
+<span class="sd">                * The file is not empty</span>
+<span class="sd">                * The file does not  conform to the formatting rules</span>
+<span class="sd">                  defined in the file descriptor and which are defined</span>
+<span class="sd">                  in the first line of the file.</span>
+<span class="sd">            </span>
+<span class="sd">            - For each line in the file:</span>
+<span class="sd">                   * validate each field per the formatting rules</span>
+<span class="sd">                   * validate each field contents using reference data repository</span>
+<span class="sd">                   * upon detection of an error, log error, skip the line</span>
+<span class="sd">            - Generate statistics</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">input_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">input_file_desc</span><span class="p">,</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">input_file_state</span><span class="p">,</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">output_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">output_file_desc</span><span class="p">,</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">error_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            
+            
+ </div>
+<div class="viewcode-block" id="FileValidation.validate"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileValidation.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                      <span class="n">input_file_name</span><span class="p">,</span> 
+                      <span class="n">input_file_desc</span><span class="p">,</span>
+                      <span class="n">input_file_state</span><span class="p">,</span> 
+                      <span class="n">output_file_name</span><span class="p">,</span>
+                      <span class="n">output_file_desc</span><span class="p">,</span>
+                      <span class="n">error_file_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;file validation main driver </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c">#open required files files</span>
+            <span class="n">in_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_open</span><span class="p">(</span><span class="n">input_file_name</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> 
+            <span class="n">out_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_open</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+            
+            <span class="c">#validate header line vs file descriptor</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_header</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> 
+                                          <span class="n">input_file_desc</span><span class="p">)</span>
+            <span class="c">#validate each line </span>
+            <span class="n">valid</span><span class="p">,</span> <span class="n">invalid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_records</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> 
+                                  <span class="n">input_file_desc</span><span class="p">,</span>
+                                  <span class="n">header</span><span class="p">,</span> 
+                                  <span class="n">out_file</span><span class="p">,</span>
+                                  <span class="n">output_file_desc</span><span class="p">,</span>
+                                  <span class="n">error_file_name</span><span class="p">)</span>
+            <span class="c">#generate statistics</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report_stats</span><span class="p">(</span><span class="n">in_file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">out_file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">valid</span><span class="p">,</span> <span class="n">invalid</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">FileResponse</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span> 
+                                  <span class="n">config</span><span class="o">.</span><span class="n">VALIDATED</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">EquityMasterError</span><span class="p">,</span>
+                            <span class="n">_m_logger</span><span class="p">,</span>
+                            <span class="s">&#39;file processing error: {:s} {:s}&#39;</span><span class="p">,</span>
+                            <span class="n">input_file_name</span><span class="p">,</span> 
+                            <span class="n">output_file_name</span>
+                            <span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">files_close</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">out_file</span><span class="p">)</span>
+
+    </div>
+<div class="viewcode-block" id="FileValidation.validate_records"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileValidation.validate_records">[docs]</a>    <span class="k">def</span> <span class="nf">validate_records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                         <span class="n">in_file</span><span class="p">,</span> 
+                         <span class="n">input_file_desc</span><span class="p">,</span>
+                         <span class="n">header</span><span class="p">,</span> 
+                         <span class="n">out_file</span><span class="p">,</span>
+                         <span class="n">output_file_desc</span><span class="p">,</span>
+                         <span class="n">error_file_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Record level validation driver</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">invalid</span> <span class="o">=</span> <span class="mi">0</span>    
+         
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_header</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">output_file_desc</span><span class="p">)</span>  
+        
+        
+             
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">data_fields</span><span class="p">,</span> <span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_read_n_split</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span>
+                                        <span class="n">input_file_desc</span><span class="o">.</span><span class="n">field_sep</span><span class="p">,</span>
+                                        <span class="n">input_file_desc</span><span class="o">.</span><span class="n">trimmer</span><span class="p">)</span> 
+            <span class="c">#@TODO: change implementation </span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">data_fields</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_record</span><span class="p">(</span><span class="n">data_fields</span><span class="p">,</span>
+                                 <span class="n">input_file_desc</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write_mapped_record</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span>
+                                  <span class="n">output_file_desc</span><span class="p">,</span>
+                                  <span class="n">data_fields</span><span class="p">,</span>
+                                  <span class="n">input_file_desc</span><span class="p">)</span>
+                <span class="n">valid</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="n">error_file_name</span><span class="p">,</span> <span class="n">record</span><span class="p">)</span>
+                <span class="n">invalid</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="k">return</span> <span class="n">valid</span><span class="p">,</span> <span class="n">invalid</span>
+                
+            </div>
+<div class="viewcode-block" id="FileValidation.validate_record"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileValidation.validate_record">[docs]</a>    <span class="k">def</span> <span class="nf">validate_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_fields</span><span class="p">,</span> <span class="n">field_descs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;&quot;Hook is in place for record  level validaiton</span>
+<span class="sd">        across multiple feeds&quot;&quot;&quot;</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">field_value</span><span class="p">,</span> <span class="n">field_desc</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                                                  <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_fields</span><span class="p">)),</span>
+                                                  <span class="n">data_fields</span><span class="p">,</span> 
+                                                  <span class="n">field_descs</span><span class="p">):</span>
+            <span class="n">new_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_field</span><span class="p">(</span><span class="n">field_value</span><span class="p">,</span> <span class="n">field_desc</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">new_value</span><span class="p">:</span>
+                <span class="n">data_fields</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">errors</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">errors</span>
+            
+        
+ 
+    </div>
+<div class="viewcode-block" id="FileValidation.validate_field"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileValidation.validate_field">[docs]</a>    <span class="k">def</span> <span class="nf">validate_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_value</span><span class="p">,</span> <span class="n">field_desc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate a single field given a value and its</span>
+<span class="sd">        descriptor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c">#validation: validate field length</span>
+        <span class="n">field_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">field_value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">field_len</span> <span class="o">&gt;=</span>  <span class="n">field_desc</span><span class="o">.</span><span class="n">min_length</span> 
+            <span class="ow">and</span>  <span class="n">field_len</span> <span class="o">&lt;=</span> <span class="n">field_desc</span><span class="o">.</span><span class="n">max_length</span><span class="p">):</span>
+            <span class="c">#validation: validate field format - reg exp</span>
+            <span class="k">if</span> <span class="n">field_desc</span><span class="o">.</span><span class="n">regex</span><span class="p">:</span>
+                <span class="n">new_value</span> <span class="o">=</span> <span class="n">field_desc</span><span class="o">.</span><span class="n">regex</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">field_value</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">new_value</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">new_value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_value</span> <span class="o">=</span> <span class="n">field_value</span>
+                <span class="k">return</span> <span class="n">new_value</span>
+           
+            <span class="c">#validation: validate field contents - cross check against ref data</span>
+        <span class="n">tmpl</span> <span class="o">=</span> <span class="s">&#39;invalid field ({:s}) value ({:s}) &#39;</span>
+        <span class="n">tmpl</span> <span class="o">+=</span> <span class="s">&#39;expected min/max length ({:d}/{:d}) actual length ({:d})&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span>
+                 <span class="n">_m_logger</span><span class="p">,</span>
+                 <span class="n">tmpl</span><span class="p">,</span>
+                 <span class="n">field_desc</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                 <span class="n">field_value</span><span class="p">,</span>
+                 <span class="n">field_desc</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span>
+                 <span class="n">field_desc</span><span class="o">.</span><span class="n">max_length</span><span class="p">,</span>
+                 <span class="n">field_len</span>
+                    <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+  
+</div></div>
+<div class="viewcode-block" id="FileSort"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileSort">[docs]</a><span class="k">class</span> <span class="nc">FileSort</span><span class="p">(</span><span class="n">BaseProcess</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class that sorts validated files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="FileSort.handle"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileSort.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; sort the file</span>
+<span class="sd">        Typical process would include:</span>
+<span class="sd">            - Sort</span>
+<span class="sd">            - Generate statistics</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+      
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">input_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">input_file_desc</span><span class="p">,</span>
+                             <span class="n">request</span><span class="o">.</span><span class="n">output_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                             <span class="p">)</span>
+            
+            
+ </div>
+<div class="viewcode-block" id="FileSort.sort"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileSort.sort">[docs]</a>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                      <span class="n">input_file_name</span><span class="p">,</span> 
+                      <span class="n">input_file_desc</span><span class="p">,</span>
+                      <span class="n">output_file_name</span><span class="p">,</span>
+                      <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;file sort &quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+         
+         
+        <span class="k">try</span><span class="p">:</span>
+             
+            
+             
+            <span class="c">#sort the file</span>
+             
+            <span class="n">file_sort</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">input_file_name</span><span class="p">,</span> 
+                           <span class="n">output_file_name</span><span class="p">,</span> 
+                           <span class="n">skip</span><span class="o">=</span><span class="n">input_file_desc</span><span class="o">.</span><span class="n">header_lines</span><span class="p">)</span>
+            <span class="c">#generate statistics</span>
+            <span class="c">#self.report_stats(in_file.name)</span>
+            
+            <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">FileResponse</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span> 
+                                  <span class="n">config</span><span class="o">.</span><span class="n">SORTED</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">EquityMasterError</span><span class="p">,</span>
+                            <span class="n">_m_logger</span><span class="p">,</span>
+                            <span class="s">&#39;file processing error: {:s} {:s} &#39;</span><span class="p">,</span>
+                            <span class="n">input_file_name</span><span class="p">,</span> 
+                            <span class="n">output_file_name</span><span class="p">,</span>
+                            <span class="p">)</span>
+    
+</div>
+    <span class="k">def</span> <span class="nf">report_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">count_records</span><span class="p">):</span>
+        <span class="n">tmpl</span> <span class="o">=</span> <span class="s">&#39;file sorting for ({:s}) records({:d}) completed &#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">_m_logger</span><span class="p">,</span>
+                 <span class="n">tmpl</span><span class="p">,</span>
+                 <span class="n">file_name</span><span class="p">,</span>
+                 <span class="n">count_records</span><span class="p">,</span>
+                 <span class="p">)</span>
+        
+        </div>
+<div class="viewcode-block" id="FileMerge"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMerge">[docs]</a><span class="k">class</span> <span class="nc">FileMerge</span><span class="p">(</span><span class="n">BaseProcess</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class that can merge N number of sorted files</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="FileMerge.handle"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMerge.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; merge n number of sorted files</span>
+<span class="sd">        first field in the file is an integer id</span>
+<span class="sd">         </span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">input_file_names</span><span class="p">,</span>
+                          <span class="n">request</span><span class="o">.</span><span class="n">input_file_desc</span><span class="p">,</span>
+                          <span class="n">request</span><span class="o">.</span><span class="n">input_file_state</span><span class="p">,</span>
+                          <span class="n">request</span><span class="o">.</span><span class="n">output_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                          <span class="n">request</span><span class="o">.</span><span class="n">output_file_desc</span><span class="p">,</span>
+                          <span class="n">request</span><span class="o">.</span><span class="n">error_file_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            
+            
+ 
+     
+       
+    </div>
+<div class="viewcode-block" id="FileMerge.merge"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMerge.merge">[docs]</a>    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+              <span class="n">input_file_names</span><span class="p">,</span> 
+              <span class="n">input_file_desc</span><span class="p">,</span>
+              <span class="n">input_file_state</span><span class="p">,</span> 
+              <span class="n">output_file_name</span><span class="p">,</span>
+              <span class="n">output_file_desc</span><span class="p">,</span>
+              <span class="n">error_file_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; N file merge  </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">infd</span> <span class="o">=</span> <span class="n">input_file_desc</span>
+        <span class="n">ofd</span> <span class="o">=</span> <span class="n">output_file_desc</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c">#open required files files</span>
+            <span class="n">in_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">files_open</span><span class="p">(</span>
+                                       <span class="s">&#39;r&#39;</span><span class="p">,</span> 
+                                       <span class="o">*</span><span class="n">input_file_names</span><span class="p">)</span> 
+            <span class="n">out_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_open</span><span class="p">(</span>
+                                      <span class="n">output_file_name</span><span class="p">,</span> 
+                                      <span class="s">&#39;w&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_header</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span>
+                               <span class="n">output_file_desc</span><span class="p">)</span>  
+            
+            <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+            <span class="n">valid</span><span class="p">,</span> <span class="n">invalid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_files</span><span class="p">(</span>
+                                      <span class="n">out_file</span><span class="p">,</span>
+                                      <span class="n">ofd</span><span class="p">,</span>
+                                      <span class="n">error_file_name</span><span class="p">,</span>
+                                      <span class="n">key</span><span class="p">,</span> 
+                                      <span class="n">file_sort</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> 
+                                                      <span class="n">infd</span><span class="o">.</span><span class="n">header_lines</span><span class="p">,</span>
+                                                      <span class="o">*</span><span class="n">in_files</span><span class="p">))</span>
+            <span class="c">#generate statistics</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report_stats</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_file_names</span><span class="p">),</span> 
+                              <span class="n">out_file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> 
+                              <span class="n">valid</span><span class="p">,</span> 
+                              <span class="n">invalid</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">FileResponse</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span> 
+                                  <span class="n">config</span><span class="o">.</span><span class="n">MERGED</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">EquityMasterError</span><span class="p">,</span>
+                            <span class="n">_m_logger</span><span class="p">,</span>
+                            <span class="s">&#39;file processing error: {:s} {:s} &#39;</span><span class="p">,</span>
+                            <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_file_names</span><span class="p">),</span> 
+                            <span class="n">output_file_name</span><span class="p">,</span>
+                            <span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">files_close</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="o">*</span><span class="n">in_files</span><span class="p">)</span>
+    
+      </div>
+<div class="viewcode-block" id="FileMerge.merge_files"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMerge.merge_files">[docs]</a>    <span class="k">def</span> <span class="nf">merge_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">out_file</span><span class="p">,</span>
+                <span class="n">output_file_desc</span><span class="p">,</span>
+                <span class="n">error_file_name</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="n">file_records</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Methods that drives the merging</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="mi">0</span> 
+        <span class="n">invalid</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">last</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ofd</span> <span class="o">=</span> <span class="n">output_file_desc</span>
+        <span class="n">efn</span> <span class="o">=</span> <span class="n">error_file_name</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">file_records</span><span class="p">:</span>
+            
+            <span class="n">data_fields</span><span class="p">,</span> <span class="n">orig_rec</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_n_trim</span><span class="p">(</span><span class="n">record</span><span class="p">,</span>
+                                            <span class="n">ofd</span><span class="o">.</span><span class="n">field_sep</span><span class="p">,</span>
+                                            <span class="n">ofd</span><span class="o">.</span><span class="n">trimmer</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">last</span><span class="p">:</span>
+                <span class="n">current_key</span> <span class="o">=</span> <span class="n">key</span><span class="p">(</span><span class="n">data_fields</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">current_key</span> <span class="o">!=</span> <span class="n">key</span><span class="p">(</span><span class="n">last</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_n_write</span><span class="p">(</span><span class="n">last</span><span class="p">,</span>
+                                          <span class="n">ofd</span><span class="p">,</span> 
+                                          <span class="n">efn</span><span class="p">,</span>
+                                          <span class="n">out_file</span><span class="p">):</span>
+                        <span class="n">valid</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">invalid</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">last</span> <span class="o">=</span> <span class="p">[]</span>
+                    
+            <span class="n">last</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_fields</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">last</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_n_write</span><span class="p">(</span><span class="n">last</span><span class="p">,</span> <span class="n">ofd</span><span class="p">,</span> <span class="n">efn</span><span class="p">,</span> <span class="n">out_file</span><span class="p">):</span>
+                <span class="n">valid</span> <span class="o">+=</span><span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">invalid</span> <span class="o">+=</span><span class="mi">1</span>
+           
+            
+        <span class="k">return</span> <span class="n">valid</span><span class="p">,</span> <span class="n">invalid</span>
+    </div>
+    <span class="k">def</span> <span class="nf">merge_n_write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                      <span class="n">records</span><span class="p">,</span>
+                      <span class="n">output_file_desc</span><span class="p">,</span> 
+                      <span class="n">error_function_name</span><span class="p">,</span>
+                      <span class="n">output_file</span><span class="p">):</span>
+        
+        <span class="n">new_rec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_fields</span><span class="p">(</span><span class="n">records</span><span class="p">,</span>
+                                    <span class="n">output_file_desc</span><span class="p">,</span>
+                                    <span class="n">error_function_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_rec</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_record</span><span class="p">(</span>
+                            <span class="n">output_file</span><span class="p">,</span> 
+                            <span class="n">output_file_desc</span><span class="p">,</span> 
+                            <span class="n">new_rec</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        
+        <span class="k">return</span> <span class="bp">False</span>
+<div class="viewcode-block" id="FileMerge.merge_fields"><a class="viewcode-back" href="../../reference.html#equity_master.process.FileMerge.merge_fields">[docs]</a>    <span class="k">def</span> <span class="nf">merge_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                     <span class="n">records</span><span class="p">,</span> 
+                     <span class="n">output_file_desc</span><span class="p">,</span>
+                     <span class="n">error_file_name</span> <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Field level merge</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ofd</span> <span class="o">=</span> <span class="n">output_file_desc</span>
+        <span class="n">flds</span> <span class="o">=</span> <span class="n">ofd</span><span class="o">.</span><span class="n">fields</span>
+        <span class="n">efn</span> <span class="o">=</span> <span class="n">error_file_name</span>
+        <span class="n">new_rec</span> <span class="o">=</span><span class="p">[]</span>
+        <span class="n">stub</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">FIELD_FILLER</span>
+
+        <span class="k">for</span> <span class="n">field_id</span><span class="p">,</span> <span class="n">field_desc</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">flds</span><span class="p">)),</span>
+                                        <span class="n">flds</span><span class="p">):</span>
+            <span class="n">new_value</span> <span class="o">=</span> <span class="n">stub</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                <span class="c">#get current value</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">field_id</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">stub</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">elif</span> <span class="n">new_value</span> <span class="o">==</span> <span class="n">stub</span><span class="p">:</span>
+                    <span class="n">new_value</span> <span class="o">=</span> <span class="n">value</span>    
+                <span class="k">elif</span> <span class="n">new_value</span> <span class="o">==</span> <span class="n">value</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c">#there is a diff in field values</span>
+                    <span class="c">#log an error, write all records to error file</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">log_error</span><span class="p">(</span>
+                            <span class="n">_m_logger</span><span class="p">,</span>
+                            <span class="s">&#39;file merge error: file {:s} field {:s} offset {:d} &#39;</span><span class="p">,</span>
+                            <span class="n">ofd</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+                            <span class="n">field_desc</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                            <span class="n">field_id</span> 
+                            <span class="p">)</span>
+                    <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="n">efn</span><span class="p">,</span> <span class="n">ofd</span><span class="o">.</span><span class="n">field_sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span> 
+                    <span class="k">return</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="n">new_value</span> <span class="o">==</span> <span class="n">stub</span><span class="p">:</span>
+                <span class="c">#log a warning</span>
+                <span class="n">tmpl</span> <span class="o">=</span> <span class="s">&#39;stub value in file {:s} field {:s} offset {:d}&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">_m_logger</span><span class="p">,</span>
+                            <span class="n">tmpl</span><span class="p">,</span>
+                            <span class="n">ofd</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+                            <span class="n">field_desc</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                            <span class="n">field_id</span> 
+                            <span class="p">)</span>
+            <span class="n">new_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_value</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">new_rec</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

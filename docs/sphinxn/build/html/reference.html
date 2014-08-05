@@ -1,0 +1,2341 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Reference Documentation &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="index.html" />
+    <link rel="prev" title="Equity Master Feed Processing" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Equity Master Feed Processing"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Equity Master alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="reference-documentation">
+<h1>Reference Documentation<a class="headerlink" href="#reference-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="equity-master">
+<h2>Equity Master<a class="headerlink" href="#equity-master" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-equity_master.common">
+<span id="equity-master-common"></span><h3>equity_master.common<a class="headerlink" href="#module-equity_master.common" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-equity_master/common"></span><dl class="class">
+<dt id="equity_master.common.BusinessObject">
+<em class="property">class </em><tt class="descclassname">equity_master.common.</tt><tt class="descname">BusinessObject</tt><a class="reference internal" href="_modules/equity_master/common.html#BusinessObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.BusinessObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.common.UnicodeMixin" title="equity_master.common.UnicodeMixin"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.common.UnicodeMixin</span></tt></a>, <a class="reference internal" href="#equity_master.common.ClassMixin" title="equity_master.common.ClassMixin"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.common.ClassMixin</span></tt></a>, <a class="reference internal" href="#equity_master.common.ErrorMixin" title="equity_master.common.ErrorMixin"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.common.ErrorMixin</span></tt></a>, <a class="reference internal" href="#equity_master.common.LoggingMixin" title="equity_master.common.LoggingMixin"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.common.LoggingMixin</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Base class business object
+Facilitates creation of complex object graphs with
+reduced development and maintenance costs, flexible,
+yet with rich functionality</p>
+<dl class="method">
+<dt id="equity_master.common.BusinessObject.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.common.BusinessObject.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.common.BusinessObject.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.common.BusinessObject.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.common.BusinessObject.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.common.BusinessObject.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.common.BusinessObject.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master/common.html#BusinessObject.is_valid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.BusinessObject.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.common.ClassMixin">
+<em class="property">class </em><tt class="descclassname">equity_master.common.</tt><tt class="descname">ClassMixin</tt><a class="reference internal" href="_modules/equity_master/common.html#ClassMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.ClassMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Class mixin abstraction</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="equity_master.common.EquityMasterError">
+<em class="property">exception </em><tt class="descclassname">equity_master.common.</tt><tt class="descname">EquityMasterError</tt><big>(</big><em>traceback=None</em>, <em>wrapped_ex=None</em>, <em>args=None</em>, <em>kwargs=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/common.html#EquityMasterError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.EquityMasterError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.common.ExecutionError" title="equity_master.common.ExecutionError"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.common.ExecutionError</span></tt></a></p>
+<p>EquityMaster package  error class</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.common.ErrorMixin">
+<em class="property">class </em><tt class="descclassname">equity_master.common.</tt><tt class="descname">ErrorMixin</tt><a class="reference internal" href="_modules/equity_master/common.html#ErrorMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.ErrorMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Error mixin class</p>
+<dl class="method">
+<dt id="equity_master.common.ErrorMixin.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/equity_master/common.html#ErrorMixin.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.ErrorMixin.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.common.ErrorMixin.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/equity_master/common.html#ErrorMixin.fatal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.ErrorMixin.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="equity_master.common.ExecutionError">
+<em class="property">exception </em><tt class="descclassname">equity_master.common.</tt><tt class="descname">ExecutionError</tt><big>(</big><em>traceback=None</em>, <em>wrapped_ex=None</em>, <em>args=None</em>, <em>kwargs=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/common.html#ExecutionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.ExecutionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.common.UnicodeMixin" title="equity_master.common.UnicodeMixin"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.common.UnicodeMixin</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>Execution error class</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.common.LoggingMixin">
+<em class="property">class </em><tt class="descclassname">equity_master.common.</tt><tt class="descname">LoggingMixin</tt><a class="reference internal" href="_modules/equity_master/common.html#LoggingMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.LoggingMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Log utilities abstraction</p>
+<dl class="method">
+<dt id="equity_master.common.LoggingMixin.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/equity_master/common.html#LoggingMixin.debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.LoggingMixin.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.common.UnicodeMixin">
+<em class="property">class </em><tt class="descclassname">equity_master.common.</tt><tt class="descname">UnicodeMixin</tt><a class="reference internal" href="_modules/equity_master/common.html#UnicodeMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.common.UnicodeMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Unicode mixin class to help in 
+python 2 to python 3 migration</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-equity_master.desc">
+<span id="equity-master-desc"></span><h3>equity_master.desc<a class="headerlink" href="#module-equity_master.desc" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-equity_master/desc"></span><dl class="class">
+<dt id="equity_master.desc.CategoryFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">CategoryFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#CategoryFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.CategoryFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<p>Security categorization</p>
+<dl class="method">
+<dt id="equity_master.desc.CategoryFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CategoryFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CategoryFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CategoryFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CategoryFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CategoryFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CategoryFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.CategoryFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.CommonNumberFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">CommonNumberFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#CommonNumberFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.CommonNumberFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<p>Common number is a 9-digit identifier</p>
+<dl class="method">
+<dt id="equity_master.desc.CommonNumberFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CommonNumberFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CommonNumberFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CommonNumberFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CommonNumberFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CommonNumberFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CommonNumberFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.CommonNumberFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.CountryCodeFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">CountryCodeFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#CountryCodeFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.CountryCodeFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<p>Country codes generally follow an ISO standard (<a class="reference external" href="http://en.wikipedia.org/wiki/ISO_3166-1">http://en.wikipedia.org/wiki/ISO_3166-1</a>)</p>
+<dl class="method">
+<dt id="equity_master.desc.CountryCodeFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CountryCodeFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CountryCodeFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CountryCodeFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CountryCodeFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CountryCodeFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CountryCodeFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.CountryCodeFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.CusipFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">CusipFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#CusipFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.CusipFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<p>CUSIP is a 9 character identifier used in North America
+It consists of 8 characters plus a checksum digit (<a class="reference external" href="http://en.wikipedia.org/wiki/Cusip">http://en.wikipedia.org/wiki/Cusip</a>)</p>
+<dl class="method">
+<dt id="equity_master.desc.CusipFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CusipFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CusipFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CusipFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CusipFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.CusipFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.CusipFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.CusipFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="equity_master.desc.ExchangeFd">
+<tt class="descclassname">equity_master.desc.</tt><tt class="descname">ExchangeFd</tt><a class="headerlink" href="#equity_master.desc.ExchangeFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">PrimaryExchangeFd</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.FieldDescriptor">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">FieldDescriptor</tt><big>(</big><em>name</em>, <em>min_length</em>, <em>max_length</em>, <em>regex=None</em>, <em>cmp=None</em>, <em>val=None</em>, <em>mapper=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#FieldDescriptor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.FieldDescriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.common.BusinessObject" title="equity_master.common.BusinessObject"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.common.BusinessObject</span></tt></a></p>
+<p>Base class for field description
+This is an area that would require extenstion</p>
+<dl class="method">
+<dt id="equity_master.desc.FieldDescriptor.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.FieldDescriptor.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.FieldDescriptor.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.FieldDescriptor.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.FieldDescriptor.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.FieldDescriptor.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.FieldDescriptor.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.FieldDescriptor.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.FileDescriptor">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">FileDescriptor</tt><big>(</big><em>firm</em>, <em>file_name</em>, <em>fields</em>, <em>field_sep</em>, <em>alt_names=None</em>, <em>header_lines=0</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#FileDescriptor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.FileDescriptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.common.BusinessObject" title="equity_master.common.BusinessObject"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.common.BusinessObject</span></tt></a></p>
+<p>Describes file laoyt</p>
+<dl class="method">
+<dt id="equity_master.desc.FileDescriptor.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.FileDescriptor.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.FileDescriptor.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.FileDescriptor.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.FileDescriptor.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.FileDescriptor.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.FileDescriptor.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.FileDescriptor.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="equity_master.desc.GroupFd">
+<tt class="descclassname">equity_master.desc.</tt><tt class="descname">GroupFd</tt><a class="headerlink" href="#equity_master.desc.GroupFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">IndustryGroupFd</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.IndustryGroupFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">IndustryGroupFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#IndustryGroupFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.IndustryGroupFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<dl class="method">
+<dt id="equity_master.desc.IndustryGroupFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IndustryGroupFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IndustryGroupFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IndustryGroupFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IndustryGroupFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IndustryGroupFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IndustryGroupFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.IndustryGroupFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.IndustrySectorFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">IndustrySectorFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#IndustrySectorFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.IndustrySectorFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<p>Industry sector classification</p>
+<dl class="method">
+<dt id="equity_master.desc.IndustrySectorFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IndustrySectorFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IndustrySectorFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IndustrySectorFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IndustrySectorFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IndustrySectorFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IndustrySectorFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.IndustrySectorFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.IndustrySubGroupFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">IndustrySubGroupFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#IndustrySubGroupFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.IndustrySubGroupFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<dl class="method">
+<dt id="equity_master.desc.IndustrySubGroupFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IndustrySubGroupFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IndustrySubGroupFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IndustrySubGroupFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IndustrySubGroupFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IndustrySubGroupFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IndustrySubGroupFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.IndustrySubGroupFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.IsinFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">IsinFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#IsinFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.IsinFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<p>ISIN is a 12 character identifier used throughout the world.  
+It consists of 11 characters plus an additional checksum digit
+(<a class="reference external" href="http://en.wikipedia.org/wiki/International_Securities_Identifying_Number">http://en.wikipedia.org/wiki/International_Securities_Identifying_Number</a>)</p>
+<dl class="method">
+<dt id="equity_master.desc.IsinFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IsinFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IsinFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IsinFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IsinFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.IsinFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.IsinFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.IsinFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.PrimaryExchangeFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">PrimaryExchangeFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#PrimaryExchangeFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.PrimaryExchangeFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<p>Primary listing exchanges generally follow an ISO standard</p>
+<dl class="method">
+<dt id="equity_master.desc.PrimaryExchangeFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.PrimaryExchangeFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.PrimaryExchangeFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.PrimaryExchangeFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.PrimaryExchangeFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.PrimaryExchangeFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.PrimaryExchangeFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.PrimaryExchangeFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="equity_master.desc.SectorFd">
+<tt class="descclassname">equity_master.desc.</tt><tt class="descname">SectorFd</tt><a class="headerlink" href="#equity_master.desc.SectorFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">IndustrySectorFd</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="equity_master.desc.SecurityCategoryFd">
+<tt class="descclassname">equity_master.desc.</tt><tt class="descname">SecurityCategoryFd</tt><a class="headerlink" href="#equity_master.desc.SecurityCategoryFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">CategoryFd</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.SedolFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">SedolFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#SedolFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.SedolFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<p>SEDOL is a 7 character identifier issued by the London Stock exchange
+It is seven characters in length - the last character is a checksum</p>
+<dl class="method">
+<dt id="equity_master.desc.SedolFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.SedolFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.SedolFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.SedolFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.SedolFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.SedolFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.SedolFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.SedolFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="equity_master.desc.SubGroupFd">
+<tt class="descclassname">equity_master.desc.</tt><tt class="descname">SubGroupFd</tt><a class="headerlink" href="#equity_master.desc.SubGroupFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">IndustrySubGroupFd</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="equity_master.desc.SymbolFd">
+<tt class="descclassname">equity_master.desc.</tt><tt class="descname">SymbolFd</tt><a class="headerlink" href="#equity_master.desc.SymbolFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">TickerFd</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.desc.TickerFd">
+<em class="property">class </em><tt class="descclassname">equity_master.desc.</tt><tt class="descname">TickerFd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/equity_master/desc.html#TickerFd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.desc.TickerFd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.desc.FieldDescriptor" title="equity_master.desc.FieldDescriptor"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.desc.FieldDescriptor</span></tt></a></p>
+<p>Stock symbol</p>
+<dl class="method">
+<dt id="equity_master.desc.TickerFd.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.TickerFd.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.TickerFd.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.TickerFd.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.TickerFd.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.desc.TickerFd.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.desc.TickerFd.is_valid">
+<tt class="descname">is_valid</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.desc.TickerFd.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is valid
+Demonstrates abstract method construct</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-equity_master.process">
+<span id="equity-master-process"></span><h3>equity_master.process<a class="headerlink" href="#module-equity_master.process" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-equity_master/process"></span><dl class="class">
+<dt id="equity_master.process.FileDetection">
+<em class="property">class </em><tt class="descclassname">equity_master.process.</tt><tt class="descname">FileDetection</tt><big>(</big><em>input_queue=None</em>, <em>output_queue=None</em>, <em>group=None</em>, <em>name=None</em>, <em>state_id=None</em>, <em>args=()</em>, <em>kwargs=None</em>, <em>verbose=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileDetection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileDetection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">equity_master.process.BaseProcess</span></tt></p>
+<p>Class that detects availability of feed files.</p>
+<dl class="method">
+<dt id="equity_master.process.FileDetection.begin_work">
+<tt class="descname">begin_work</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.begin_work" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.detect">
+<tt class="descname">detect</tt><big>(</big><em>input_file_name</em>, <em>input_file_desc</em>, <em>input_file_state</em>, <em>output_file_name</em>, <em>output_file_desc</em>, <em>error_file_name</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileDetection.detect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileDetection.detect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main function for detecting file arrival</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.end_work">
+<tt class="descname">end_work</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.end_work" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.file_open">
+<tt class="descname">file_open</tt><big>(</big><em>name</em>, <em>mode</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.file_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a single file.  Intention is to provde detailed
+file state information, loggined</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.file_read_n_split">
+<tt class="descname">file_read_n_split</tt><big>(</big><em>file</em>, <em>record_sep</em>, <em>trim_tmpl</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.file_read_n_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a record, trim it, and split, return also record read</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.files_close">
+<tt class="descname">files_close</tt><big>(</big><em>*files</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.files_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cloase a set of files</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.files_open">
+<tt class="descname">files_open</tt><big>(</big><em>mode</em>, <em>*names</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.files_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a set of files for read, write, or append</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.handle">
+<tt class="descname">handle</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileDetection.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileDetection.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect required files, initialize per-file process
+Typical process would include:</p>
+<ul class="simple">
+<li>Verify that file exists and can be opened</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.log_begin">
+<tt class="descname">log_begin</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.log_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.receive">
+<tt class="descname">receive</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.receive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive a message from process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.report_stats">
+<tt class="descname">report_stats</tt><big>(</big><em>in_file_name</em>, <em>out_file_name</em>, <em>valid</em>, <em>invalid</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.report_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Report exection statistics</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.required_state">
+<tt class="descname">required_state</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.required_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process expected state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main driver for process execution
+Handles exceptions, their logging, dispatching of requests</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.send">
+<tt class="descname">send</tt><big>(</big><em>request</em>, <em>priority=2</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a request to a process for file processing, shutdown, etc</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.shutdown">
+<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.split_n_trim">
+<tt class="descname">split_n_trim</tt><big>(</big><em>record</em>, <em>record_sep</em>, <em>trim_tmpl</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.split_n_trim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split and trim a record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.validate_header">
+<tt class="descname">validate_header</tt><big>(</big><em>file</em>, <em>file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.validate_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a header record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.validate_request">
+<tt class="descname">validate_request</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.validate_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>High level validaiton function</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.validate_state">
+<tt class="descname">validate_state</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.validate_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the process is in the right state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.write_error">
+<tt class="descname">write_error</tt><big>(</big><em>file_name</em>, <em>record</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.write_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write an error record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.write_header">
+<tt class="descname">write_header</tt><big>(</big><em>file</em>, <em>file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.write_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a header record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.write_mapped_record">
+<tt class="descname">write_mapped_record</tt><big>(</big><em>file</em>, <em>output_file_desc</em>, <em>data_fields</em>, <em>input_file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.write_mapped_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map input record format with target record format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.write_raw">
+<tt class="descname">write_raw</tt><big>(</big><em>file</em>, <em>record</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.write_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulate law level file operation - my be required
+for detailed logging, exception handling</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileDetection.write_record">
+<tt class="descname">write_record</tt><big>(</big><em>file</em>, <em>file_desc</em>, <em>fields</em><big>)</big><a class="headerlink" href="#equity_master.process.FileDetection.write_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write formatted output</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.process.FileMerge">
+<em class="property">class </em><tt class="descclassname">equity_master.process.</tt><tt class="descname">FileMerge</tt><big>(</big><em>input_queue=None</em>, <em>output_queue=None</em>, <em>group=None</em>, <em>name=None</em>, <em>state_id=None</em>, <em>args=()</em>, <em>kwargs=None</em>, <em>verbose=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMerge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMerge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">equity_master.process.BaseProcess</span></tt></p>
+<p>Class that can merge N number of sorted files</p>
+<dl class="method">
+<dt id="equity_master.process.FileMerge.begin_work">
+<tt class="descname">begin_work</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.begin_work" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.end_work">
+<tt class="descname">end_work</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.end_work" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.file_open">
+<tt class="descname">file_open</tt><big>(</big><em>name</em>, <em>mode</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.file_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a single file.  Intention is to provde detailed
+file state information, loggined</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.file_read_n_split">
+<tt class="descname">file_read_n_split</tt><big>(</big><em>file</em>, <em>record_sep</em>, <em>trim_tmpl</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.file_read_n_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a record, trim it, and split, return also record read</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.files_close">
+<tt class="descname">files_close</tt><big>(</big><em>*files</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.files_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cloase a set of files</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.files_open">
+<tt class="descname">files_open</tt><big>(</big><em>mode</em>, <em>*names</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.files_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a set of files for read, write, or append</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.handle">
+<tt class="descname">handle</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMerge.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMerge.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>merge n number of sorted files
+first field in the file is an integer id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.log_begin">
+<tt class="descname">log_begin</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.log_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.merge">
+<tt class="descname">merge</tt><big>(</big><em>input_file_names</em>, <em>input_file_desc</em>, <em>input_file_state</em>, <em>output_file_name</em>, <em>output_file_desc</em>, <em>error_file_name</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMerge.merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMerge.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>N file merge</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.merge_fields">
+<tt class="descname">merge_fields</tt><big>(</big><em>records</em>, <em>output_file_desc</em>, <em>error_file_name</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMerge.merge_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMerge.merge_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Field level merge</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.merge_files">
+<tt class="descname">merge_files</tt><big>(</big><em>out_file</em>, <em>output_file_desc</em>, <em>error_file_name</em>, <em>key</em>, <em>file_records</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMerge.merge_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMerge.merge_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Methods that drives the merging</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.receive">
+<tt class="descname">receive</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.receive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive a message from process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.report_stats">
+<tt class="descname">report_stats</tt><big>(</big><em>in_file_name</em>, <em>out_file_name</em>, <em>valid</em>, <em>invalid</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.report_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Report exection statistics</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.required_state">
+<tt class="descname">required_state</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.required_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process expected state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main driver for process execution
+Handles exceptions, their logging, dispatching of requests</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.send">
+<tt class="descname">send</tt><big>(</big><em>request</em>, <em>priority=2</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a request to a process for file processing, shutdown, etc</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.shutdown">
+<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.split_n_trim">
+<tt class="descname">split_n_trim</tt><big>(</big><em>record</em>, <em>record_sep</em>, <em>trim_tmpl</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.split_n_trim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split and trim a record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.validate_header">
+<tt class="descname">validate_header</tt><big>(</big><em>file</em>, <em>file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.validate_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a header record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.validate_request">
+<tt class="descname">validate_request</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.validate_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>High level validaiton function</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.validate_state">
+<tt class="descname">validate_state</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.validate_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the process is in the right state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.write_error">
+<tt class="descname">write_error</tt><big>(</big><em>file_name</em>, <em>record</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.write_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write an error record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.write_header">
+<tt class="descname">write_header</tt><big>(</big><em>file</em>, <em>file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.write_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a header record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.write_mapped_record">
+<tt class="descname">write_mapped_record</tt><big>(</big><em>file</em>, <em>output_file_desc</em>, <em>data_fields</em>, <em>input_file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.write_mapped_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map input record format with target record format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.write_raw">
+<tt class="descname">write_raw</tt><big>(</big><em>file</em>, <em>record</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.write_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulate law level file operation - my be required
+for detailed logging, exception handling</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMerge.write_record">
+<tt class="descname">write_record</tt><big>(</big><em>file</em>, <em>file_desc</em>, <em>fields</em><big>)</big><a class="headerlink" href="#equity_master.process.FileMerge.write_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write formatted output</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.process.FileMixin">
+<em class="property">class </em><tt class="descclassname">equity_master.process.</tt><tt class="descname">FileMixin</tt><a class="reference internal" href="_modules/equity_master/process.html#FileMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Process related file operations</p>
+<dl class="method">
+<dt id="equity_master.process.FileMixin.file_open">
+<tt class="descname">file_open</tt><big>(</big><em>name</em>, <em>mode</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.file_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.file_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a single file.  Intention is to provde detailed
+file state information, loggined</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.file_read_n_split">
+<tt class="descname">file_read_n_split</tt><big>(</big><em>file</em>, <em>record_sep</em>, <em>trim_tmpl</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.file_read_n_split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.file_read_n_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a record, trim it, and split, return also record read</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.files_close">
+<tt class="descname">files_close</tt><big>(</big><em>*files</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.files_close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.files_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cloase a set of files</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.files_open">
+<tt class="descname">files_open</tt><big>(</big><em>mode</em>, <em>*names</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.files_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.files_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a set of files for read, write, or append</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.split_n_trim">
+<tt class="descname">split_n_trim</tt><big>(</big><em>record</em>, <em>record_sep</em>, <em>trim_tmpl</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.split_n_trim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.split_n_trim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split and trim a record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.validate_header">
+<tt class="descname">validate_header</tt><big>(</big><em>file</em>, <em>file_desc</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.validate_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.validate_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a header record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.validate_state">
+<tt class="descname">validate_state</tt><big>(</big><em>file_name</em>, <em>state</em>, <em>expected_state</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.validate_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.validate_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a process state related to a file vs what is
+expected</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.write_error">
+<tt class="descname">write_error</tt><big>(</big><em>file_name</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.write_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.write_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write an error record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.write_header">
+<tt class="descname">write_header</tt><big>(</big><em>file</em>, <em>file_desc</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.write_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.write_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a header record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.write_mapped_record">
+<tt class="descname">write_mapped_record</tt><big>(</big><em>file</em>, <em>output_file_desc</em>, <em>data_fields</em>, <em>input_file_desc</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.write_mapped_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.write_mapped_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map input record format with target record format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.write_raw">
+<tt class="descname">write_raw</tt><big>(</big><em>file</em>, <em>record</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.write_raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.write_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulate law level file operation - my be required
+for detailed logging, exception handling</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileMixin.write_record">
+<tt class="descname">write_record</tt><big>(</big><em>file</em>, <em>file_desc</em>, <em>fields</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileMixin.write_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileMixin.write_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write formatted output</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.process.FileSort">
+<em class="property">class </em><tt class="descclassname">equity_master.process.</tt><tt class="descname">FileSort</tt><big>(</big><em>input_queue=None</em>, <em>output_queue=None</em>, <em>group=None</em>, <em>name=None</em>, <em>state_id=None</em>, <em>args=()</em>, <em>kwargs=None</em>, <em>verbose=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileSort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileSort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">equity_master.process.BaseProcess</span></tt></p>
+<p>Class that sorts validated files.</p>
+<dl class="method">
+<dt id="equity_master.process.FileSort.begin_work">
+<tt class="descname">begin_work</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.begin_work" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.end_work">
+<tt class="descname">end_work</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.end_work" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.file_open">
+<tt class="descname">file_open</tt><big>(</big><em>name</em>, <em>mode</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.file_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a single file.  Intention is to provde detailed
+file state information, loggined</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.file_read_n_split">
+<tt class="descname">file_read_n_split</tt><big>(</big><em>file</em>, <em>record_sep</em>, <em>trim_tmpl</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.file_read_n_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a record, trim it, and split, return also record read</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.files_close">
+<tt class="descname">files_close</tt><big>(</big><em>*files</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.files_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cloase a set of files</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.files_open">
+<tt class="descname">files_open</tt><big>(</big><em>mode</em>, <em>*names</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.files_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a set of files for read, write, or append</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.handle">
+<tt class="descname">handle</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileSort.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileSort.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>sort the file
+Typical process would include:
+- Sort
+- Generate statistics</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.log_begin">
+<tt class="descname">log_begin</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.log_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.receive">
+<tt class="descname">receive</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.receive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive a message from process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.required_state">
+<tt class="descname">required_state</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.required_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process expected state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main driver for process execution
+Handles exceptions, their logging, dispatching of requests</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.send">
+<tt class="descname">send</tt><big>(</big><em>request</em>, <em>priority=2</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a request to a process for file processing, shutdown, etc</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.shutdown">
+<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.sort">
+<tt class="descname">sort</tt><big>(</big><em>input_file_name</em>, <em>input_file_desc</em>, <em>output_file_name</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileSort.sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileSort.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>file sort &#8220;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.split_n_trim">
+<tt class="descname">split_n_trim</tt><big>(</big><em>record</em>, <em>record_sep</em>, <em>trim_tmpl</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.split_n_trim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split and trim a record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.validate_header">
+<tt class="descname">validate_header</tt><big>(</big><em>file</em>, <em>file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.validate_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a header record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.validate_request">
+<tt class="descname">validate_request</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.validate_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>High level validaiton function</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.validate_state">
+<tt class="descname">validate_state</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.validate_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the process is in the right state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.write_error">
+<tt class="descname">write_error</tt><big>(</big><em>file_name</em>, <em>record</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.write_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write an error record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.write_header">
+<tt class="descname">write_header</tt><big>(</big><em>file</em>, <em>file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.write_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a header record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.write_mapped_record">
+<tt class="descname">write_mapped_record</tt><big>(</big><em>file</em>, <em>output_file_desc</em>, <em>data_fields</em>, <em>input_file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.write_mapped_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map input record format with target record format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.write_raw">
+<tt class="descname">write_raw</tt><big>(</big><em>file</em>, <em>record</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.write_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulate law level file operation - my be required
+for detailed logging, exception handling</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileSort.write_record">
+<tt class="descname">write_record</tt><big>(</big><em>file</em>, <em>file_desc</em>, <em>fields</em><big>)</big><a class="headerlink" href="#equity_master.process.FileSort.write_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write formatted output</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.process.FileValidation">
+<em class="property">class </em><tt class="descclassname">equity_master.process.</tt><tt class="descname">FileValidation</tt><big>(</big><em>input_queue=None</em>, <em>output_queue=None</em>, <em>group=None</em>, <em>name=None</em>, <em>state_id=None</em>, <em>args=()</em>, <em>kwargs=None</em>, <em>verbose=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileValidation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">equity_master.process.BaseProcess</span></tt></p>
+<p>Class that validates feed files.</p>
+<dl class="method">
+<dt id="equity_master.process.FileValidation.begin_work">
+<tt class="descname">begin_work</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.begin_work" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.debug">
+<tt class="descname">debug</tt><big>(</big><em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a debug message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.end_work">
+<tt class="descname">end_work</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.end_work" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.file_open">
+<tt class="descname">file_open</tt><big>(</big><em>name</em>, <em>mode</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.file_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a single file.  Intention is to provde detailed
+file state information, loggined</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.file_read_n_split">
+<tt class="descname">file_read_n_split</tt><big>(</big><em>file</em>, <em>record_sep</em>, <em>trim_tmpl</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.file_read_n_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a record, trim it, and split, return also record read</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.files_close">
+<tt class="descname">files_close</tt><big>(</big><em>*files</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.files_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cloase a set of files</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.files_open">
+<tt class="descname">files_open</tt><big>(</big><em>mode</em>, <em>*names</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.files_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a set of files for read, write, or append</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.handle">
+<tt class="descname">handle</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileValidation.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileValidation.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate file
+Typical process would include:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>Abort if:</dt>
+<dd><ul class="first last simple">
+<li>The file is not empty</li>
+<li>The file does not  conform to the formatting rules
+defined in the file descriptor and which are defined
+in the first line of the file.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>For each line in the file:</dt>
+<dd><ul class="first last simple">
+<li>validate each field per the formatting rules</li>
+<li>validate each field contents using reference data repository</li>
+<li>upon detection of an error, log error, skip the line</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Generate statistics</p>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.log_begin">
+<tt class="descname">log_begin</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.log_begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utilitiy for process management</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.receive">
+<tt class="descname">receive</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.receive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive a message from process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.report_stats">
+<tt class="descname">report_stats</tt><big>(</big><em>in_file_name</em>, <em>out_file_name</em>, <em>valid</em>, <em>invalid</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.report_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Report exection statistics</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.required_state">
+<tt class="descname">required_state</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.required_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process expected state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main driver for process execution
+Handles exceptions, their logging, dispatching of requests</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.send">
+<tt class="descname">send</tt><big>(</big><em>request</em>, <em>priority=2</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a request to a process for file processing, shutdown, etc</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.shutdown">
+<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.split_n_trim">
+<tt class="descname">split_n_trim</tt><big>(</big><em>record</em>, <em>record_sep</em>, <em>trim_tmpl</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.split_n_trim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split and trim a record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.validate">
+<tt class="descname">validate</tt><big>(</big><em>input_file_name</em>, <em>input_file_desc</em>, <em>input_file_state</em>, <em>output_file_name</em>, <em>output_file_desc</em>, <em>error_file_name</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileValidation.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileValidation.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>file validation main driver</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.validate_field">
+<tt class="descname">validate_field</tt><big>(</big><em>field_value</em>, <em>field_desc</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileValidation.validate_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileValidation.validate_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a single field given a value and its
+descriptor</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.validate_header">
+<tt class="descname">validate_header</tt><big>(</big><em>file</em>, <em>file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.validate_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate a header record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.validate_record">
+<tt class="descname">validate_record</tt><big>(</big><em>data_fields</em>, <em>field_descs</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileValidation.validate_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileValidation.validate_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#8220;Hook is in place for record  level validaiton
+across multiple feeds</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.validate_records">
+<tt class="descname">validate_records</tt><big>(</big><em>in_file</em>, <em>input_file_desc</em>, <em>header</em>, <em>out_file</em>, <em>output_file_desc</em>, <em>error_file_name</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#FileValidation.validate_records"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.FileValidation.validate_records" title="Permalink to this definition">¶</a></dt>
+<dd><p>Record level validation driver</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.validate_request">
+<tt class="descname">validate_request</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.validate_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>High level validaiton function</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.validate_state">
+<tt class="descname">validate_state</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.validate_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the process is in the right state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.write_error">
+<tt class="descname">write_error</tt><big>(</big><em>file_name</em>, <em>record</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.write_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write an error record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.write_header">
+<tt class="descname">write_header</tt><big>(</big><em>file</em>, <em>file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.write_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a header record</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.write_mapped_record">
+<tt class="descname">write_mapped_record</tt><big>(</big><em>file</em>, <em>output_file_desc</em>, <em>data_fields</em>, <em>input_file_desc</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.write_mapped_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map input record format with target record format</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.write_raw">
+<tt class="descname">write_raw</tt><big>(</big><em>file</em>, <em>record</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.write_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulate law level file operation - my be required
+for detailed logging, exception handling</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.process.FileValidation.write_record">
+<tt class="descname">write_record</tt><big>(</big><em>file</em>, <em>file_desc</em>, <em>fields</em><big>)</big><a class="headerlink" href="#equity_master.process.FileValidation.write_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write formatted output</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.process.ProcessResults">
+<em class="property">class </em><tt class="descclassname">equity_master.process.</tt><tt class="descname">ProcessResults</tt><big>(</big><em>priority=None</em>, <em>request=None</em>, <em>response=None</em>, <em>error=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/process.html#ProcessResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.process.ProcessResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Class to capture process execution results</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-equity_master.regexp">
+<span id="equity-master-regexp"></span><h3>equity_master.regexp<a class="headerlink" href="#module-equity_master.regexp" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-equity_master/regex"></span><p>Miscellaneous regular expression utilities</p>
+<dl class="class">
+<dt id="equity_master.regexp.AlphaNumericRegExp">
+<em class="property">class </em><tt class="descclassname">equity_master.regexp.</tt><tt class="descname">AlphaNumericRegExp</tt><big>(</big><em>min_width=None</em>, <em>max_width=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/regexp.html#AlphaNumericRegExp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.regexp.AlphaNumericRegExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.regexp.RegExp" title="equity_master.regexp.RegExp"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.regexp.RegExp</span></tt></a></p>
+<p>Alphanumerc</p>
+<dl class="method">
+<dt id="equity_master.regexp.AlphaNumericRegExp.compile">
+<tt class="descname">compile</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.regexp.AlphaNumericRegExp.compile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compile a regular expression</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.AlphaNumericRegExp.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.AlphaNumericRegExp.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.AlphaNumericRegExp.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.AlphaNumericRegExp.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.AlphaNumericRegExp.match">
+<tt class="descname">match</tt><big>(</big><em>input_str</em><big>)</big><a class="headerlink" href="#equity_master.regexp.AlphaNumericRegExp.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the matching</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.regexp.AlphaRegExp">
+<em class="property">class </em><tt class="descclassname">equity_master.regexp.</tt><tt class="descname">AlphaRegExp</tt><big>(</big><em>min_width=None</em>, <em>max_width=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/regexp.html#AlphaRegExp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.regexp.AlphaRegExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.regexp.RegExp" title="equity_master.regexp.RegExp"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.regexp.RegExp</span></tt></a></p>
+<p>Alpha regexp</p>
+<dl class="method">
+<dt id="equity_master.regexp.AlphaRegExp.compile">
+<tt class="descname">compile</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.regexp.AlphaRegExp.compile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compile a regular expression</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.AlphaRegExp.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.AlphaRegExp.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.AlphaRegExp.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.AlphaRegExp.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.AlphaRegExp.match">
+<tt class="descname">match</tt><big>(</big><em>input_str</em><big>)</big><a class="headerlink" href="#equity_master.regexp.AlphaRegExp.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the matching</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.regexp.CusipRegExp">
+<em class="property">class </em><tt class="descclassname">equity_master.regexp.</tt><tt class="descname">CusipRegExp</tt><a class="reference internal" href="_modules/equity_master/regexp.html#CusipRegExp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.regexp.CusipRegExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.regexp.RegExp" title="equity_master.regexp.RegExp"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.regexp.RegExp</span></tt></a></p>
+<p>Cusip reg exp, ignores the check digint</p>
+<dl class="method">
+<dt id="equity_master.regexp.CusipRegExp.compile">
+<tt class="descname">compile</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.regexp.CusipRegExp.compile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compile a regular expression</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.CusipRegExp.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.CusipRegExp.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.CusipRegExp.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.CusipRegExp.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.CusipRegExp.match">
+<tt class="descname">match</tt><big>(</big><em>input_str</em><big>)</big><a class="headerlink" href="#equity_master.regexp.CusipRegExp.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the matching</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.regexp.IsinRegExp">
+<em class="property">class </em><tt class="descclassname">equity_master.regexp.</tt><tt class="descname">IsinRegExp</tt><a class="reference internal" href="_modules/equity_master/regexp.html#IsinRegExp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.regexp.IsinRegExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.regexp.RegExp" title="equity_master.regexp.RegExp"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.regexp.RegExp</span></tt></a></p>
+<p>Isign reg exp</p>
+<dl class="method">
+<dt id="equity_master.regexp.IsinRegExp.compile">
+<tt class="descname">compile</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.regexp.IsinRegExp.compile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compile a regular expression</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.IsinRegExp.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.IsinRegExp.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.IsinRegExp.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.IsinRegExp.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.IsinRegExp.match">
+<tt class="descname">match</tt><big>(</big><em>input_str</em><big>)</big><a class="headerlink" href="#equity_master.regexp.IsinRegExp.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the matching</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.regexp.NumericRegExp">
+<em class="property">class </em><tt class="descclassname">equity_master.regexp.</tt><tt class="descname">NumericRegExp</tt><big>(</big><em>min_width=None</em>, <em>max_width=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/regexp.html#NumericRegExp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.regexp.NumericRegExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.regexp.RegExp" title="equity_master.regexp.RegExp"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.regexp.RegExp</span></tt></a></p>
+<p>Numeric reg exp</p>
+<dl class="method">
+<dt id="equity_master.regexp.NumericRegExp.compile">
+<tt class="descname">compile</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.regexp.NumericRegExp.compile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compile a regular expression</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.NumericRegExp.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.NumericRegExp.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.NumericRegExp.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.NumericRegExp.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.NumericRegExp.match">
+<tt class="descname">match</tt><big>(</big><em>input_str</em><big>)</big><a class="headerlink" href="#equity_master.regexp.NumericRegExp.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the matching</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.regexp.RegExp">
+<em class="property">class </em><tt class="descclassname">equity_master.regexp.</tt><tt class="descname">RegExp</tt><big>(</big><em>binary=None</em>, <em>min_width=None</em>, <em>max_width=None</em><big>)</big><a class="reference internal" href="_modules/equity_master/regexp.html#RegExp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.regexp.RegExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.common.ErrorMixin" title="equity_master.common.ErrorMixin"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.common.ErrorMixin</span></tt></a>, <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Base class construct designed to integrate with the meta
+data/description of files</p>
+<dl class="method">
+<dt id="equity_master.regexp.RegExp.compile">
+<tt class="descname">compile</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master/regexp.html#RegExp.compile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.regexp.RegExp.compile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compile a regular expression</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.RegExp.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.RegExp.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.RegExp.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.RegExp.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.RegExp.match">
+<tt class="descname">match</tt><big>(</big><em>input_str</em><big>)</big><a class="reference internal" href="_modules/equity_master/regexp.html#RegExp.match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.regexp.RegExp.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the matching</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.RegExp.source">
+<tt class="descname">source</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master/regexp.html#RegExp.source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.regexp.RegExp.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstraction for derived classes to override
+and return the formatted string</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="equity_master.regexp.SedolRegExp">
+<em class="property">class </em><tt class="descclassname">equity_master.regexp.</tt><tt class="descname">SedolRegExp</tt><a class="reference internal" href="_modules/equity_master/regexp.html#SedolRegExp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.regexp.SedolRegExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#equity_master.regexp.RegExp" title="equity_master.regexp.RegExp"><tt class="xref py py-class docutils literal"><span class="pre">equity_master.regexp.RegExp</span></tt></a></p>
+<p>Sedol regexp</p>
+<dl class="method">
+<dt id="equity_master.regexp.SedolRegExp.compile">
+<tt class="descname">compile</tt><big>(</big><big>)</big><a class="headerlink" href="#equity_master.regexp.SedolRegExp.compile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compile a regular expression</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.SedolRegExp.error">
+<tt class="descname">error</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.SedolRegExp.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.SedolRegExp.fatal">
+<tt class="descname">fatal</tt><big>(</big><em>exc_class</em>, <em>logger</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#equity_master.regexp.SedolRegExp.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and exit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master.regexp.SedolRegExp.match">
+<tt class="descname">match</tt><big>(</big><em>input_str</em><big>)</big><a class="headerlink" href="#equity_master.regexp.SedolRegExp.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the matching</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-equity_master.model">
+<span id="equity-master-model"></span><h3>equity_master.model<a class="headerlink" href="#module-equity_master.model" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-equity_master/model"></span><dl class="function">
+<dt id="equity_master.model.process_state">
+<tt class="descclassname">equity_master.model.</tt><tt class="descname">process_state</tt><big>(</big><em>state_id</em><big>)</big><a class="reference internal" href="_modules/equity_master/model.html#process_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.model.process_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>process state lookup funciton</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-equity_master.file_sort">
+<span id="equity-master-file-sort"></span><h3>equity_master.file_sort<a class="headerlink" href="#module-equity_master.file_sort" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="equity_master.file_sort.Keyed">
+<em class="property">class </em><tt class="descclassname">equity_master.file_sort.</tt><tt class="descname">Keyed</tt><a class="headerlink" href="#equity_master.file_sort.Keyed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">tuple</span></tt></p>
+<p>Keyed(key, obj)</p>
+<dl class="method">
+<dt id="equity_master.file_sort.Keyed.count">
+<tt class="descname">count</tt><big>(</big><em>value</em><big>)</big> &rarr; integer -- return number of occurrences of value<a class="headerlink" href="#equity_master.file_sort.Keyed.count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="equity_master.file_sort.Keyed.index">
+<tt class="descname">index</tt><big>(</big><em>value</em><span class="optional">[</span>, <em>start</em><span class="optional">[</span>, <em>stop</em><span class="optional">]</span><span class="optional">]</span><big>)</big> &rarr; integer -- return first index of value.<a class="headerlink" href="#equity_master.file_sort.Keyed.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raises ValueError if the value is not present.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="equity_master.file_sort.Keyed.key">
+<tt class="descname">key</tt><a class="headerlink" href="#equity_master.file_sort.Keyed.key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="equity_master.file_sort.Keyed.obj">
+<tt class="descname">obj</tt><a class="headerlink" href="#equity_master.file_sort.Keyed.obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.file_sort.keyed_merge">
+<tt class="descclassname">equity_master.file_sort.</tt><tt class="descname">keyed_merge</tt><big>(</big><em>key=None</em>, <em>*iterables</em><big>)</big><a class="reference internal" href="_modules/equity_master/file_sort.html#keyed_merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.file_sort.keyed_merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function prepends a unique object id to a record</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.file_sort.merge">
+<tt class="descclassname">equity_master.file_sort.</tt><tt class="descname">merge</tt><big>(</big><em>key</em>, <em>skip</em>, <em>*iterables</em><big>)</big><a class="reference internal" href="_modules/equity_master/file_sort.html#merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.file_sort.merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge n number of iterables that are sorted, using the key
+if defined, and skipping header records if and when required</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.file_sort.sort">
+<tt class="descclassname">equity_master.file_sort.</tt><tt class="descname">sort</tt><big>(</big><em>input_file_name</em>, <em>output_file_name</em>, <em>key=None</em>, <em>buffer_size=32000</em>, <em>tempdirs=None</em>, <em>skip=0</em><big>)</big><a class="reference internal" href="_modules/equity_master/file_sort.html#sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.file_sort.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort a file in chunks</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-equity_master.util">
+<span id="equity-master-util"></span><h3>equity_master.util<a class="headerlink" href="#module-equity_master.util" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-equity_nasger/util"></span><p>Miscellaneous constructs facilitate equity masger implementation.</p>
+<dl class="function">
+<dt id="equity_master.util.caller_name">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">caller_name</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#caller_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.caller_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return calling function name</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.util.class_name">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">class_name</tt><big>(</big><em>obj</em><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#class_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.class_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>class name wrapper function</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.util.file_name">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">file_name</tt><big>(</big><em>frame</em><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#file_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.file_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return current frames file name</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.util.function_name">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">function_name</tt><big>(</big><em>frame</em><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#function_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.function_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return current frames function name</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.util.is_callable">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">is_callable</tt><big>(</big><em>obj</em><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#is_callable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.is_callable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if object instance is callable</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.util.line_no">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">line_no</tt><big>(</big><em>frame</em><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#line_no"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.line_no" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return current frames line number</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.util.log">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">log</tt><big>(</big><em>logger</em>, <em>severity</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a message</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.util.log_raise">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">log_raise</tt><big>(</big><em>ex_class</em>, <em>logger</em>, <em>severity</em>, <em>tmpl</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#log_raise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.log_raise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log and raise an exception</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.util.pretty_args">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">pretty_args</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#pretty_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.pretty_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>prepare a format string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.util.where">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">where</tt><big>(</big><em>frame</em><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#where"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.where" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return code location information for current frame</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.util.whoami">
+<tt class="descclassname">equity_master.util.</tt><tt class="descname">whoami</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master/util.html#whoami"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.util.whoami" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return called function name</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-equity_master.bootstrap">
+<span id="equity-master-bootstrap"></span><h3>equity_master.bootstrap<a class="headerlink" href="#module-equity_master.bootstrap" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-router/bootstrap"></span><p>Handle package initialization tasks including retrieving
+required data, ensuring that dependent packages/applications
+have a valid run time  environment</p>
+<dl class="function">
+<dt id="equity_master.bootstrap.create_workflow">
+<tt class="descclassname">equity_master.bootstrap.</tt><tt class="descname">create_workflow</tt><big>(</big><em>root_dir</em>, <em>wf_dir</em>, <em>log_dir</em>, <em>data_dir</em>, <em>*data_files</em><big>)</big><a class="reference internal" href="_modules/equity_master/bootstrap.html#create_workflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.bootstrap.create_workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create directory structure required to support
+the workflow</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.bootstrap.log_dir">
+<tt class="descclassname">equity_master.bootstrap.</tt><tt class="descname">log_dir</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master/bootstrap.html#log_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.bootstrap.log_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>provide support to other modules with logging configuration</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-equity_master.builder">
+<span id="equity-master-builder"></span><h3>equity_master.builder<a class="headerlink" href="#module-equity_master.builder" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-equity_master/builder"></span><p>Required to simplify object creation and configuration</p>
+<dl class="function">
+<dt id="equity_master.builder.create_file_detection_process">
+<tt class="descclassname">equity_master.builder.</tt><tt class="descname">create_file_detection_process</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master/builder.html#create_file_detection_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.builder.create_file_detection_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and configure a file detection  process</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.builder.create_file_validation_process">
+<tt class="descclassname">equity_master.builder.</tt><tt class="descname">create_file_validation_process</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master/builder.html#create_file_validation_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.builder.create_file_validation_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and configure a file validation  process</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.builder.create_file_sort_process">
+<tt class="descclassname">equity_master.builder.</tt><tt class="descname">create_file_sort_process</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master/builder.html#create_file_sort_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.builder.create_file_sort_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and configure a file sort  process</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master.builder.create_file_merge_process">
+<tt class="descclassname">equity_master.builder.</tt><tt class="descname">create_file_merge_process</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master/builder.html#create_file_merge_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master.builder.create_file_merge_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and configure a file merge  process</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="equity-master-tests">
+<h2>Equity Master Tests<a class="headerlink" href="#equity-master-tests" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-tests.common">
+<span id="tests-common"></span><h3>tests.common<a class="headerlink" href="#module-tests.common" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-equity_master/tests/common"></span><p>Common utilities and classes for unit testing the  equity_master module.</p>
+<dl class="class">
+<dt id="tests.common.BaseTest">
+<em class="property">class </em><tt class="descclassname">tests.common.</tt><tt class="descname">BaseTest</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/tests/common.html#BaseTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.common.BaseTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>Base unit test class
+Designed to facilitate common unit test patterns</p>
+<dl class="method">
+<dt id="tests.common.BaseTest.create_factory">
+<tt class="descname">create_factory</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/common.html#BaseTest.create_factory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.common.BaseTest.create_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook for derived class to override</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tests.common.BaseTest.factory">
+<tt class="descname">factory</tt><a class="reference internal" href="_modules/tests/common.html#BaseTest.factory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.common.BaseTest.factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the factory instance.
+Designed to facilitate data consitency
+with hooks for overriding</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tests.common.EquityMasterTestData">
+<em class="property">class </em><tt class="descclassname">tests.common.</tt><tt class="descname">EquityMasterTestData</tt><a class="reference internal" href="_modules/tests/common.html#EquityMasterTestData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.common.EquityMasterTestData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Implement data factory pattern
+Designed to simply test data reuse
+and reduce unit testing data errors</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tests.common.fix_path">
+<tt class="descclassname">tests.common.</tt><tt class="descname">fix_path</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/common.html#fix_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.common.fix_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure python path
+Required in order to support non Eclipse test execution
+without setting PYTHONPATH</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tests.process_tests">
+<span id="tests-process-tests"></span><h3>tests.process_tests<a class="headerlink" href="#module-tests.process_tests" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-router/tests/process_tests"></span><p>Utilities and classes for unit testing the process module.</p>
+<dl class="class">
+<dt id="tests.process_tests.FileDetectionTest">
+<em class="property">class </em><tt class="descclassname">tests.process_tests.</tt><tt class="descname">FileDetectionTest</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileDetectionTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileDetectionTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tests.common.BaseTest" title="tests.common.BaseTest"><tt class="xref py py-class docutils literal"><span class="pre">tests.common.BaseTest</span></tt></a></p>
+<p>file detection  process cass   test cases</p>
+<dl class="staticmethod">
+<dt id="tests.process_tests.FileDetectionTest.get_invalid_tests_suite">
+<em class="property">static </em><tt class="descname">get_invalid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileDetectionTest.get_invalid_tests_suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileDetectionTest.get_invalid_tests_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define  invalid test cases</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="tests.process_tests.FileDetectionTest.get_valid_tests_suite">
+<em class="property">static </em><tt class="descname">get_valid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileDetectionTest.get_valid_tests_suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileDetectionTest.get_valid_tests_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define  valid test cases</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tests.process_tests.FileDetectionTest.test_creation">
+<tt class="descname">test_creation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileDetectionTest.test_creation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileDetectionTest.test_creation" title="Permalink to this definition">¶</a></dt>
+<dd><p>test file detection process  creation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tests.process_tests.FileSortTest">
+<em class="property">class </em><tt class="descclassname">tests.process_tests.</tt><tt class="descname">FileSortTest</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileSortTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileSortTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tests.common.BaseTest" title="tests.common.BaseTest"><tt class="xref py py-class docutils literal"><span class="pre">tests.common.BaseTest</span></tt></a></p>
+<p>FileDetector thread  test cases</p>
+<dl class="staticmethod">
+<dt id="tests.process_tests.FileSortTest.get_invalid_tests_suite">
+<em class="property">static </em><tt class="descname">get_invalid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileSortTest.get_invalid_tests_suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileSortTest.get_invalid_tests_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define  invalid test cases</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="tests.process_tests.FileSortTest.get_valid_tests_suite">
+<em class="property">static </em><tt class="descname">get_valid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileSortTest.get_valid_tests_suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileSortTest.get_valid_tests_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define  valid test cases</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tests.process_tests.FileSortTest.test_creation">
+<tt class="descname">test_creation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileSortTest.test_creation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileSortTest.test_creation" title="Permalink to this definition">¶</a></dt>
+<dd><p>test file validation  process  creation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tests.process_tests.FileValidationTest">
+<em class="property">class </em><tt class="descclassname">tests.process_tests.</tt><tt class="descname">FileValidationTest</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileValidationTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileValidationTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tests.common.BaseTest" title="tests.common.BaseTest"><tt class="xref py py-class docutils literal"><span class="pre">tests.common.BaseTest</span></tt></a></p>
+<p>FileDetector thread  test cases</p>
+<dl class="staticmethod">
+<dt id="tests.process_tests.FileValidationTest.get_invalid_tests_suite">
+<em class="property">static </em><tt class="descname">get_invalid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileValidationTest.get_invalid_tests_suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileValidationTest.get_invalid_tests_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define  invalid test cases</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="tests.process_tests.FileValidationTest.get_valid_tests_suite">
+<em class="property">static </em><tt class="descname">get_valid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileValidationTest.get_valid_tests_suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileValidationTest.get_valid_tests_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define  valid test cases</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tests.process_tests.FileValidationTest.test_creation">
+<tt class="descname">test_creation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileValidationTest.test_creation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.FileValidationTest.test_creation" title="Permalink to this definition">¶</a></dt>
+<dd><p>test file validation  process  creation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="tests.process_tests.suite">
+<tt class="descclassname">tests.process_tests.</tt><tt class="descname">suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.process_tests.suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create test suite of thread test cases</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h3>tests.process_tests<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-tests.process_tests"></span><span class="target" id="module-router/tests/process_tests"></span><p>Utilities and classes for unit testing the process module.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">tests.process_tests.</tt><tt class="descname">FileDetectionTest</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileDetectionTest"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tests.common.BaseTest" title="tests.common.BaseTest"><tt class="xref py py-class docutils literal"><span class="pre">tests.common.BaseTest</span></tt></a></p>
+<p>file detection  process cass   test cases</p>
+<dl class="staticmethod">
+<dt>
+<em class="property">static </em><tt class="descname">get_invalid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileDetectionTest.get_invalid_tests_suite"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Define  invalid test cases</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt>
+<em class="property">static </em><tt class="descname">get_valid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileDetectionTest.get_valid_tests_suite"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Define  valid test cases</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">test_creation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileDetectionTest.test_creation"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>test file detection process  creation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">tests.process_tests.</tt><tt class="descname">FileSortTest</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileSortTest"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tests.common.BaseTest" title="tests.common.BaseTest"><tt class="xref py py-class docutils literal"><span class="pre">tests.common.BaseTest</span></tt></a></p>
+<p>FileDetector thread  test cases</p>
+<dl class="staticmethod">
+<dt>
+<em class="property">static </em><tt class="descname">get_invalid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileSortTest.get_invalid_tests_suite"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Define  invalid test cases</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt>
+<em class="property">static </em><tt class="descname">get_valid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileSortTest.get_valid_tests_suite"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Define  valid test cases</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">test_creation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileSortTest.test_creation"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>test file validation  process  creation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">tests.process_tests.</tt><tt class="descname">FileValidationTest</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileValidationTest"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tests.common.BaseTest" title="tests.common.BaseTest"><tt class="xref py py-class docutils literal"><span class="pre">tests.common.BaseTest</span></tt></a></p>
+<p>FileDetector thread  test cases</p>
+<dl class="staticmethod">
+<dt>
+<em class="property">static </em><tt class="descname">get_invalid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileValidationTest.get_invalid_tests_suite"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Define  invalid test cases</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt>
+<em class="property">static </em><tt class="descname">get_valid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileValidationTest.get_valid_tests_suite"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Define  valid test cases</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">test_creation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#FileValidationTest.test_creation"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>test file validation  process  creation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descclassname">tests.process_tests.</tt><tt class="descname">suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/process_tests.html#suite"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Create test suite of thread test cases</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tests.regexp_tests">
+<span id="tests-regexp-tests"></span><h3>tests.regexp_tests<a class="headerlink" href="#module-tests.regexp_tests" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-tests/regexp_tests"></span><p>Test suite designed to test regex_scripting features</p>
+<dl class="class">
+<dt id="tests.regexp_tests.TestParsing">
+<em class="property">class </em><tt class="descclassname">tests.regexp_tests.</tt><tt class="descname">TestParsing</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/tests/regexp_tests.html#TestParsing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.regexp_tests.TestParsing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tests.common.BaseTest" title="tests.common.BaseTest"><tt class="xref py py-class docutils literal"><span class="pre">tests.common.BaseTest</span></tt></a></p>
+<p>Test  regex_scripting package  functionality</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-equity_master_tests">
+<span id="tests-equity-master-tests"></span><h3>tests.equity_master_tests<a class="headerlink" href="#module-equity_master_tests" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-tests/equity_master_tests"></span><dl class="class">
+<dt id="equity_master_tests.ProcessTest">
+<em class="property">class </em><tt class="descclassname">equity_master_tests.</tt><tt class="descname">ProcessTest</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/equity_master_tests.html#ProcessTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master_tests.ProcessTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">common.BaseTest</span></tt></p>
+<p>Process test cases</p>
+<dl class="staticmethod">
+<dt id="equity_master_tests.ProcessTest.get_invalid_tests_suite">
+<em class="property">static </em><tt class="descname">get_invalid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master_tests.html#ProcessTest.get_invalid_tests_suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master_tests.ProcessTest.get_invalid_tests_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define  invalid test cases</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="equity_master_tests.ProcessTest.get_valid_tests_suite">
+<em class="property">static </em><tt class="descname">get_valid_tests_suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master_tests.html#ProcessTest.get_valid_tests_suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master_tests.ProcessTest.get_valid_tests_suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define  valid test cases</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master_tests.ProcessTest.test_file_arrival">
+<tt class="descname">test_file_arrival</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master_tests.html#ProcessTest.test_file_arrival"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master_tests.ProcessTest.test_file_arrival" title="Permalink to this definition">¶</a></dt>
+<dd><p>test file detection process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master_tests.ProcessTest.test_file_merge">
+<tt class="descname">test_file_merge</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master_tests.html#ProcessTest.test_file_merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master_tests.ProcessTest.test_file_merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>test file merge process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master_tests.ProcessTest.test_file_sort">
+<tt class="descname">test_file_sort</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master_tests.html#ProcessTest.test_file_sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master_tests.ProcessTest.test_file_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>test file sort process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master_tests.ProcessTest.test_file_validation">
+<tt class="descname">test_file_validation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master_tests.html#ProcessTest.test_file_validation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master_tests.ProcessTest.test_file_validation" title="Permalink to this definition">¶</a></dt>
+<dd><p>test file validation process</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="equity_master_tests.ProcessTest.test_workflow_creation">
+<tt class="descname">test_workflow_creation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master_tests.html#ProcessTest.test_workflow_creation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master_tests.ProcessTest.test_workflow_creation" title="Permalink to this definition">¶</a></dt>
+<dd><p>test process environment creation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="equity_master_tests.suite">
+<tt class="descclassname">equity_master_tests.</tt><tt class="descname">suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/equity_master_tests.html#suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#equity_master_tests.suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create test suite of thread test cases</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tests.run_tests">
+<span id="tests-run-tests"></span><h3>tests.run_tests<a class="headerlink" href="#module-tests.run_tests" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-tests/run_tests"></span><dl class="function">
+<dt id="tests.run_tests.suite">
+<tt class="descclassname">tests.run_tests.</tt><tt class="descname">suite</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/run_tests.html#suite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tests.run_tests.suite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create test suite for the package</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id2">
+<h3>tests.common<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-tests.common"></span><span class="target" id="module-equity_master/tests/common"></span><p>Common utilities and classes for unit testing the  equity_master module.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">tests.common.</tt><tt class="descname">BaseTest</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/tests/common.html#BaseTest"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></tt></p>
+<p>Base unit test class
+Designed to facilitate common unit test patterns</p>
+<dl class="method">
+<dt>
+<tt class="descname">create_factory</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/common.html#BaseTest.create_factory"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Hook for derived class to override</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">factory</tt><a class="reference internal" href="_modules/tests/common.html#BaseTest.factory"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get the factory instance.
+Designed to facilitate data consitency
+with hooks for overriding</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">tests.common.</tt><tt class="descname">EquityMasterTestData</tt><a class="reference internal" href="_modules/tests/common.html#EquityMasterTestData"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Implement data factory pattern
+Designed to simply test data reuse
+and reduce unit testing data errors</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descclassname">tests.common.</tt><tt class="descname">fix_path</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/tests/common.html#fix_path"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Configure python path
+Required in order to support non Eclipse test execution
+without setting PYTHONPATH</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="scripts">
+<h2>Scripts<a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-samples">
+<span id="samples"></span><h3>Samples<a class="headerlink" href="#module-samples" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-samples"></span><p>Demonstrates how file related processes are pipelined between
+cooperating process using input and output queues.</p>
+<dl class="function">
+<dt id="samples.detection_req">
+<tt class="descclassname">samples.</tt><tt class="descname">detection_req</tt><big>(</big><em>wfdir</em><big>)</big><a class="reference internal" href="_modules/samples.html#detection_req"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#samples.detection_req" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function for creating file detection requests</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="samples.dispatch">
+<tt class="descclassname">samples.</tt><tt class="descname">dispatch</tt><big>(</big><em>proc</em>, <em>reqs</em><big>)</big><a class="reference internal" href="_modules/samples.html#dispatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#samples.dispatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send/receive request/response</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="samples.exec_workflow">
+<tt class="descclassname">samples.</tt><tt class="descname">exec_workflow</tt><big>(</big><em>parser</em>, <em>options</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/samples.html#exec_workflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#samples.exec_workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute command line options related to file feed proces</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="samples.fix_path">
+<tt class="descclassname">samples.</tt><tt class="descname">fix_path</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/samples.html#fix_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#samples.fix_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure python sys.path for standalone execution</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="samples.merge_req">
+<tt class="descclassname">samples.</tt><tt class="descname">merge_req</tt><big>(</big><em>wfdir</em><big>)</big><a class="reference internal" href="_modules/samples.html#merge_req"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#samples.merge_req" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a file merge request</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="samples.setup">
+<tt class="descclassname">samples.</tt><tt class="descname">setup</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/samples.html#setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#samples.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup workflow execution environment</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="samples.sort_req">
+<tt class="descclassname">samples.</tt><tt class="descname">sort_req</tt><big>(</big><em>wfdir</em><big>)</big><a class="reference internal" href="_modules/samples.html#sort_req"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#samples.sort_req" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a file sort request</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="samples.validation_req">
+<tt class="descclassname">samples.</tt><tt class="descname">validation_req</tt><big>(</big><em>wfdir</em><big>)</big><a class="reference internal" href="_modules/samples.html#validation_req"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#samples.validation_req" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a validation request</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Reference Documentation</a><ul>
+<li><a class="reference internal" href="#equity-master">Equity Master</a><ul>
+<li><a class="reference internal" href="#module-equity_master.common">equity_master.common</a></li>
+<li><a class="reference internal" href="#module-equity_master.desc">equity_master.desc</a></li>
+<li><a class="reference internal" href="#module-equity_master.process">equity_master.process</a></li>
+<li><a class="reference internal" href="#module-equity_master.regexp">equity_master.regexp</a></li>
+<li><a class="reference internal" href="#module-equity_master.model">equity_master.model</a></li>
+<li><a class="reference internal" href="#module-equity_master.file_sort">equity_master.file_sort</a></li>
+<li><a class="reference internal" href="#module-equity_master.util">equity_master.util</a></li>
+<li><a class="reference internal" href="#module-equity_master.bootstrap">equity_master.bootstrap</a></li>
+<li><a class="reference internal" href="#module-equity_master.builder">equity_master.builder</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#equity-master-tests">Equity Master Tests</a><ul>
+<li><a class="reference internal" href="#module-tests.common">tests.common</a></li>
+<li><a class="reference internal" href="#module-tests.process_tests">tests.process_tests</a></li>
+<li><a class="reference internal" href="#id1">tests.process_tests</a></li>
+<li><a class="reference internal" href="#module-tests.regexp_tests">tests.regexp_tests</a></li>
+<li><a class="reference internal" href="#module-equity_master_tests">tests.equity_master_tests</a></li>
+<li><a class="reference internal" href="#module-tests.run_tests">tests.run_tests</a></li>
+<li><a class="reference internal" href="#id2">tests.common</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scripts">Scripts</a><ul>
+<li><a class="reference internal" href="#module-samples">Samples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Equity Master  Feed Processing</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/reference.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Equity Master Feed Processing"
+             >previous</a> |</li>
+        <li><a href="index.html">Equity Master alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

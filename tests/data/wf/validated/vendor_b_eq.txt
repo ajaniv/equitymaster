@@ -1,0 +1,4 @@
+cusip,isin,sedol,common_number,symbol,country,category_primary,exchange_primary,industry_sector,industry_group,industry_subgroup
+03783310,US037833100,0Z1Y,009718834,AAPL,US,Common,XNGS,Tech.,Computers,Computers
+59491810,US594918104,0Z1Y,009702997,MSFT,US,Common,XNGS,Tech.,Software,Applications Software
+45920010,US459200101,0Z1Y,009703799,IBM,US,Common,NYSE,Tech.,Computers,Computers

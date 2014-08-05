@@ -1,0 +1,12 @@
+include README
+include INSTALL
+include LICENSE
+include MANIFEST.in
+recursive-include docs *
+recursive-include equity_master *.py
+recursive-include scripts *.py
+recursive-include tests  *.py
+recursive-include data_config  *.py
+recursive-include data *
+
+

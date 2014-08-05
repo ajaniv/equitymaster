@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>equity_master.util &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for equity_master.util</h1><div class="highlight"><pre>
+<span class="c">#/usr/bin/env python</span>
+<span class="c"># -#- coding: utf-8 -#-</span>
+
+<span class="c">#</span>
+<span class="c"># equity_master/util.py - equity masger utilities module</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: equity_nasger/util</span>
+<span class="sd">   :synopsis: router utilities</span>
+
+<span class="sd">Miscellaneous constructs facilitate equity masger implementation.</span>
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">with_statement</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">config</span>
+
+<span class="n">_m_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+
+
+
+<div class="viewcode-block" id="whoami"><a class="viewcode-back" href="../../reference.html#equity_master.util.whoami">[docs]</a><span class="k">def</span> <span class="nf">whoami</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return called function name&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">_getframe</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
+</div>
+<span class="n">CALLING_FUNC</span> <span class="o">=</span> <span class="n">whoami</span><span class="p">()</span>
+
+
+
+<div class="viewcode-block" id="caller_name"><a class="viewcode-back" href="../../reference.html#equity_master.util.caller_name">[docs]</a><span class="k">def</span> <span class="nf">caller_name</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return calling function name&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">_getframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span></div>
+<span class="n">CALLER_FUNC</span><span class="o">=</span> <span class="n">caller_name</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="function_name"><a class="viewcode-back" href="../../reference.html#equity_master.util.function_name">[docs]</a><span class="k">def</span> <span class="nf">function_name</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return current frames function name&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
+</div>
+<div class="viewcode-block" id="file_name"><a class="viewcode-back" href="../../reference.html#equity_master.util.file_name">[docs]</a><span class="k">def</span> <span class="nf">file_name</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return current frames file name&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_filename</span>
+
+</div>
+<div class="viewcode-block" id="line_no"><a class="viewcode-back" href="../../reference.html#equity_master.util.line_no">[docs]</a><span class="k">def</span> <span class="nf">line_no</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return current frames line number&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span>
+
+</div>
+<div class="viewcode-block" id="where"><a class="viewcode-back" href="../../reference.html#equity_master.util.where">[docs]</a><span class="k">def</span> <span class="nf">where</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return code location information for current frame&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_filename</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span><span class="p">,</span>
+            <span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="is_callable"><a class="viewcode-back" href="../../reference.html#equity_master.util.is_callable">[docs]</a><span class="k">def</span> <span class="nf">is_callable</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if object instance is callable&quot;&quot;&quot;</span>
+    <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="class_name"><a class="viewcode-back" href="../../reference.html#equity_master.util.class_name">[docs]</a><span class="k">def</span> <span class="nf">class_name</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;class name wrapper function&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+
+</div>
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">file_open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&quot;r&quot;</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">,</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">_m_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;File open error: </span><span class="si">%s</span><span class="s"> mode: </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="bp">None</span><span class="p">,</span> <span class="n">err</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_m_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Opened file: </span><span class="si">%s</span><span class="s"> mode: </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">f</span><span class="p">,</span> <span class="bp">None</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">file_readline</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">,</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">_m_logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;file read error: </span><span class="si">%s</span><span class="s"> mode: </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="bp">None</span><span class="p">,</span> <span class="n">err</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_m_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;read line: </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">line</span><span class="p">,</span> <span class="bp">None</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="nb">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="pretty_args"><a class="viewcode-back" href="../../reference.html#equity_master.util.pretty_args">[docs]</a><span class="k">def</span> <span class="nf">pretty_args</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;prepare a format string&quot;&quot;&quot;</span>
+    <span class="n">tmpl</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">Template</span><span class="p">(</span><span class="s">&#39;{$fld_pos:$fld_type}, &#39;</span><span class="p">)</span>
+    <span class="n">fld_fmt</span> <span class="o">=</span> <span class="s">&#39;s&#39;</span>
+    <span class="n">fmt_str</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">tmpl</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">fld_pos</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">fld_type</span><span class="o">=</span><span class="n">fld_fmt</span><span class="p">)</span>
+                      <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">))])</span>
+
+    <span class="c"># trimming extra formating from format string i.e (: &quot;)</span>
+
+    <span class="n">pretty</span> <span class="o">=</span> <span class="n">fmt_str</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">fmt_str</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pretty</span>
+</div>
+<div class="viewcode-block" id="log_raise"><a class="viewcode-back" href="../../reference.html#equity_master.util.log_raise">[docs]</a><span class="k">def</span> <span class="nf">log_raise</span><span class="p">(</span>
+    <span class="n">ex_class</span><span class="p">,</span>
+    <span class="n">logger</span><span class="p">,</span>
+    <span class="n">severity</span><span class="p">,</span>
+    <span class="n">tmpl</span><span class="p">,</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span> 
+    <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Log and raise an exception</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="p">(</span><span class="n">wrapped_exc_cl</span><span class="p">,</span> <span class="n">wraped_exc</span><span class="p">,</span> <span class="n">traceback</span><span class="p">)</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>  <span class="c"># @UnusedVariable</span>
+    <span class="n">fmt_msg</span> <span class="o">=</span> <span class="n">tmpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">severity</span><span class="p">,</span> <span class="n">fmt_msg</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="k">raise</span> <span class="n">ex_class</span><span class="p">(</span><span class="n">traceback</span><span class="p">,</span> <span class="n">wraped_exc</span><span class="p">,</span> <span class="n">fmt_msg</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="log"><a class="viewcode-back" href="../../reference.html#equity_master.util.log">[docs]</a><span class="k">def</span> <span class="nf">log</span><span class="p">(</span>
+    <span class="n">logger</span><span class="p">,</span>
+    <span class="n">severity</span><span class="p">,</span>
+    <span class="n">tmpl</span><span class="p">,</span>
+    <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span> 
+    <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Log a message</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fmt_msg</span> <span class="o">=</span> <span class="n">tmpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">severity</span><span class="p">,</span> <span class="n">fmt_msg</span><span class="p">)</span>
+    
+
+</div>
+<span class="k">def</span> <span class="nf">file_time_suffix</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">file_time_format</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,3 @@
+cusip,isin,sedol,common_number,symbol,country,category_primary,exchange_primary,industry_sector,industry_group,industry_subgroup
+03783310,US037833100,204625,0Z1Y,AAPL,0Z1Y,Common,XNAS,Technology,Computers,Computers
+37045V10,US37045V100,B665KZ,0Z1Y,GM,0Z1Y,Common,XNYS,Consumer - Cyclical,Auto Manufacturers,Auto-Cars/Light Trucks

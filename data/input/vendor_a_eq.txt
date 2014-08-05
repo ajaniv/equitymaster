@@ -1,0 +1,27 @@
+cusip,isin,sedol,ticker,category,primary_exchange,industry_sector,industry_group,industry_subgroup
+037833100,US0378331005,2046251,AAPL,Common,XNAS,Technology,Computers,Computers
+594918104,US5949181045,2588173,MSFT,Common,XNAS,Technology,Software,Applications Software
+459200101,US4592001014,2005973,IBM,Common,XNYS,Technology,Computers,Computer Services
+931142103,US9311421039,2936921,WMT,Common,XNYS,Consumer - Cyclical,Retail,Retail-Discount
+68389X105,US68389X1054,2661568,ORCL,Common,XNAS,Technology,Software,Enterprise Software/Serv
+458140100,US4581401001,2463247,INTC,Common,XNAS,Technology,Semiconductors,Electronic Compo-Semicon
+803054204,US8030542042,2775135,SAP,Common,XNYS,Technology,Software,Enterprise Software/Serv
+138006309,US1380063099,2173706,CAJ,Common,XNYS,Technology,Office/Business Equip,Office Automation&Equip
+268648102,US2686481027,2295172,EMC,Common,XNYS,Technology,Computers,Computers-Memory Devices
+37045V100,US37045V1008,B665KZ5,GM ,Common,XNYS,Consumer - Cyclical,Auto Manufacturers,Auto-Cars/Light Trucks
+87612E106,US87612E1064,2259101,TGT,Common,XNYS,Consumer - Cyclical,Retail,Retail-Discount
+143658300,PA1436583006,2523044,CCL,Common,XNYS,Consumer - Cyclical,Leisure Time,Cruise Lines
+988498101,US9884981013,2098876,YUM,Common,XNYS,Consumer - Cyclical,Retail,Retail-Restaurants
+97651M109,US97651M1099,2646123,WIT,Common,XNYS,Technology,Computers,Computer Services
+111320107,US1113201073,2235822,BRCM,Common,XNAS,Technology,Semiconductors,Electronic Compo-Semicon
+N07059186,USN070591862,2242253,ASML,Common,XNAS,Technology,Semiconductors,Semiconductor Equipment
+038222105,US0382221051,2046552,AMAT,Common,XNAS,Technology,Semiconductors,Semiconductor Equipment
+G5876H105,BMG5876H1051,2594653,MRVL,Common,XNAS,Technology,Semiconductors,Semicon Compo-Intg Circu
+67066G104,US67066G1040,2379504,NVDA,Common,XNAS,Technology,Semiconductors,Electronic Compo-Semicon
+57772K101,US57772K1016,2573760,MXIM,Common,XNAS,Technology,Semiconductors,Semicon Compo-Intg Circu
+G7945M107,IE00B58JVZ52,B58JVZ5,STX,Common,XNAS,Technology,Computers,Computers-Memory Devices
+595017104,US5950171042,2592174,MCHP,Common,XNAS,Technology,Semiconductors,Electronic Compo-Semicon
+247361702,US2473617023,B1W9D46,DAL,Common,XNYS,Consumer - Cyclical,Airlines,Airlines
+861012102,US8610121027,2430025,STM,Common,XNYS,Technology,Semiconductors,Electronic Compo-Semicon
+39945C109,CA39945C1095,2411967,GIB,Common,XNYS,Technology,Computers,Computers-Integrated Sys
+049513104,US0495131049,2062310,ATML,Common,XNAS,Technology,Semiconductors,Semicon Compo-Intg Circu

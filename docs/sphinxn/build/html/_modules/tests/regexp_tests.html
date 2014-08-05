@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tests.regexp_tests &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for tests.regexp_tests</h1><div class="highlight"><pre>
+<span class="c">#/usr/bin/env python</span>
+<span class="c"># -#- coding: utf-8 -#-</span>
+
+<span class="c">#</span>
+<span class="c"># parser/test/tests.py - parsing unit test module</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2011-03-08</span>
+<span class="c"># Author: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: tests/regexp_tests</span>
+<span class="sd">   :synopsis: regex_scripting test suite module</span>
+
+<span class="sd">Test suite designed to test regex_scripting features</span>
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">re</span>
+ 
+<span class="kn">from</span> <span class="nn">tests</span> <span class="kn">import</span>  <span class="n">common</span>
+<span class="kn">from</span>  <span class="nn">equity_master</span>  <span class="kn">import</span> <span class="n">regexp</span>
+ 
+
+
+
+
+
+<div class="viewcode-block" id="TestParsing"><a class="viewcode-back" href="../../reference.html#tests.regexp_tests.TestParsing">[docs]</a><span class="k">class</span> <span class="nc">TestParsing</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">BaseTest</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Test  regex_scripting package  functionality</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TestParsing</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_valid_tests_suite</span><span class="p">():</span>
+        <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">suite</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_invalid_tests_suite</span><span class="p">():</span>
+        <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+         
+        <span class="k">return</span> <span class="n">suite</span>
+    
+         
+    <span class="k">def</span> <span class="nf">displaymatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="s">&#39;&lt;Match: </span><span class="si">%r</span><span class="s">, groups=</span><span class="si">%r</span><span class="s">&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(),</span> <span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">test_alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">min</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="nb">max</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">sz</span> <span class="o">=</span> <span class="s">&quot;{{{:d},{:d}}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span>
+        <span class="n">tmpl</span> <span class="o">=</span> <span class="s">r&quot;^[a-zA-Z]&quot;</span> <span class="o">+</span> <span class="n">sz</span> <span class="o">+</span> <span class="s">&quot;$&quot;</span>
+        <span class="k">print</span> <span class="n">tmpl</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">tmpl</span><span class="p">)</span>
+        <span class="c">#exp = re.compile(r&quot;^[a-zA-Z]{3,5}$&quot;)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+        <span class="n">matched</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;aAbBc&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span>
+        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">displaymatch</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test_numeric</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">min</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="nb">max</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">sz</span> <span class="o">=</span> <span class="s">&quot;{{{:d},{:d}}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span>
+        <span class="n">tmpl</span> <span class="o">=</span> <span class="s">r&quot;^[0-9]&quot;</span><span class="o">+</span><span class="n">sz</span><span class="o">+</span><span class="s">&quot;$&quot;</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">tmpl</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+        <span class="n">matched</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;12345&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span>
+        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">displaymatch</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span>
+        
+        <span class="n">exp</span> <span class="o">=</span> <span class="n">regexp</span><span class="o">.</span><span class="n">NumericRegExp</span><span class="p">(</span><span class="n">min_width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exp</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;12345&#39;</span><span class="p">))</span>
+        
+    <span class="k">def</span> <span class="nf">test_alpha_numeric</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">min</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="nb">max</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">sz</span> <span class="o">=</span> <span class="s">&quot;{{{:d},{:d}}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span>
+        <span class="n">tmpl</span> <span class="o">=</span> <span class="s">r&quot;^[a-zA-Z0-9]&quot;</span><span class="o">+</span><span class="n">sz</span><span class="o">+</span><span class="s">&quot;$&quot;</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">tmpl</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+        <span class="n">matched</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;12AB&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span>
+        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">displaymatch</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">test_cusip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">min</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="nb">max</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="n">sz</span> <span class="o">=</span> <span class="s">&quot;{{{:d},{:d}}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span>
+        <span class="n">tmpl</span> <span class="o">=</span> <span class="s">r&quot;^[a-zA-Z0-9*#@]&quot;</span><span class="o">+</span><span class="n">sz</span>  <span class="c">#+&quot;$&quot;</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">tmpl</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+        <span class="n">matched</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;123#@*Abz&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span>
+        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">displaymatch</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">test_isin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;$^&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">test_sedol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="k">def</span> <span class="nf">test_common_number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="k">def</span> <span class="nf">test_ticker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="k">def</span> <span class="nf">test_counttry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="k">def</span> <span class="nf">test_exchange_primary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    </div>
+<span class="k">def</span> <span class="nf">suite</span><span class="p">():</span>
+    <span class="n">parsing_test_suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">([</span>
+                                             <span class="n">TestParsing</span><span class="o">.</span><span class="n">get_valid_tests_suite</span><span class="p">(),</span>
+                                             <span class="n">TestParsing</span><span class="o">.</span><span class="n">get_invalid_tests_suite</span><span class="p">()])</span>
+    
+    <span class="n">master_suite</span> <span class="o">=</span>  <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">(</span> <span class="p">[</span> 
+                                             <span class="n">parsing_test_suite</span><span class="p">,</span>
+                                              
+                                             <span class="p">])</span>
+         
+    <span class="k">return</span> <span class="n">master_suite</span>
+
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">suite</span><span class="p">())</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

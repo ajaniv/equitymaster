@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>equity_master.common &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for equity_master.common</h1><div class="highlight"><pre>
+<span class="c">#/usr/bin/env python</span>
+<span class="c"># -#- coding: utf-8 -#-</span>
+
+<span class="c">#</span>
+<span class="c"># equity_master/common.py - equity master  common classes</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: equity_master/common</span>
+<span class="sd">   :synopsis: miscellaneous abstract classes and other core constructs</span>
+
+
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__revision__</span> <span class="o">=</span> <span class="s">&#39;$Id: $&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.0.1&#39;</span>
+
+
+
+
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">util</span>
+
+
+
+
+<div class="viewcode-block" id="UnicodeMixin"><a class="viewcode-back" href="../../reference.html#equity_master.common.UnicodeMixin">[docs]</a><span class="k">class</span> <span class="nc">UnicodeMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Unicode mixin class to help in </span>
+<span class="sd">        python 2 to python 3 migration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>  <span class="c"># Python 3</span>
+
+        <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unicode__</span><span class="p">()</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># Python 2</span>
+
+        <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unicode__</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
+
+
+
+
+</div>
+<div class="viewcode-block" id="ExecutionError"><a class="viewcode-back" href="../../reference.html#equity_master.common.ExecutionError">[docs]</a><span class="k">class</span> <span class="nc">ExecutionError</span><span class="p">(</span><span class="n">UnicodeMixin</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Execution error class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">traceback</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+        <span class="n">wrapped_ex</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+        <span class="n">kwargs</span><span class="o">=</span><span class="bp">None</span>
+        <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ExecutionError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">traceback</span> <span class="o">=</span> <span class="n">traceback</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wrapped_ex</span> <span class="o">=</span> <span class="n">wrapped_ex</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">pretty_args</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="EquityMasterError"><a class="viewcode-back" href="../../reference.html#equity_master.common.EquityMasterError">[docs]</a><span class="k">class</span> <span class="nc">EquityMasterError</span><span class="p">(</span><span class="n">ExecutionError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;EquityMaster package  error class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="ClassMixin"><a class="viewcode-back" href="../../reference.html#equity_master.common.ClassMixin">[docs]</a><span class="k">class</span> <span class="nc">ClassMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class mixin abstraction</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">class_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">class_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    
+</div>
+<div class="viewcode-block" id="ErrorMixin"><a class="viewcode-back" href="../../reference.html#equity_master.common.ErrorMixin">[docs]</a><span class="k">class</span> <span class="nc">ErrorMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Error mixin class </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    
+<div class="viewcode-block" id="ErrorMixin.error"><a class="viewcode-back" href="../../reference.html#equity_master.common.ErrorMixin.error">[docs]</a>    <span class="k">def</span> <span class="nf">error</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">exc_class</span><span class="p">,</span>
+        <span class="n">logger</span><span class="p">,</span>
+        <span class="n">tmpl</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Log and raise an error&quot;&quot;&quot;</span>
+        <span class="n">util</span><span class="o">.</span><span class="n">log_raise</span><span class="p">(</span><span class="n">exc_class</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span> <span class="n">tmpl</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="ErrorMixin.fatal"><a class="viewcode-back" href="../../reference.html#equity_master.common.ErrorMixin.fatal">[docs]</a>    <span class="k">def</span> <span class="nf">fatal</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">exc_class</span><span class="p">,</span>
+        <span class="n">logger</span><span class="p">,</span>
+        <span class="n">tmpl</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Log and exit&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+        </div></div>
+<div class="viewcode-block" id="LoggingMixin"><a class="viewcode-back" href="../../reference.html#equity_master.common.LoggingMixin">[docs]</a><span class="k">class</span> <span class="nc">LoggingMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Log utilities abstraction</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">logger</span><span class="p">,</span>
+        <span class="n">severity</span><span class="p">,</span>
+        <span class="n">tmpl</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">):</span>
+        <span class="n">util</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">severity</span><span class="p">,</span> <span class="n">tmpl</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="LoggingMixin.debug"><a class="viewcode-back" href="../../reference.html#equity_master.common.LoggingMixin.debug">[docs]</a>    <span class="k">def</span> <span class="nf">debug</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">logger</span><span class="p">,</span>
+        <span class="n">tmpl</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Log a debug message&quot;&quot;&quot;</span>
+         
+        <span class="n">util</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="n">tmpl</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        </div>
+    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="n">logger</span><span class="p">,</span>
+        <span class="n">tmpl</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">util</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">tmpl</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">warn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+        <span class="n">logger</span><span class="p">,</span>
+        <span class="n">tmpl</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">util</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span> <span class="n">tmpl</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">log_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+        <span class="n">logger</span><span class="p">,</span>
+        <span class="n">tmpl</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">util</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span> <span class="n">tmpl</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BusinessObject"><a class="viewcode-back" href="../../reference.html#equity_master.common.BusinessObject">[docs]</a><span class="k">class</span> <span class="nc">BusinessObject</span><span class="p">(</span><span class="n">UnicodeMixin</span><span class="p">,</span> <span class="n">ClassMixin</span><span class="p">,</span> <span class="n">ErrorMixin</span><span class="p">,</span>
+    <span class="n">LoggingMixin</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class business object</span>
+<span class="sd">    Facilitates creation of complex object graphs with</span>
+<span class="sd">    reduced development and maintenance costs, flexible,</span>
+<span class="sd">    yet with rich functionality</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BusinessObject.is_valid"><a class="viewcode-back" href="../../reference.html#equity_master.common.BusinessObject.is_valid">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if object instance is valid</span>
+<span class="sd">        Demonstrates abstract method construct</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

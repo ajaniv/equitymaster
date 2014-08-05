@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>samples &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for samples</h1><div class="highlight"><pre>
+<span class="c">#/usr/bin/env python</span>
+<span class="c"># -#- coding: utf-8 -#-</span>
+
+<span class="c">#</span>
+<span class="c">#  </span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: samples</span>
+<span class="sd">   :synopsis: Explore equity master package  </span>
+
+<span class="sd">Demonstrates how file related processes are pipelined between</span>
+<span class="sd">cooperating process using input and output queues.</span>
+
+
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">optparse</span> <span class="kn">import</span> <span class="n">OptionParser</span>
+<span class="n">root_dir</span> <span class="o">=</span> <span class="s">&#39;../demo/&#39;</span>
+<span class="n">log_dir</span> <span class="o">=</span> <span class="s">&#39;logs/&#39;</span>
+<span class="n">wf_dir</span> <span class="o">=</span>  <span class="s">&#39;wf/&#39;</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s">&#39;../data/&#39;</span>
+<span class="n">input_dir</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s">&#39;input/&#39;</span>
+<span class="n">data_files</span> <span class="o">=</span> <span class="p">(</span> 
+              <span class="s">&#39;vendor_a_eq.txt&#39;</span><span class="p">,</span>
+              <span class="s">&#39;vendor_b_eq.txt&#39;</span>
+              <span class="p">)</span>
+<div class="viewcode-block" id="fix_path"><a class="viewcode-back" href="../reference.html#samples.fix_path">[docs]</a><span class="k">def</span> <span class="nf">fix_path</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure python sys.path for standalone execution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+    <span class="n">_app_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_cwd</span><span class="p">,</span> <span class="s">&#39;..&#39;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_app_root</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_app_root</span><span class="p">)</span>
+
+</div>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">equity_master</span> <span class="kn">as</span> <span class="nn">eqm</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">fix_path</span><span class="p">()</span>
+    <span class="kn">import</span> <span class="nn">equity_master</span> <span class="kn">as</span> <span class="nn">eqm</span>
+
+<span class="c">#</span>
+<span class="c"># Leverage the data configuration environment</span>
+<span class="c"># One can envision a process where these</span>
+<span class="c"># configuration files are detected dynamically.</span>
+<span class="c">#</span>
+<span class="kn">from</span> <span class="nn">data_config</span> <span class="kn">import</span> <span class="n">vendor_a</span>
+<span class="kn">from</span> <span class="nn">data_config</span> <span class="kn">import</span> <span class="n">vendor_b</span>
+<span class="kn">from</span> <span class="nn">data_config</span> <span class="kn">import</span>  <span class="n">my_firm</span>
+
+<div class="viewcode-block" id="detection_req"><a class="viewcode-back" href="../reference.html#samples.detection_req">[docs]</a><span class="k">def</span> <span class="nf">detection_req</span><span class="p">(</span><span class="n">wfdir</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper function for creating file detection requests</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">eqm</span><span class="o">.</span><span class="n">create_file_detection_request</span>
+    <span class="n">file_descs</span> <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">in_eq_def_file_desc</span><span class="p">,</span>
+                  <span class="n">vendor_b</span><span class="o">.</span><span class="n">in_eq_def_file_desc</span><span class="p">)</span>
+    <span class="n">reqs</span> <span class="o">=</span> <span class="p">[</span><span class="n">fn</span><span class="p">(</span><span class="n">eqm</span><span class="o">.</span><span class="n">WAIT</span><span class="p">,</span>
+                <span class="n">file_desc</span><span class="p">,</span>
+                <span class="n">file_desc</span><span class="p">,</span>
+                <span class="n">wfdir</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">file_desc</span> <span class="ow">in</span> <span class="n">file_descs</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">reqs</span>
+</div>
+<div class="viewcode-block" id="validation_req"><a class="viewcode-back" href="../reference.html#samples.validation_req">[docs]</a><span class="k">def</span> <span class="nf">validation_req</span><span class="p">(</span><span class="n">wfdir</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a validation request</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">eqm</span><span class="o">.</span><span class="n">create_file_validation_request</span>
+    <span class="n">in_desc</span>  <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">in_eq_def_file_desc</span><span class="p">,</span>
+                <span class="n">vendor_b</span><span class="o">.</span><span class="n">in_eq_def_file_desc</span><span class="p">)</span>
+    <span class="n">out_desc</span> <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">,</span>
+                <span class="n">vendor_b</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">)</span>
+    <span class="n">reqs</span> <span class="o">=</span> <span class="p">[</span><span class="n">fn</span><span class="p">(</span><span class="n">eqm</span><span class="o">.</span><span class="n">ARRIVED</span><span class="p">,</span>
+                <span class="n">in_d</span><span class="p">,</span>
+                <span class="n">out_d</span><span class="p">,</span>
+                <span class="n">wfdir</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">in_d</span><span class="p">,</span> <span class="n">out_d</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">in_desc</span><span class="p">,</span> <span class="n">out_desc</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">reqs</span>
+</div>
+<div class="viewcode-block" id="sort_req"><a class="viewcode-back" href="../reference.html#samples.sort_req">[docs]</a><span class="k">def</span> <span class="nf">sort_req</span><span class="p">(</span><span class="n">wfdir</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a file sort request</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">eqm</span><span class="o">.</span><span class="n">create_file_sort_request</span>
+    <span class="n">in_desc</span>  <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">,</span>
+                <span class="n">vendor_b</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">)</span>
+    <span class="n">out_desc</span> <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">,</span>
+                <span class="n">vendor_b</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">)</span>
+    <span class="n">reqs</span> <span class="o">=</span> <span class="p">[</span><span class="n">fn</span><span class="p">(</span><span class="n">eqm</span><span class="o">.</span><span class="n">VALIDATED</span><span class="p">,</span>
+                <span class="n">in_d</span><span class="p">,</span>
+                <span class="n">out_d</span><span class="p">,</span>
+                <span class="n">wfdir</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">in_d</span><span class="p">,</span> <span class="n">out_d</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">in_desc</span><span class="p">,</span> <span class="n">out_desc</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">reqs</span>
+
+
+</div>
+<div class="viewcode-block" id="merge_req"><a class="viewcode-back" href="../reference.html#samples.merge_req">[docs]</a><span class="k">def</span> <span class="nf">merge_req</span><span class="p">(</span><span class="n">wfdir</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a file merge request</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fn</span> <span class="o">=</span> <span class="n">eqm</span><span class="o">.</span><span class="n">create_file_merge_request</span>
+    <span class="n">input_file_descs</span> <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">,</span>
+                        <span class="n">vendor_b</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">)</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="n">eqm</span><span class="o">.</span><span class="n">SORTED</span><span class="p">,</span>
+                 <span class="n">input_file_descs</span><span class="p">,</span> 
+                <span class="n">my_firm</span><span class="o">.</span><span class="n">eq_def_file_desc</span><span class="p">,</span>
+                <span class="n">wfdir</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">request</span><span class="p">,)</span>
+                            
+</div>
+<div class="viewcode-block" id="dispatch"><a class="viewcode-back" href="../reference.html#samples.dispatch">[docs]</a><span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="n">proc</span><span class="p">,</span> <span class="n">reqs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Send/receive request/response</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">reqs</span><span class="p">)):</span>
+        <span class="n">proc</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">reqs</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> 
+        <span class="n">resp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">proc</span><span class="o">.</span><span class="n">receive</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">resp</span>
+        
+        
+   
+
+</div>
+<div class="viewcode-block" id="exec_workflow"><a class="viewcode-back" href="../reference.html#samples.exec_workflow">[docs]</a><span class="k">def</span> <span class="nf">exec_workflow</span><span class="p">(</span>
+    <span class="n">parser</span><span class="p">,</span>
+    <span class="n">options</span><span class="p">,</span>
+    <span class="n">args</span><span class="p">,</span>
+    <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Execute command line options related to file feed proces</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span> <span class="s">&#39;workflow  -&gt;&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+   
+  
+    <span class="n">wf</span> <span class="o">=</span> <span class="n">eqm</span><span class="o">.</span><span class="n">create_workflow</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">root_dir</span><span class="p">,</span>
+                                   <span class="n">options</span><span class="o">.</span><span class="n">wf_dir</span><span class="p">,</span>
+                                   <span class="n">options</span><span class="o">.</span><span class="n">log_dir</span><span class="p">,</span>
+                                   <span class="n">options</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span>
+                                         <span class="n">data_files</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">&#39;workflow  is using direcotry (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">wf</span><span class="o">.</span><span class="n">dir</span>
+    
+    <span class="k">def</span> <span class="nf">detect_st</span><span class="p">():</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">eqm</span><span class="o">.</span><span class="n">create_file_detection_process</span><span class="p">()</span>
+        <span class="n">reqs</span> <span class="o">=</span> <span class="n">detection_req</span><span class="p">(</span><span class="n">wf</span><span class="o">.</span><span class="n">dir</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">proc</span><span class="p">,</span> <span class="n">reqs</span>
+    
+    <span class="k">def</span> <span class="nf">validate_st</span><span class="p">():</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">eqm</span><span class="o">.</span><span class="n">create_file_validation_process</span><span class="p">()</span>
+        <span class="n">reqs</span> <span class="o">=</span> <span class="n">validation_req</span><span class="p">(</span><span class="n">wf</span><span class="o">.</span><span class="n">dir</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">proc</span><span class="p">,</span> <span class="n">reqs</span>
+    
+    <span class="k">def</span> <span class="nf">sort_st</span><span class="p">():</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">eqm</span><span class="o">.</span><span class="n">create_file_sort_process</span><span class="p">()</span>
+        <span class="n">reqs</span> <span class="o">=</span> <span class="n">sort_req</span><span class="p">(</span><span class="n">wf</span><span class="o">.</span><span class="n">dir</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">proc</span><span class="p">,</span> <span class="n">reqs</span>
+    
+    <span class="k">def</span> <span class="nf">merge_st</span><span class="p">():</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">eqm</span><span class="o">.</span><span class="n">create_file_merge_process</span><span class="p">()</span>
+        <span class="n">reqs</span> <span class="o">=</span> <span class="n">merge_req</span><span class="p">(</span><span class="n">wf</span><span class="o">.</span><span class="n">dir</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">proc</span><span class="p">,</span> <span class="n">reqs</span>
+        
+    
+    <span class="n">tmpl</span> <span class="o">=</span> <span class="s">&#39;process is now in state (</span><span class="si">%s</span><span class="s">) for  file (</span><span class="si">%s</span><span class="s">)&#39;</span>
+    <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="p">(</span><span class="n">detect_st</span><span class="p">,</span><span class="n">validate_st</span><span class="p">,</span> <span class="n">sort_st</span><span class="p">,</span> <span class="n">merge_st</span><span class="p">):</span>
+        
+        <span class="n">proc</span><span class="p">,</span> <span class="n">reqs</span> <span class="o">=</span> <span class="n">state</span><span class="p">()</span>
+        <span class="n">proc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">responses</span> <span class="o">=</span> <span class="n">dispatch</span> <span class="p">(</span><span class="n">proc</span><span class="p">,</span> <span class="n">reqs</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">reqs</span><span class="p">))</span>
+        
+        <span class="k">for</span> <span class="n">result</span>   <span class="ow">in</span> <span class="n">responses</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="n">proc_st</span> <span class="o">=</span> <span class="n">eqm</span><span class="o">.</span><span class="n">process_state</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">file_state</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">tmpl</span> <span class="o">%</span> <span class="p">(</span><span class="n">proc_st</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                          <span class="n">result</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="n">proc</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+        <span class="n">proc</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+
+    
+</div>
+<div class="viewcode-block" id="setup"><a class="viewcode-back" href="../reference.html#samples.setup">[docs]</a><span class="k">def</span> <span class="nf">setup</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Setup workflow execution environment</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">OptionParser</span><span class="p">(</span><span class="n">usage</span><span class="o">=</span><span class="s">&#39;%prog -q[query] -j[journey] &#39;</span><span class="p">,</span>
+                          <span class="n">version</span><span class="o">=</span><span class="s">&#39;%prog 1.0&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-d&#39;</span><span class="p">,</span> <span class="s">&#39;--data_dir&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;data_dir&#39;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;data files directory&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-r&#39;</span><span class="p">,</span> <span class="s">&#39;--root_dir&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;root_dir&#39;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;demo root  directory&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-w&#39;</span><span class="p">,</span> <span class="s">&#39;--workflow_dir&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;wf_dir&#39;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="n">wf_dir</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;workflow root directory&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-l&#39;</span><span class="p">,</span> <span class="s">&#39;--log_dir&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;log_dir&#39;</span><span class="p">,</span>
+                      <span class="n">default</span><span class="o">=</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;log  directory&quot;</span><span class="p">)</span>
+  
+    
+   
+    <span class="k">return</span> <span class="n">parser</span>
+
+</div>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="n">parser</span><span class="o">=</span> <span class="n">setup</span><span class="p">()</span>
+    <span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">exec_workflow</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span>  <span class="n">options</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

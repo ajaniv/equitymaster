@@ -1,0 +1,3 @@
+cusip,isin,sedol,ticker,category,primary_exchange,industry_sector,industry_group,industry_subgroup
+37045V100,US37045V1008,B665KZ5,GM ,Common,XNYS,Consumer - Cyclical,Auto Manufacturers,Auto-Cars/Light Trucks
+037833100,US0378331005,2046251,AAPL,Common,XNAS,Technology,Computers,Computers

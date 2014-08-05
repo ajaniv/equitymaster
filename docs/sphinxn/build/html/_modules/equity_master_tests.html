@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>equity_master_tests &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for equity_master_tests</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="c">#</span>
+<span class="c"># router/tests/calc_tests.py - router journey calculator tests</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: equity_master/tests/equity_master_tests</span>
+<span class="sd">   :synopsis: process level related tests</span>
+
+
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">import</span> <span class="nn">common</span> <span class="kn">as</span> <span class="nn">tests_common</span>
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">config</span>
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">model</span>
+<span class="c">#from equity_master import builder</span>
+
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">file_sort</span>
+
+<span class="kn">from</span> <span class="nn">data_config</span> <span class="kn">import</span>  <span class="n">vendor_a</span>
+<span class="kn">from</span> <span class="nn">data_config</span> <span class="kn">import</span>  <span class="n">vendor_b</span>
+<span class="kn">from</span> <span class="nn">data_config</span> <span class="kn">import</span>  <span class="n">my_firm</span>
+
+
+
+<div class="viewcode-block" id="ProcessTest"><a class="viewcode-back" href="../reference.html#equity_master_tests.ProcessTest">[docs]</a><span class="k">class</span> <span class="nc">ProcessTest</span><span class="p">(</span><span class="n">tests_common</span><span class="o">.</span><span class="n">BaseTest</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Process test cases</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ProcessTest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ProcessTest.get_valid_tests_suite"><a class="viewcode-back" href="../reference.html#equity_master_tests.ProcessTest.get_valid_tests_suite">[docs]</a>    <span class="k">def</span> <span class="nf">get_valid_tests_suite</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Define  valid test cases</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+        <span class="c">#suite.addTest(ProcessTest(&#39;test_workflow_creation&#39;))</span>
+        <span class="n">suite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">ProcessTest</span><span class="p">(</span><span class="s">&#39;test_file_arrival&#39;</span><span class="p">))</span>
+        <span class="n">suite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">ProcessTest</span><span class="p">(</span><span class="s">&#39;test_file_validation&#39;</span><span class="p">))</span>
+        <span class="n">suite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">ProcessTest</span><span class="p">(</span><span class="s">&#39;test_file_sort&#39;</span><span class="p">))</span>
+        <span class="n">suite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">ProcessTest</span><span class="p">(</span><span class="s">&#39;test_merge_algo&#39;</span><span class="p">))</span>
+        <span class="n">suite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">ProcessTest</span><span class="p">(</span><span class="s">&#39;test_file_merge&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">suite</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ProcessTest.get_invalid_tests_suite"><a class="viewcode-back" href="../reference.html#equity_master_tests.ProcessTest.get_invalid_tests_suite">[docs]</a>    <span class="k">def</span> <span class="nf">get_invalid_tests_suite</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Define  invalid test cases</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># @TODO: outstanding work</span>
+
+        <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">suite</span>
+</div>
+<div class="viewcode-block" id="ProcessTest.test_workflow_creation"><a class="viewcode-back" href="../reference.html#equity_master_tests.ProcessTest.test_workflow_creation">[docs]</a>    <span class="k">def</span> <span class="nf">test_workflow_creation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;test process environment creation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">file_list</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">data_files</span><span class="p">()</span>
+        <span class="n">work_flow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">create_work_flow</span><span class="p">(</span><span class="n">file_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">work_flow</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="ProcessTest.test_file_arrival"><a class="viewcode-back" href="../reference.html#equity_master_tests.ProcessTest.test_file_arrival">[docs]</a>    <span class="k">def</span> <span class="nf">test_file_arrival</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;test file detection process</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span>
+        <span class="n">detector</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_file_detection_process</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">detector</span><span class="p">,</span> <span class="s">&#39;create_detector is None&#39;</span><span class="p">)</span>
+        <span class="n">detector</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        
+        <span class="n">file_descs</span> <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">in_eq_def_file_desc</span><span class="p">,</span>
+                       <span class="n">vendor_b</span><span class="o">.</span><span class="n">in_eq_def_file_desc</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">file_desc</span> <span class="ow">in</span> <span class="p">(</span><span class="n">file_descs</span><span class="p">)</span> <span class="p">:</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_file_detection_request</span><span class="p">(</span><span class="n">file_desc</span><span class="p">,</span> <span class="n">file_desc</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+            <span class="n">detector</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+            
+        <span class="n">detector</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+       
+            
+        <span class="n">detector</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">file_descs</span><span class="p">)</span> <span class="o">==</span> <span class="n">detector</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">file_descs</span><span class="p">)):</span> <span class="c">#@UnusedVariable</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">error</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">priority</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">Priority</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">)</span>
+            <span class="c">#@TODO: compare vs. original request</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">request</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">ARRIVED</span> <span class="o">==</span> <span class="n">results</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">file_state</span><span class="p">)</span>
+    
+</div>
+<div class="viewcode-block" id="ProcessTest.test_file_validation"><a class="viewcode-back" href="../reference.html#equity_master_tests.ProcessTest.test_file_validation">[docs]</a>    <span class="k">def</span> <span class="nf">test_file_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;test file validation process </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span>
+        <span class="n">input_file_descs</span> <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">in_eq_def_file_desc</span><span class="p">,</span>
+                            <span class="n">vendor_b</span><span class="o">.</span><span class="n">in_eq_def_file_desc</span><span class="p">)</span>
+        <span class="n">output_file_descs</span> <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">,</span>
+                             <span class="n">vendor_b</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">)</span>
+        <span class="n">validator</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_file_validation_process</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="s">&#39;create_validation is None&#39;</span><span class="p">)</span>
+        <span class="n">validator</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">input_desc</span><span class="p">,</span> <span class="n">output_desc</span>  <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">input_file_descs</span><span class="p">,</span> <span class="n">output_file_descs</span><span class="p">):</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_file_validation_request</span><span class="p">(</span><span class="n">input_desc</span><span class="p">,</span> <span class="n">output_desc</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+            <span class="n">validator</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+
+        
+        
+        <span class="n">validator</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+            
+        <span class="n">validator</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_file_descs</span><span class="p">)</span> <span class="o">==</span> <span class="n">validator</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_file_descs</span><span class="p">)):</span> <span class="c">#@UnusedVariable</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">error</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">priority</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">Priority</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">)</span>
+            <span class="c">#@TODO: compare vs. original request</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">request</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">VALIDATED</span> <span class="o">==</span> <span class="n">results</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">file_state</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="ProcessTest.test_file_sort"><a class="viewcode-back" href="../reference.html#equity_master_tests.ProcessTest.test_file_sort">[docs]</a>    <span class="k">def</span> <span class="nf">test_file_sort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;test file sort process </span>
+<span class="sd">        &quot;&quot;&quot;</span>  
+        
+        <span class="n">fac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span>
+        <span class="n">input_file_descs</span> <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">,</span>
+                            <span class="n">vendor_b</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">,)</span>
+        <span class="n">output_file_descs</span> <span class="o">=</span> <span class="p">(</span><span class="n">my_firm</span><span class="o">.</span><span class="n">eq_def_file_desc</span><span class="p">,</span>
+                             <span class="n">my_firm</span><span class="o">.</span><span class="n">eq_def_file_desc</span><span class="p">)</span>
+        
+        <span class="n">sorter</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_file_sort_process</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">sorter</span><span class="p">,</span> <span class="s">&#39;create file sorter  is None&#39;</span><span class="p">)</span>
+        
+        <span class="n">sorter</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">input_desc</span><span class="p">,</span> <span class="n">output_desc</span>  <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">input_file_descs</span><span class="p">,</span> 
+                                                             <span class="n">output_file_descs</span>
+                                                             <span class="p">):</span>
+            <span class="n">request</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_file_sort_request</span><span class="p">(</span><span class="n">input_desc</span><span class="p">,</span> 
+                                                   <span class="n">output_desc</span><span class="p">,</span> 
+            
+                                                   <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+            <span class="n">sorter</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+            
+
+        
+        <span class="n">sorter</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+            
+        <span class="n">sorter</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ProcessTest.test_file_merge"><a class="viewcode-back" href="../reference.html#equity_master_tests.ProcessTest.test_file_merge">[docs]</a>    <span class="k">def</span> <span class="nf">test_file_merge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;test file merge process </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span>
+        <span class="n">input_file_descs</span> <span class="o">=</span> <span class="p">(</span><span class="n">vendor_a</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">,</span>
+                            <span class="n">vendor_b</span><span class="o">.</span><span class="n">out_eq_def_file_desc</span><span class="p">)</span>
+        
+                             
+        <span class="n">merger</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_file_merge_process</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">merger</span><span class="p">,</span> <span class="s">&#39;create merger is None&#39;</span><span class="p">)</span>
+        <span class="n">merger</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        
+        
+        <span class="n">request</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_file_merge_request</span><span class="p">(</span><span class="n">input_file_descs</span><span class="p">,</span> 
+                                                     <span class="n">my_firm</span><span class="o">.</span><span class="n">eq_def_file_desc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">merger</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+
+        
+        
+        <span class="n">merger</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+            
+        <span class="n">merger</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">1</span> <span class="o">==</span> <span class="n">merger</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_file_descs</span><span class="p">)):</span> <span class="c">#@UnusedVariable</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">merger</span><span class="o">.</span><span class="n">receive</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">error</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">priority</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">Request</span><span class="o">.</span><span class="n">Priority</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">)</span>
+            <span class="c">#@TODO: compare vs. original request</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">request</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">response</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">MERGED</span> <span class="o">==</span> <span class="n">results</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">file_state</span><span class="p">)</span>
+            </div>
+    <span class="k">def</span> <span class="nf">test_merge_algo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#simple case: keys are equal, need to do merge of fields</span>
+        <span class="n">s_1_r_1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">]</span>
+        <span class="n">s_1_r_2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;f&#39;</span><span class="p">]</span>
+       
+        <span class="n">s_2_r_1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">]</span>
+        <span class="n">s_2_r_2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">]</span>
+        
+        <span class="n">s_3_r_1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">]</span>
+        <span class="n">s_3_r_2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">]</span>
+        <span class="n">s_3_r_3</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">]</span> <span class="c">#dup in file</span>
+         
+        
+        <span class="n">file_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">s_1_r_1</span><span class="p">,</span> <span class="n">s_1_r_2</span><span class="p">]</span>
+        <span class="n">file_2</span> <span class="o">=</span> <span class="p">[</span><span class="n">s_2_r_1</span><span class="p">,</span> <span class="n">s_2_r_2</span><span class="p">]</span>
+        <span class="n">file_3</span> <span class="o">=</span> <span class="p">[</span><span class="n">s_3_r_1</span><span class="p">,</span> <span class="n">s_3_r_2</span><span class="p">,</span> <span class="n">s_3_r_3</span><span class="p">]</span>
+        
+        <span class="n">file_1</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">file_2</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> 
+        <span class="n">merged</span> <span class="o">=</span> <span class="n">do_write</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">file_sort</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">file_1</span><span class="p">,</span> <span class="n">file_2</span><span class="p">,</span> <span class="n">file_3</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">4</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">merged</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;b&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">merged</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;f&#39;</span><span class="p">)</span>
+        
+        
+      </div>
+<span class="k">def</span> <span class="nf">do_write</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">a_list</span><span class="p">):</span>
+    <span class="n">cleaned</span><span class="o">=</span><span class="p">[]</span> 
+    <span class="n">last</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">a_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">last</span><span class="p">:</span>
+            <span class="n">current_key</span> <span class="o">=</span> <span class="n">key</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">current_key</span> <span class="o">!=</span> <span class="n">key</span><span class="p">(</span><span class="n">last</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="c">#do the record merge</span>
+                <span class="n">new_rec</span> <span class="o">=</span> <span class="n">merge_fields</span><span class="p">(</span><span class="n">last</span><span class="p">)</span>
+                <span class="n">last</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">cleaned</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_rec</span><span class="p">)</span>
+        
+        <span class="n">last</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">last</span><span class="p">:</span>
+        <span class="n">new_rec</span> <span class="o">=</span> <span class="n">merge_fields</span><span class="p">(</span><span class="n">last</span><span class="p">)</span>
+        <span class="n">cleaned</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_rec</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cleaned</span>
+
+<span class="k">def</span> <span class="nf">merge_fields</span><span class="p">(</span><span class="n">a_list</span><span class="p">):</span>
+    <span class="n">new_rec</span> <span class="o">=</span><span class="p">[]</span>
+    <span class="n">stub</span><span class="o">=</span><span class="mi">9</span>
+    <span class="k">for</span> <span class="n">field_id</span><span class="p">,</span> <span class="n">field_desc</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">((</span><span class="mi">1</span><span class="p">,),(</span><span class="mi">2</span><span class="p">,)):</span>
+        <span class="n">new_value</span> <span class="o">=</span> <span class="n">stub</span>
+        <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">a_list</span><span class="p">:</span>
+            <span class="c">#get current value</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="n">field_id</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">stub</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">elif</span> <span class="n">new_value</span> <span class="o">==</span> <span class="n">stub</span><span class="p">:</span>
+                <span class="n">new_value</span> <span class="o">=</span> <span class="n">value</span>    
+            <span class="k">elif</span> <span class="n">new_value</span> <span class="o">==</span> <span class="n">value</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c">#there is a diff in field values</span>
+                <span class="c">#log an error, write all records to error file</span>
+                <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">new_value</span> <span class="o">==</span> <span class="n">stub</span><span class="p">:</span>
+            <span class="c">#log a warning</span>
+            <span class="k">pass</span>
+        <span class="n">new_rec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_value</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">new_rec</span>
+        
+<span class="c">#        iter_n = [iter(file) for file in (file_1, file_2)]</span>
+<span class="c">#        keys_n = []</span>
+<span class="c">#        while True:</span>
+<span class="c">#            iter_n, keys_n = do_next(iter_n, keys_n)</span>
+<span class="c">#            if keys_n:</span>
+<span class="c">#                pass</span>
+<span class="c">#            else:</span>
+<span class="c">#                break</span>
+
+<span class="c">#def do_next(iter, recs):</span>
+<span class="c">#    keys = []</span>
+<span class="c">#    for iter, rec in zip(iter, recs):</span>
+<span class="c">#        if key:</span>
+<span class="c">#            my_list.append(key)</span>
+<span class="c">#        else:</span>
+<span class="c">#            my_list.append(iter.next)</span>
+<span class="c">#            </span>
+<span class="c">#def merge_next(recs):</span>
+<span class="c">#    keys = [rec[0] for rec in recs]</span>
+<span class="c">#    keys.sort()</span>
+<span class="c">#    for index, key in enumerate(keys):</span>
+<span class="c">#        if keys[index] == keys[index+1]:</span>
+<span class="c">#            new_rec = merge_recs(recs[index], recs[index+1])</span>
+<span class="c">#            return merge_next([new_rec].extend(recs[index+2:]))</span>
+<span class="c">#        break</span>
+<span class="c">#    return merged_rec</span>
+<span class="k">def</span> <span class="nf">merge_recs</span><span class="p">(</span><span class="n">rec1</span><span class="p">,</span><span class="n">rec2</span><span class="p">):</span>
+    <span class="k">pass</span>
+<div class="viewcode-block" id="suite"><a class="viewcode-back" href="../reference.html#equity_master_tests.suite">[docs]</a><span class="k">def</span> <span class="nf">suite</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create test suite of thread test cases</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">trip_calc_test_suite</span> <span class="o">=</span> \
+        <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">([</span><span class="n">ProcessTest</span><span class="o">.</span><span class="n">get_valid_tests_suite</span><span class="p">(),</span>
+                           <span class="n">ProcessTest</span><span class="o">.</span><span class="n">get_invalid_tests_suite</span><span class="p">()])</span>
+    <span class="n">master_suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">([</span><span class="n">trip_calc_test_suite</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">master_suite</span>
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">suite</span><span class="p">())</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

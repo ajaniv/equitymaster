@@ -1,0 +1,9 @@
+Routes is a sample Python application
+
+All documentation is in the "docs" directory.
+
+To run routes test suite, in the tests directory, execute the following:
+	"python run_tests.py"
+
+    
+

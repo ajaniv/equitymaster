@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tests.common &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for tests.common</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="c">#</span>
+<span class="c"># router/tests/common.py - router tests common module</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: equity_master/tests/common</span>
+<span class="sd">   :synopsis: eqity_master unit test common constructs</span>
+
+<span class="sd">Common utilities and classes for unit testing the  equity_master module.</span>
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+
+<div class="viewcode-block" id="fix_path"><a class="viewcode-back" href="../../reference.html#tests.common.fix_path">[docs]</a><span class="k">def</span> <span class="nf">fix_path</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configure python path</span>
+<span class="sd">    Required in order to support non Eclipse test execution</span>
+<span class="sd">    without setting PYTHONPATH</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+    <span class="n">_app_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_cwd</span><span class="p">,</span> <span class="s">&#39;..&#39;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_app_root</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_app_root</span><span class="p">)</span>
+
+</div>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">equity_master</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">fix_path</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">builder</span>
+
+
+
+<div class="viewcode-block" id="EquityMasterTestData"><a class="viewcode-back" href="../../reference.html#tests.common.EquityMasterTestData">[docs]</a><span class="k">class</span> <span class="nc">EquityMasterTestData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implement data factory pattern</span>
+<span class="sd">    Designed to simply test data reuse</span>
+<span class="sd">    and reduce unit testing data errors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+     
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">data_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">data_input_dir</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="s">&#39;vendor_a_eq.txt&#39;</span><span class="p">,</span> <span class="p">)</span>
+
+    
+    <span class="k">def</span> <span class="nf">detector_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_DETECTION</span>
+    
+    <span class="k">def</span> <span class="nf">validator_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_VALIDATION</span>
+    
+    <span class="k">def</span> <span class="nf">sorter_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_SORT</span>
+    
+    <span class="k">def</span> <span class="nf">create_file_detection_process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_detection_process</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">create_file_validation_process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_validation_process</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">create_file_sort_process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_sort_process</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">create_file_merge_process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_merge_process</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">create_input_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_queue</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">create_output_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_queue</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">create_input_desc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_desc</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="nf">create_file_detection_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                                      <span class="n">input_desc</span><span class="p">,</span>
+                                      <span class="n">output_desc</span><span class="p">,</span>
+                                      <span class="p">):</span>
+        
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_detection_request</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">WAIT</span><span class="p">,</span>
+                                                     <span class="n">input_desc</span><span class="p">,</span>
+                                                     <span class="n">output_desc</span><span class="p">,</span>
+                                                     <span class="bp">self</span><span class="o">.</span><span class="n">wf_dir</span><span class="p">())</span>
+        
+    <span class="k">def</span> <span class="nf">create_file_validation_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                                       <span class="n">input_desc</span><span class="p">,</span> 
+                                       <span class="n">output_desc</span><span class="p">,</span>
+                                       <span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_validation_request</span><span class="p">(</span>
+                                                     <span class="n">config</span><span class="o">.</span><span class="n">ARRIVED</span><span class="p">,</span>
+                                                     <span class="n">input_desc</span><span class="p">,</span>
+                                                     <span class="n">output_desc</span><span class="p">,</span>
+                                                     <span class="bp">self</span><span class="o">.</span><span class="n">wf_dir</span><span class="p">())</span>
+        
+    <span class="k">def</span> <span class="nf">create_file_sort_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                                 <span class="n">input_desc</span><span class="p">,</span> 
+                                 <span class="n">output_desc</span><span class="p">,</span> 
+                                 <span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_sort_request</span><span class="p">(</span>
+                                                    <span class="n">config</span><span class="o">.</span><span class="n">VALIDATED</span><span class="p">,</span>
+                                                    <span class="n">input_desc</span><span class="p">,</span>
+                                                    <span class="n">output_desc</span><span class="p">,</span>
+                                                    <span class="bp">self</span><span class="o">.</span><span class="n">wf_dir</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">create_file_merge_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                                  <span class="n">input_descs</span><span class="p">,</span> 
+                                  <span class="n">output_desc</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_merge_request</span><span class="p">(</span>
+                                                    <span class="n">config</span><span class="o">.</span><span class="n">SORTED</span><span class="p">,</span>
+                                                    <span class="n">input_descs</span><span class="p">,</span>
+                                                    <span class="n">output_desc</span><span class="p">,</span>
+                                                    <span class="bp">self</span><span class="o">.</span><span class="n">wf_dir</span><span class="p">())</span>
+        
+    <span class="k">def</span> <span class="nf">create_work_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_workflow</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">file_list</span><span class="p">)</span>
+        
+    
+    
+    <span class="k">def</span> <span class="nf">wf_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">+</span> <span class="s">&#39;wf/&#39;</span>
+</div>
+<div class="viewcode-block" id="BaseTest"><a class="viewcode-back" href="../../reference.html#tests.common.BaseTest">[docs]</a><span class="k">class</span> <span class="nc">BaseTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base unit test class</span>
+<span class="sd">    Designed to facilitate common unit test patterns</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="BaseTest.factory"><a class="viewcode-back" href="../../reference.html#tests.common.BaseTest.factory">[docs]</a>    <span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the factory instance.</span>
+<span class="sd">        Designed to facilitate data consitency</span>
+<span class="sd">        with hooks for overriding&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_factory</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span>
+</div>
+<div class="viewcode-block" id="BaseTest.create_factory"><a class="viewcode-back" href="../../reference.html#tests.common.BaseTest.create_factory">[docs]</a>    <span class="k">def</span> <span class="nf">create_factory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Hook for derived class to override</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">EquityMasterTestData</span><span class="p">()</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

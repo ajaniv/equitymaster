@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>equity_master.file_sort &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for equity_master.file_sort</h1><div class="highlight"><pre>
+<span class="c">#/usr/bin/env python</span>
+<span class="c"># -#- coding: utf-8 -#-</span>
+
+<span class="c">#</span>
+<span class="c"># equity_master/file_sort - merge and sort</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: equity_master/file_sort</span>
+<span class="sd">   :synopsis: file sorting and merging using heapqu.  The file</span>
+<span class="sd">   does not need to be in memory</span>
+
+
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__revision__</span> <span class="o">=</span> <span class="s">&#39;$Id: $&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.0.1&#39;</span>
+
+
+
+<span class="c"># based on Recipe 466302: Sorting big files the Python 2.4 way</span>
+<span class="c"># by Nicolas Lehuen</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">gettempdir</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">islice</span><span class="p">,</span> <span class="n">cycle</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">import</span> <span class="nn">heapq</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">config</span>
+
+<span class="n">Keyed</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">&quot;Keyed&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;key&quot;</span><span class="p">,</span> <span class="s">&quot;obj&quot;</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="merge"><a class="viewcode-back" href="../../reference.html#equity_master.file_sort.merge">[docs]</a><span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">skip</span><span class="p">,</span> <span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Merge n number of iterables that are sorted, using the key</span>
+<span class="sd">    if defined, and skipping header records if and when required</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># based on code posted by Scott David Daniels in c.l.p.</span>
+    <span class="c"># http://groups.google.com/group/comp.lang.python/msg/484f01f1ea3c832d</span>
+
+    <span class="n">skipped</span> <span class="o">=</span> <span class="p">[</span><span class="n">iterable</span><span class="o">.</span><span class="n">next</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">skip</span><span class="p">)</span> <span class="c">#@UnusedVariable</span>
+               <span class="k">for</span> <span class="n">iterable</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">]</span> 
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">keyed_iterables</span> <span class="o">=</span> <span class="n">iterables</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">keyed_iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Keyed</span><span class="p">(</span><span class="n">key</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span> <span class="n">obj</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">iterable</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">]</span>
+   
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">heapq</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="o">*</span><span class="n">keyed_iterables</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">element</span><span class="o">.</span><span class="n">obj</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">element</span>
+            
+            </div>
+<div class="viewcode-block" id="keyed_merge"><a class="viewcode-back" href="../../reference.html#equity_master.file_sort.keyed_merge">[docs]</a><span class="k">def</span> <span class="nf">keyed_merge</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function prepends a unique object id to a record</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># based on code posted by Scott David Daniels in c.l.p.</span>
+    <span class="c"># http://groups.google.com/group/comp.lang.python/msg/484f01f1ea3c832d</span>
+
+
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">keyed_iterables</span> <span class="o">=</span> <span class="n">iterables</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">keyed_iterables</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Keyed</span><span class="p">(</span><span class="n">key</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span> <span class="n">obj</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">iterable</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">]</span>
+    <span class="n">tmpl</span> <span class="o">=</span> <span class="s">&#39;{:d}&#39;</span> <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">FIELD_SEP</span> <span class="o">+</span> <span class="s">&#39;{:s}&#39;</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span> <span class="p">(</span><span class="n">heapq</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="o">*</span><span class="n">keyed_iterables</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">key</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">tmpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">element</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">tmpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="n">element</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="sort"><a class="viewcode-back" href="../../reference.html#equity_master.file_sort.sort">[docs]</a><span class="k">def</span> <span class="nf">sort</span><span class="p">(</span>  <span class="n">input_file_name</span><span class="p">,</span> 
+           <span class="n">output_file_name</span><span class="p">,</span> 
+           <span class="n">key</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
+           <span class="n">buffer_size</span><span class="o">=</span><span class="mi">32000</span><span class="p">,</span> 
+           <span class="n">tempdirs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+           <span class="n">skip</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sort a file in chunks</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">tempdirs</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">tempdirs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tempdirs</span><span class="p">:</span>
+        <span class="n">tempdirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gettempdir</span><span class="p">())</span>
+
+    
+    <span class="n">chunks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_file_name</span><span class="p">,</span><span class="s">&#39;rb&#39;</span><span class="p">,</span><span class="mi">64</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+            <span class="n">input_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+            <span class="c">#Capture lines that are skipped </span>
+            <span class="n">skipped</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_iterator</span><span class="o">.</span><span class="n">next</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">skip</span><span class="p">)]</span> <span class="c">#@UnusedVariable</span>
+         
+
+            
+            <span class="k">for</span> <span class="n">tempdir</span> <span class="ow">in</span> <span class="n">cycle</span><span class="p">(</span><span class="n">tempdirs</span><span class="p">):</span>
+                <span class="n">current_chunk</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">islice</span><span class="p">(</span><span class="n">input_iterator</span><span class="p">,</span><span class="n">buffer_size</span><span class="p">))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">current_chunk</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">current_chunk</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">output_chunk</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tempdir</span><span class="p">,</span><span class="s">&#39;</span><span class="si">%06i</span><span class="s">&#39;</span><span class="o">%</span><span class="nb">len</span><span class="p">(</span><span class="n">chunks</span><span class="p">)),</span><span class="s">&#39;w+b&#39;</span><span class="p">,</span><span class="mi">64</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span>
+                <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output_chunk</span><span class="p">)</span>
+                <span class="n">output_chunk</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">current_chunk</span><span class="p">)</span>
+                <span class="n">output_chunk</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="n">output_chunk</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_file_name</span><span class="p">,</span><span class="s">&#39;wb&#39;</span><span class="p">,</span><span class="mi">64</span><span class="o">*</span><span class="mi">1024</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">skipped</span><span class="p">:</span>
+                <span class="n">output_file</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">skipped</span><span class="p">)</span>
+            <span class="n">output_file</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">merge</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">chunks</span><span class="p">))</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">chunk</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">chunk</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">pass</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

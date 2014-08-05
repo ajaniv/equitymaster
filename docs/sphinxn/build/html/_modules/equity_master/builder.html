@@ -1,0 +1,380 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>equity_master.builder &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for equity_master.builder</h1><div class="highlight"><pre>
+<span class="c">#/usr/bin/env python</span>
+<span class="c"># -#- coding: utf-8 -#-</span>
+
+<span class="c">#</span>
+<span class="c"># equity_master/builder.py - equity masger  build pattern utilities</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: equity_master/builder</span>
+<span class="sd">   :synopsis: object creation and configuration</span>
+
+<span class="sd">Required to simplify object creation and configuration</span>
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__revision__</span> <span class="o">=</span> <span class="s">&#39;$Id: $&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.0.1&#39;</span>
+
+
+<span class="kn">import</span> <span class="nn">Queue</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">process</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">model</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">util</span>
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">desc</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+           <span class="s">&#39;create_file_detection_process&#39;</span><span class="p">,</span>
+           <span class="s">&#39;create_file_validation_process&#39;</span><span class="p">,</span>
+           <span class="s">&#39;create_file_sort_process&#39;</span><span class="p">,</span>
+           <span class="s">&#39;create_file_merge_process&#39;</span><span class="p">,</span>
+           <span class="s">&#39;create_file_detection_request&#39;</span><span class="p">,</span>
+           <span class="s">&#39;create_file_validation_request&#39;</span><span class="p">,</span>
+           <span class="s">&#39;create_file_sort_request&#39;</span><span class="p">,</span>
+           <span class="s">&#39;create_file_merge_request&#39;</span><span class="p">,</span>
+           
+           <span class="p">]</span>
+<span class="k">def</span> <span class="nf">create_workflow</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">wf_dir</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">input_files</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;create a workflow environment&quot;&quot;&quot;</span>
+    
+    <span class="c">#create directory structure</span>
+    <span class="n">wf_dir_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">root_dir</span> <span class="o">+</span> 
+                <span class="n">wf_dir</span> <span class="o">+</span> 
+                <span class="n">config</span><span class="o">.</span><span class="n">WF_PREFIX</span> <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_NAME_SEPARATOR</span> <span class="o">+</span> 
+                <span class="n">util</span><span class="o">.</span><span class="n">file_time_suffix</span><span class="p">()</span> <span class="o">+</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">DIR_SEP</span><span class="p">)</span>
+                
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span> <span class="p">(</span><span class="n">wf_dir_name</span><span class="p">)</span>
+    <span class="n">exclude</span> <span class="o">=</span> <span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">END</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">process_states</span><span class="o">.</span><span class="n">itervalues</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">state_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude</span><span class="p">:</span>
+            <span class="n">sub_dir</span> <span class="o">=</span> <span class="n">wf_dir_name</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span> <span class="p">(</span><span class="n">sub_dir</span> <span class="p">)</span>
+    
+    <span class="c">#add required files to work flow</span>
+    <span class="n">dest_dir</span> <span class="o">=</span> <span class="n">wf_dir_name</span> <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">process_states</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">START</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">for</span> <span class="n">source_file</span> <span class="ow">in</span> <span class="n">input_files</span><span class="p">:</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data_dir</span> <span class="o">+</span> <span class="n">source_file</span><span class="p">,</span> <span class="n">dest_dir</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">wf_dir_name</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">file_path</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span>
+               <span class="n">file_name</span><span class="p">,</span>
+               <span class="n">wf_dir</span>
+               <span class="p">):</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="p">(</span><span class="n">wf_dir</span> <span class="o">+</span> 
+             <span class="n">model</span><span class="o">.</span><span class="n">process_state</span><span class="p">(</span><span class="n">state_id</span><span class="p">)</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> 
+             <span class="n">config</span><span class="o">.</span><span class="n">DIR_SEP</span> <span class="o">+</span> <span class="n">file_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fname</span>
+
+<span class="k">def</span> <span class="nf">error_file_path</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span> 
+                    <span class="n">file_name</span><span class="p">,</span> 
+                    <span class="n">wf_dir</span><span class="p">):</span>
+    <span class="n">input_prefix</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">file_name</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="p">(</span><span class="n">wf_dir</span>  
+             <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">error_dir</span>  
+             <span class="o">+</span> <span class="n">input_prefix</span>  
+             <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_NAME_SEPARATOR</span>  
+             <span class="o">+</span> <span class="n">model</span><span class="o">.</span><span class="n">process_state</span><span class="p">(</span><span class="n">state_id</span><span class="p">)</span><span class="o">.</span><span class="n">name</span> 
+             <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_NAME_SEPARATOR</span>   
+             <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">ERROR_FILE_NAME</span>  
+             <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_NAME_SUFFIX</span> <span class="p">)</span>
+    <span class="k">return</span> <span class="n">fname</span>
+   
+<span class="k">def</span> <span class="nf">file_names</span><span class="p">(</span>
+               <span class="n">current_state_id</span><span class="p">,</span>
+               <span class="n">input_file_name</span><span class="p">,</span> 
+               <span class="n">output_file_name</span><span class="p">,</span> 
+               <span class="n">wf_dir</span><span class="p">):</span>
+    
+<span class="c">#    sep = config.FILE_NAME_SEPARATOR</span>
+<span class="c">#    file_suffix = config.FILE_NAME_SUFFIX</span>
+<span class="c">#    error_suffix = config.ERROR_FILE_NAME</span>
+<span class="c">#    input_prefix = os.path.split(input_file_name)[1].split(&#39;.&#39;)[0]</span>
+    <span class="n">current_state</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">process_state</span><span class="p">(</span><span class="n">current_state_id</span><span class="p">)</span>
+    <span class="n">next_state</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">process_state</span><span class="p">(</span><span class="n">current_state</span><span class="o">.</span><span class="n">next_state_id</span><span class="p">)</span>
+     
+    
+    <span class="nb">input</span> <span class="o">=</span> <span class="n">file_path</span><span class="p">(</span><span class="n">current_state_id</span><span class="p">,</span> 
+                      <span class="n">input_file_name</span><span class="p">,</span> 
+                      <span class="n">wf_dir</span><span class="p">)</span>
+<span class="c">#    input = (wf_dir + current_state.name + </span>
+<span class="c">#             config.DIR_SEP + input_file_name)</span>
+   
+   
+    <span class="n">output</span> <span class="o">=</span> <span class="n">file_path</span><span class="p">(</span><span class="n">next_state</span><span class="o">.</span><span class="n">state_id</span><span class="p">,</span> 
+                      <span class="n">output_file_name</span><span class="p">,</span> 
+                      <span class="n">wf_dir</span><span class="p">)</span>
+<span class="c">#    output = (wf_dir  + next_state.name </span>
+<span class="c">#               + config.DIR_SEP +  input_file_name</span>
+<span class="c">#              )</span>
+
+    <span class="n">error</span> <span class="o">=</span> <span class="n">error_file_path</span><span class="p">(</span><span class="n">current_state_id</span><span class="p">,</span> 
+                            <span class="n">input_file_name</span><span class="p">,</span> 
+                            <span class="n">wf_dir</span><span class="p">)</span>
+<span class="c">#    error = (wf_dir + config.error_dir + input_prefix  </span>
+<span class="c">#             + sep + current_state.name + sep +  error_suffix  </span>
+<span class="c">#             + file_suffix )</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">input</span><span class="p">,</span><span class="n">output</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+
+
+
+<span class="k">def</span> <span class="nf">create_process</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">proc_name</span><span class="p">):</span>
+    <span class="n">proc_cfg</span>  <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">process_config</span><span class="p">[</span><span class="n">proc_name</span><span class="p">]</span>
+    <span class="n">attr_name</span> <span class="o">=</span> <span class="n">proc_cfg</span><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">PROCESS_NAME_ATTR</span><span class="p">]</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">cls</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">attr_name</span><span class="p">,</span>
+                        <span class="n">kwargs</span><span class="o">=</span><span class="n">proc_cfg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">proc</span>
+
+<div class="viewcode-block" id="create_file_detection_process"><a class="viewcode-back" href="../../reference.html#equity_master.builder.create_file_detection_process">[docs]</a><span class="k">def</span> <span class="nf">create_file_detection_process</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Create and configure a file detection  process</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">proc</span> <span class="o">=</span>  <span class="n">create_process</span><span class="p">(</span><span class="n">cls</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">FileDetection</span><span class="p">,</span>
+                          <span class="n">proc_name</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_DETECTION</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">proc</span>
+
+    </div>
+<div class="viewcode-block" id="create_file_validation_process"><a class="viewcode-back" href="../../reference.html#equity_master.builder.create_file_validation_process">[docs]</a><span class="k">def</span> <span class="nf">create_file_validation_process</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Create and configure a file validation  process</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">create_process</span><span class="p">(</span><span class="n">cls</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">FileValidation</span><span class="p">,</span>
+                          <span class="n">proc_name</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_VALIDATION</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">proc</span>
+</div>
+<div class="viewcode-block" id="create_file_sort_process"><a class="viewcode-back" href="../../reference.html#equity_master.builder.create_file_sort_process">[docs]</a><span class="k">def</span> <span class="nf">create_file_sort_process</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Create and configure a file sort  process</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">create_process</span><span class="p">(</span><span class="n">cls</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">FileSort</span><span class="p">,</span>
+                          <span class="n">proc_name</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_SORT</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">proc</span>
+</div>
+<div class="viewcode-block" id="create_file_merge_process"><a class="viewcode-back" href="../../reference.html#equity_master.builder.create_file_merge_process">[docs]</a><span class="k">def</span> <span class="nf">create_file_merge_process</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Create and configure a file merge  process</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">create_process</span><span class="p">(</span><span class="n">cls</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">FileMerge</span><span class="p">,</span>
+                          <span class="n">proc_name</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">FILE_MERGE</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">proc</span>
+</div>
+<span class="n">proc_builders</span>  <span class="o">=</span> <span class="p">(</span><span class="n">create_file_detection_process</span><span class="p">,</span>
+                  <span class="n">create_file_validation_process</span><span class="p">,</span>
+                  <span class="n">create_file_sort_process</span><span class="p">,</span>
+                  <span class="n">create_file_merge_process</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">create_procs</span><span class="p">():</span>
+    <span class="n">procs</span> <span class="o">=</span> <span class="p">[</span><span class="n">proc</span><span class="p">()</span> <span class="k">for</span> <span class="n">proc</span> <span class="ow">in</span> <span class="n">proc_builders</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">procs</span>
+
+<span class="k">def</span> <span class="nf">create_queue</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">Queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">PROCESS_MAX_QUEUE_SIZE</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">create_file_desc</span><span class="p">(</span><span class="n">vendor</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">field_desc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">desc</span><span class="o">.</span><span class="n">FileDescriptor</span><span class="p">(</span><span class="n">vendor</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">field_desc</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">create_request</span><span class="p">(</span><span class="n">input_file_names</span><span class="p">,</span> 
+                   <span class="n">output_file_names</span><span class="p">,</span>
+                   <span class="n">error_file_names</span><span class="p">,</span>
+                   <span class="n">state_id</span><span class="p">,</span> 
+                   <span class="n">input_desc</span><span class="p">,</span> 
+                   <span class="n">output_desc</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">FileRequest</span><span class="p">(</span><span class="n">input_file_names</span><span class="p">,</span> 
+                             <span class="n">output_file_names</span><span class="p">,</span>
+                             <span class="n">error_file_names</span><span class="p">,</span>
+                             <span class="n">state_id</span><span class="p">,</span> 
+                             <span class="n">input_desc</span><span class="p">,</span>
+                             <span class="n">output_desc</span><span class="p">)</span>
+    
+<span class="k">def</span> <span class="nf">create_file_detection_request</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span>
+                                  <span class="n">input_desc</span><span class="p">,</span> 
+                                  <span class="n">output_desc</span><span class="p">,</span>
+                                  <span class="n">wf_dir</span><span class="p">):</span>
+   
+    <span class="nb">input</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">file_names</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span>
+                                      <span class="n">input_desc</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+                                      <span class="n">input_desc</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+                                      <span class="n">wf_dir</span>
+                                      <span class="p">)</span>
+    <span class="k">return</span> <span class="n">create_request</span><span class="p">(</span>
+                          <span class="n">input_file_names</span><span class="o">=</span><span class="p">(</span><span class="nb">input</span><span class="p">,),</span>
+                          <span class="n">output_file_names</span><span class="o">=</span><span class="p">(</span><span class="n">output</span><span class="p">,),</span>
+                          <span class="n">error_file_names</span><span class="o">=</span><span class="p">(</span><span class="n">error</span><span class="p">,),</span>
+                          <span class="n">state_id</span> <span class="o">=</span> <span class="n">state_id</span><span class="p">,</span>
+                          <span class="n">input_desc</span><span class="o">=</span><span class="n">input_desc</span><span class="p">,</span>
+                          <span class="n">output_desc</span><span class="o">=</span><span class="n">output_desc</span><span class="p">)</span>
+    
+    
+<span class="k">def</span> <span class="nf">create_file_validation_request</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span>
+                                   <span class="n">input_desc</span><span class="p">,</span>
+                                    <span class="n">output_desc</span><span class="p">,</span>
+                                    <span class="n">wf_dir</span><span class="p">):</span>
+    <span class="nb">input</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">file_names</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span>
+                                      <span class="n">input_desc</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+                                      <span class="n">input_desc</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+                                      <span class="n">wf_dir</span>
+                                      <span class="p">)</span>
+    <span class="k">return</span> <span class="n">create_request</span><span class="p">(</span>
+                          <span class="n">input_file_names</span><span class="o">=</span><span class="p">(</span><span class="nb">input</span><span class="p">,),</span>
+                          <span class="n">output_file_names</span><span class="o">=</span><span class="p">(</span><span class="n">output</span><span class="p">,),</span>
+                          <span class="n">error_file_names</span><span class="o">=</span><span class="p">(</span><span class="n">error</span><span class="p">,),</span>
+                          <span class="n">state_id</span> <span class="o">=</span> <span class="n">state_id</span><span class="p">,</span>
+                          <span class="n">input_desc</span><span class="o">=</span><span class="n">input_desc</span><span class="p">,</span>
+                          <span class="n">output_desc</span><span class="o">=</span><span class="n">output_desc</span><span class="p">)</span>
+    
+<span class="k">def</span> <span class="nf">create_file_sort_request</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span>
+                                <span class="n">input_desc</span><span class="p">,</span>
+                                <span class="n">output_desc</span><span class="p">,</span>
+                                <span class="n">wf_dir</span><span class="p">):</span>
+    <span class="nb">input</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">file_names</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span>
+                                      <span class="n">input_desc</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+                                      <span class="n">input_desc</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+                                      <span class="n">wf_dir</span>
+                                      <span class="p">)</span>
+    <span class="k">return</span> <span class="n">create_request</span><span class="p">(</span>
+                          <span class="n">input_file_names</span><span class="o">=</span><span class="p">(</span><span class="nb">input</span><span class="p">,),</span>
+                          <span class="n">output_file_names</span><span class="o">=</span><span class="p">(</span><span class="n">output</span><span class="p">,),</span>
+                          <span class="n">error_file_names</span><span class="o">=</span><span class="p">(</span><span class="n">error</span><span class="p">,),</span>
+                          <span class="n">state_id</span> <span class="o">=</span> <span class="n">state_id</span><span class="p">,</span>
+                          <span class="n">input_desc</span><span class="o">=</span><span class="n">input_desc</span><span class="p">,</span>
+                          <span class="n">output_desc</span><span class="o">=</span><span class="n">output_desc</span><span class="p">)</span>
+
+
+
+<span class="k">def</span> <span class="nf">create_file_merge_request</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span>
+                                <span class="n">input_descs</span><span class="p">,</span>
+                                <span class="n">output_desc</span><span class="p">,</span>
+                                <span class="n">wf_dir</span><span class="p">):</span>
+    
+    <span class="n">input_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">file_path</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span> 
+                             <span class="n">fd</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span> 
+                             <span class="n">wf_dir</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">fd</span> <span class="ow">in</span> <span class="n">input_descs</span><span class="p">]</span>
+    
+    <span class="n">output</span> <span class="o">=</span> <span class="n">file_path</span><span class="p">(</span>
+                       <span class="n">model</span><span class="o">.</span><span class="n">process_state</span><span class="p">(</span><span class="n">state_id</span><span class="p">)</span><span class="o">.</span><span class="n">next_state_id</span><span class="p">,</span>
+                       <span class="n">output_desc</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+                       <span class="n">wf_dir</span><span class="p">)</span>
+    
+    <span class="n">error</span> <span class="o">=</span> <span class="n">error_file_path</span><span class="p">(</span><span class="n">state_id</span><span class="p">,</span>
+                            <span class="n">output_desc</span><span class="o">.</span><span class="n">file_name</span><span class="p">,</span>
+                            <span class="n">wf_dir</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">create_request</span><span class="p">(</span>
+                          <span class="n">input_file_names</span><span class="o">=</span><span class="n">input_names</span><span class="p">,</span>
+                          <span class="n">output_file_names</span><span class="o">=</span><span class="p">(</span><span class="n">output</span><span class="p">,),</span>
+                          <span class="n">error_file_names</span><span class="o">=</span><span class="p">(</span><span class="n">error</span><span class="p">,),</span>
+                          <span class="n">state_id</span> <span class="o">=</span> <span class="n">state_id</span><span class="p">,</span>
+                          <span class="n">input_desc</span><span class="o">=</span><span class="n">input_descs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                          <span class="n">output_desc</span><span class="o">=</span><span class="n">output_desc</span><span class="p">)</span>
+<span class="n">request_builders</span> <span class="o">=</span> <span class="p">(</span> 
+                   <span class="n">create_file_detection_request</span><span class="p">,</span>
+                   <span class="n">create_file_validation_request</span><span class="p">,</span>
+                   <span class="n">create_file_sort_request</span><span class="p">,</span>
+                   <span class="n">create_file_merge_request</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">create_requests</span><span class="p">():</span>
+    <span class="n">reqs</span> <span class="o">=</span> <span class="p">[</span><span class="n">req</span><span class="p">()</span> <span class="k">for</span> <span class="n">req</span> <span class="ow">in</span> <span class="n">request_builders</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">reqs</span>
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

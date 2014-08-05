@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tests.process_tests &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for tests.process_tests</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+
+<span class="c">#</span>
+<span class="c"># equity_master/tests/process_tests.py - equity master tests</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: router/tests/process_tests</span>
+<span class="sd">   :synopsis: process life cycle related tests</span>
+
+<span class="sd">Utilities and classes for unit testing the process module.</span>
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">import</span> <span class="nn">common</span>
+
+
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">process</span>
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">builder</span>
+
+
+
+
+<div class="viewcode-block" id="FileDetectionTest"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileDetectionTest">[docs]</a><span class="k">class</span> <span class="nc">FileDetectionTest</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">BaseTest</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;file detection  process cass   test cases</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FileDetectionTest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="FileDetectionTest.get_valid_tests_suite"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileDetectionTest.get_valid_tests_suite">[docs]</a>    <span class="k">def</span> <span class="nf">get_valid_tests_suite</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Define  valid test cases</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+        <span class="n">suite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">FileDetectionTest</span><span class="p">(</span><span class="s">&#39;test_creation&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">suite</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="FileDetectionTest.get_invalid_tests_suite"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileDetectionTest.get_invalid_tests_suite">[docs]</a>    <span class="k">def</span> <span class="nf">get_invalid_tests_suite</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Define  invalid test cases</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># @TODO: outstanding work</span>
+
+        <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">suite</span>
+</div>
+<div class="viewcode-block" id="FileDetectionTest.test_creation"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileDetectionTest.test_creation">[docs]</a>    <span class="k">def</span> <span class="nf">test_creation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;test file detection process  creation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span>
+        <span class="n">proc_name</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">detector_name</span><span class="p">()</span>
+        <span class="n">det_proc1</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">FileDetection</span><span class="p">(</span>
+                                             <span class="n">fac</span><span class="o">.</span><span class="n">create_input_queue</span><span class="p">(),</span>
+                                             <span class="n">fac</span><span class="o">.</span><span class="n">create_output_queue</span><span class="p">(),</span>
+                                             <span class="n">name</span><span class="o">=</span><span class="n">proc_name</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">det_proc1</span><span class="p">,</span> <span class="s">&#39;FileDetection() is None&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">proc_name</span> <span class="o">==</span> <span class="n">det_proc1</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">det_proc1</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">det_proc1</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+    
+        <span class="n">det_proc2</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_detection_process</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">proc_name</span> <span class="o">==</span> <span class="n">det_proc2</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">det_proc2</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">det_proc2</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        
+        </div></div>
+<div class="viewcode-block" id="FileValidationTest"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileValidationTest">[docs]</a><span class="k">class</span> <span class="nc">FileValidationTest</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">BaseTest</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;FileDetector thread  test cases</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FileValidationTest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="FileValidationTest.get_valid_tests_suite"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileValidationTest.get_valid_tests_suite">[docs]</a>    <span class="k">def</span> <span class="nf">get_valid_tests_suite</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Define  valid test cases</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+        <span class="n">suite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">FileValidationTest</span><span class="p">(</span><span class="s">&#39;test_creation&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">suite</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="FileValidationTest.get_invalid_tests_suite"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileValidationTest.get_invalid_tests_suite">[docs]</a>    <span class="k">def</span> <span class="nf">get_invalid_tests_suite</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Define  invalid test cases</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># @TODO: outstanding work</span>
+
+        <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">suite</span>
+</div>
+<div class="viewcode-block" id="FileValidationTest.test_creation"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileValidationTest.test_creation">[docs]</a>    <span class="k">def</span> <span class="nf">test_creation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;test file validation  process  creation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span>
+        <span class="n">proc_name</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">validator_name</span><span class="p">()</span>
+        <span class="n">val_proc_1</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">FileValidation</span><span class="p">(</span>
+                                             <span class="n">input_queue</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_input_queue</span><span class="p">(),</span>
+                                             <span class="n">output_queue</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_output_queue</span><span class="p">(),</span>
+                                             <span class="n">name</span><span class="o">=</span><span class="n">proc_name</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">val_proc_1</span><span class="p">,</span> <span class="s">&#39;FileValidation() is None&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">proc_name</span> <span class="o">==</span> <span class="n">val_proc_1</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">val_proc_1</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">val_proc_1</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        
+    
+        <span class="n">val_proc_2</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_validation_process</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">proc_name</span> <span class="o">==</span> <span class="n">val_proc_2</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">val_proc_2</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">val_proc_2</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+
+</div></div>
+<div class="viewcode-block" id="FileSortTest"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileSortTest">[docs]</a><span class="k">class</span> <span class="nc">FileSortTest</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">BaseTest</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;FileDetector thread  test cases</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FileSortTest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="FileSortTest.get_valid_tests_suite"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileSortTest.get_valid_tests_suite">[docs]</a>    <span class="k">def</span> <span class="nf">get_valid_tests_suite</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Define  valid test cases</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+        <span class="n">suite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">FileSortTest</span><span class="p">(</span><span class="s">&#39;test_creation&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">suite</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="FileSortTest.get_invalid_tests_suite"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileSortTest.get_invalid_tests_suite">[docs]</a>    <span class="k">def</span> <span class="nf">get_invalid_tests_suite</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Define  invalid test cases</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># @TODO: outstanding work</span>
+
+        <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">suite</span>
+</div>
+<div class="viewcode-block" id="FileSortTest.test_creation"><a class="viewcode-back" href="../../reference.html#tests.process_tests.FileSortTest.test_creation">[docs]</a>    <span class="k">def</span> <span class="nf">test_creation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;test file validation  process  creation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fac</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span>
+        <span class="n">proc_name</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">sorter_name</span><span class="p">()</span>
+        <span class="n">sort_proc_1</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">FileSort</span><span class="p">(</span>
+                                    <span class="n">input_queue</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_input_queue</span><span class="p">(),</span>
+                                    <span class="n">output_queue</span> <span class="o">=</span> <span class="n">fac</span><span class="o">.</span><span class="n">create_output_queue</span><span class="p">(),</span>
+                                    <span class="n">name</span><span class="o">=</span><span class="n">proc_name</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">sort_proc_1</span><span class="p">,</span> <span class="s">&#39;FileSort() is None&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">proc_name</span> <span class="o">==</span> <span class="n">sort_proc_1</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">sort_proc_1</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">sort_proc_1</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        
+    
+        <span class="n">sort_proc_2</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">create_file_sort_process</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">proc_name</span> <span class="o">==</span> <span class="n">sort_proc_2</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">sort_proc_2</span><span class="o">.</span><span class="n">input_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="n">sort_proc_2</span><span class="o">.</span><span class="n">output_queue</span><span class="o">.</span><span class="n">qsize</span><span class="p">())</span>
+
+
+</div></div>
+<div class="viewcode-block" id="suite"><a class="viewcode-back" href="../../reference.html#tests.process_tests.suite">[docs]</a><span class="k">def</span> <span class="nf">suite</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create test suite of thread test cases</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_detection_test_suite</span> <span class="o">=</span> \
+        <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">([</span><span class="n">FileDetectionTest</span><span class="o">.</span><span class="n">get_valid_tests_suite</span><span class="p">(),</span>
+                           <span class="n">FileDetectionTest</span><span class="o">.</span><span class="n">get_invalid_tests_suite</span><span class="p">()])</span>
+        
+    <span class="n">file_validation_test_suite</span> <span class="o">=</span> \
+        <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">([</span><span class="n">FileValidationTest</span><span class="o">.</span><span class="n">get_valid_tests_suite</span><span class="p">(),</span>
+                           <span class="n">FileValidationTest</span><span class="o">.</span><span class="n">get_invalid_tests_suite</span><span class="p">()])</span>
+        
+    <span class="n">file_sort_test_suite</span> <span class="o">=</span> \
+        <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">([</span><span class="n">FileSortTest</span><span class="o">.</span><span class="n">get_valid_tests_suite</span><span class="p">(),</span>
+                           <span class="n">FileSortTest</span><span class="o">.</span><span class="n">get_invalid_tests_suite</span><span class="p">()])</span>
+    <span class="n">master_suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">([</span><span class="n">file_detection_test_suite</span><span class="p">,</span>
+                                       <span class="n">file_validation_test_suite</span><span class="p">,</span>
+                                       <span class="n">file_sort_test_suite</span>
+                                       <span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">master_suite</span>
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">suite</span><span class="p">())</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>

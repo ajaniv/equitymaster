@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>equity_master.model &mdash; Equity Master alpha documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Equity Master alpha documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for equity_master.model</h1><div class="highlight"><pre>
+<span class="c">#/usr/bin/env python</span>
+<span class="c"># -#- coding: utf-8 -#-</span>
+
+<span class="c">#</span>
+<span class="c"># equity_master/file_sort - merge and sort</span>
+<span class="c">#</span>
+<span class="c"># standard copy right text</span>
+<span class="c">#</span>
+
+<span class="c"># Initial version: 2012-04-02</span>
+<span class="c"># Author: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">.. module:: equity_master/model</span>
+<span class="sd">   :synopsis: basic abstractions</span>
+
+
+
+<span class="sd">.. moduleauthor:: Amnon Janiv  </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__revision__</span> <span class="o">=</span> <span class="s">&#39;$Id: $&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.0.1&#39;</span>
+
+
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">equity_master</span> <span class="kn">import</span> <span class="n">config</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;process_state&#39;</span>
+           <span class="p">]</span> 
+<span class="k">class</span> <span class="nc">FileProcesState</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to model the process state</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_id</span><span class="p">,</span> <span class="n">next_state_id</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state_id</span> <span class="o">=</span> <span class="n">state_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_state_id</span> <span class="o">=</span> <span class="n">next_state_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">error</span>
+   
+
+<span class="n">_cl</span> <span class="o">=</span> <span class="n">FileProcesState</span>
+<span class="n">process_states</span> <span class="o">=</span> <span class="p">{</span> 
+   <span class="n">config</span><span class="o">.</span><span class="n">WAIT</span> <span class="p">:</span> <span class="n">_cl</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">WAIT</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">ARRIVED</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span><span class="s">&#39;wait&#39;</span><span class="p">),</span>
+   <span class="n">config</span><span class="o">.</span><span class="n">ARRIVED</span> <span class="p">:</span> <span class="n">_cl</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">ARRIVED</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">VALIDATED</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span><span class="s">&#39;arrived&#39;</span><span class="p">),</span>
+   <span class="n">config</span><span class="o">.</span><span class="n">VALIDATED</span> <span class="p">:</span> <span class="n">_cl</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">VALIDATED</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">SORTED</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span><span class="s">&#39;validated&#39;</span><span class="p">),</span>
+   <span class="n">config</span><span class="o">.</span><span class="n">SORTED</span> <span class="p">:</span> <span class="n">_cl</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">SORTED</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">MERGED</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span><span class="s">&#39;sorted&#39;</span><span class="p">),</span>
+   <span class="n">config</span><span class="o">.</span><span class="n">MERGED</span> <span class="p">:</span> <span class="n">_cl</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">MERGED</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">DONE</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span><span class="s">&#39;merged&#39;</span><span class="p">),</span>
+   <span class="n">config</span><span class="o">.</span><span class="n">DONE</span> <span class="p">:</span> <span class="n">_cl</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">DONE</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span><span class="s">&#39;done&#39;</span><span class="p">),</span>
+   <span class="n">config</span><span class="o">.</span><span class="n">ERROR</span> <span class="p">:</span> <span class="n">_cl</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span><span class="s">&#39;error&#39;</span><span class="p">),</span>
+              <span class="p">}</span>
+
+<div class="viewcode-block" id="process_state"><a class="viewcode-back" href="../../reference.html#equity_master.model.process_state">[docs]</a><span class="k">def</span> <span class="nf">process_state</span><span class="p">(</span><span class="n">state_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    process state lookup funciton</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">process_states</span> <span class="p">[</span><span class="n">state_id</span><span class="p">]</span>
+
+</div>
+<span class="k">class</span> <span class="nc">Request</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class designed to support process request description</span>
+<span class="sd">    It is a base class for all request types</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">class</span> <span class="nc">Priority</span><span class="p">:</span>
+        <span class="n">LOW</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">MEDIUM</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">HIGH</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="n">DEFAULT</span> <span class="o">=</span> <span class="n">MEDIUM</span>
+    <span class="n">default_priority</span> <span class="o">=</span> <span class="n">Priority</span><span class="o">.</span><span class="n">MEDIUM</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">is_system</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">False</span><span class="p">;</span>
+        
+<span class="k">class</span> <span class="nc">Response</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to handle process response</span>
+<span class="sd">    It is a base class for all responses</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">default_priority</span> <span class="o">=</span> <span class="n">Request</span><span class="o">.</span><span class="n">Priority</span><span class="o">.</span><span class="n">MEDIUM</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_app</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_sys</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">completed</span> <span class="o">=</span> <span class="bp">None</span>
+
+<span class="k">class</span> <span class="nc">FileResponse</span><span class="p">(</span><span class="n">Response</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Response with details on a file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">file_state</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FileResponse</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="n">file_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_state</span> <span class="o">=</span> <span class="n">file_state</span>
+    
+
+
+<span class="k">class</span> <span class="nc">FileRequest</span><span class="p">(</span><span class="n">Request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class designed to allow specification of class related requests</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">input_file_names</span><span class="p">,</span> 
+                 <span class="n">output_file_names</span><span class="p">,</span>
+                 <span class="n">error_file_names</span><span class="p">,</span>
+                 <span class="n">input_file_state</span><span class="p">,</span>
+                 <span class="n">input_file_desc</span><span class="p">,</span>
+                 <span class="n">output_file_desc</span><span class="p">,</span>
+                 <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FileRequest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_file_names</span> <span class="o">=</span> <span class="n">input_file_names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_file_names</span> <span class="o">=</span> <span class="n">output_file_names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_file_names</span> <span class="o">=</span> <span class="n">error_file_names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_file_state</span> <span class="o">=</span> <span class="n">input_file_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_file_desc</span> <span class="o">=</span> <span class="n">input_file_desc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_file_desc</span> <span class="o">=</span> <span class="n">output_file_desc</span>
+
+        
+        
+<span class="k">class</span> <span class="nc">Workflow</span> <span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    minimal abstraction designed to model the transition</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="nb">dir</span><span class="p">,</span>
+                 <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dir</span> <span class="o">=</span> <span class="nb">dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="bp">None</span>
+
+
+        
+        
+<span class="k">class</span> <span class="nc">SystemRequest</span><span class="p">(</span><span class="n">Request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Very basic construct to provide process support</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">class</span> <span class="nc">RequestType</span><span class="p">:</span>
+        <span class="n">SHUTDOWN</span><span class="o">=</span><span class="mi">1</span>
+    
+    <span class="n">default_priority</span> <span class="o">=</span> <span class="n">Request</span><span class="o">.</span><span class="n">Priority</span><span class="o">.</span><span class="n">HIGH</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_type</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SystemRequest</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">is_system</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Equity Master alpha documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Amnon Janiv.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+    </div>
+  </body>
+</html>
